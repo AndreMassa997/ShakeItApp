@@ -11,6 +11,13 @@ import Combine
 final class MainViewModel {
     private let networkProvider: NetworkProvider
     private var currentPage: Int = 0
+    private var allDrinks = [Drink]()
+    
+    private var alphabetizedPaging: [String] {
+        let alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"
+        let sortedChars = Array(alphabet).sorted()
+        return sortedChars.map { String($0) }
+    }
     
     init(networkProvider: NetworkProvider) {
         self.networkProvider = networkProvider
@@ -20,7 +27,7 @@ final class MainViewModel {
     @Published var availableFilters: [Filter]?
     
     //Data from server for filters
-    var filters: Filters? {
+    private var filters: Filters? {
         didSet {
             availableFilters = [
                 Filter(filterName: .alcoholic, filterValues: filters?.alcoholicValues),
@@ -31,11 +38,32 @@ final class MainViewModel {
         }
     }
     
-    func requestFilters() {
+    //MARK: - First Loading
+    func firstLoad() {
         Task {
-            filters = await loadFiltersValuesFromServer()
+            let (filters, drinkResponse) = await firstLoadingFromServer()
+            self.filters = filters
+            self.allDrinks.append(contentsOf: parseDrinksResponse(response: drinkResponse))
         }
     }
+    
+    private func parseDrinksResponse(response: Result<[Drink], ErrorData>) -> [Drink] {
+        switch response {
+        case let .success(drinks):
+            return drinks
+        case let .failure(error):
+            fatalError("non implemented yet")
+        }
+    }
+    
+    ///First Loading - filters + first data source in parallel using async let - await
+    private func firstLoadingFromServer() async -> (Filters, Result<[Drink], ErrorData>){
+        async let filters = loadFiltersValuesFromServer()
+        async let alphabeticalRequest = loadDataSourceFromServer()
+        
+        return await (filters, alphabeticalRequest)
+    }
+    
     
     ///Load filters in parallel using async let - await
     private func loadFiltersValuesFromServer() async -> Filters{
@@ -47,10 +75,17 @@ final class MainViewModel {
         return await Filters(categoryList: categoryList, alcoholicList: alcoholicList, ingrendientsList: ingredientsList, glassList: glassList)
     }
     
-    private var alphabetizedPaging: [String] {
-        let alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"
-        let sortedChars = Array(alphabet).sorted()
-        return sortedChars.map { String($0) }
+    private func loadDataSourceFromServer(by name: String? = nil) async -> Result<[Drink], ErrorData> {
+        if let name {
+            //TODO: Implements filter by naming from server
+            fatalError("non implemented yet")
+        } else {
+            let request = AlphabeticalDrinkAPI()
+            let letterToRequest = alphabetizedPaging[currentPage + 1]
+            request.queryParameters = [ (.firstLetter, letterToRequest)]
+            return await networkProvider.fetchData(with: request).map { $0.drinks }
+            
+        }
     }
 }
 
