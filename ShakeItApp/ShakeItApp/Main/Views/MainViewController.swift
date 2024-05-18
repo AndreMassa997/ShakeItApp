@@ -16,6 +16,7 @@ final class MainViewController: UIViewController {
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
+        cv.showsHorizontalScrollIndicator = false
         return cv
     }()
     
@@ -68,12 +69,12 @@ final class MainViewController: UIViewController {
             filtersCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             filtersCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             filtersCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            filtersCollectionView.heightAnchor.constraint(equalToConstant: 100)
+            filtersCollectionView.heightAnchor.constraint(equalToConstant: 120)
         ])
     }
 }
 
-extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.selectedFilters.count
     }
@@ -83,6 +84,18 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let filterCellViewModel = FilterCellViewModel(filter: viewModel.selectedFilters[indexPath.row])
         filterCell.configure(with: filterCellViewModel)
         return filterCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: 100, height: 100)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        20
     }
 }
 

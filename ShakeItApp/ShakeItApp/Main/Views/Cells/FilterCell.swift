@@ -10,15 +10,16 @@ import UIKit
 final class FilterCell: UICollectionViewCell, CellReusable {
     private let filterNameLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        lbl.font = UIFont.systemFont(ofSize: 12, weight: .bold)
         lbl.textColor = .black
-        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.textAlignment = .center
         return lbl
     }()
     
     private let filterValuesLabel: UILabel = {
         let lbl = UILabel()
-        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.textAlignment = .center
+        lbl.numberOfLines = 0
         return lbl
     }()
     
@@ -47,10 +48,10 @@ final class FilterCell: UICollectionViewCell, CellReusable {
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            viewContainer.topAnchor.constraint(equalTo: contentView.topAnchor),
-            viewContainer.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            viewContainer.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            viewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            viewContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            viewContainer.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5),
+            viewContainer.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5),
+            viewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
         ])
         
         layer.cornerRadius = 10
@@ -65,13 +66,13 @@ final class FilterCell: UICollectionViewCell, CellReusable {
         self.backgroundColor = UIColor(hex: viewModel.backgroundColor)
         self.filterNameLabel.text = viewModel.filterName
         
-        let boldAttributes: [NSAttributedString.Key : Any] = [.font: UIFont.systemFont(ofSize: 12, weight: .bold)]
-        let regularAttributes: [NSAttributedString.Key : Any] = [.font: UIFont.systemFont(ofSize: 12, weight: .regular)]
+        let boldAttributes: [NSAttributedString.Key : Any] = [.font: UIFont.systemFont(ofSize: 10, weight: .bold)]
+        let regularAttributes: [NSAttributedString.Key : Any] = [.font: UIFont.systemFont(ofSize: 10, weight: .regular)]
         
         let mutableAttrString = NSMutableAttributedString(string: "\(viewModel.selectedValuesCount)", attributes: boldAttributes)
         mutableAttrString.append(NSAttributedString(string: " di ", attributes: regularAttributes))
         mutableAttrString.append(NSAttributedString(string: "\(viewModel.allValuesCount)", attributes: boldAttributes))
-        mutableAttrString.append(NSAttributedString(string: " selezionati", attributes: regularAttributes))
+        mutableAttrString.append(NSAttributedString(string: "\nselezionati", attributes: regularAttributes))
         
         self.filterValuesLabel.attributedText = mutableAttrString
     }
