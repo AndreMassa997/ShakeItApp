@@ -6,10 +6,23 @@
 //
 
 import Foundation
+import Combine
 
 final class MainViewModel {
     //Data from server for filters
-    var filters: Filters?
+    var filters: Filters? {
+        didSet {
+            availableFilters = [
+                Filter(filterName: .alcoholic, filterValues: filters?.alcoholicValues),
+                Filter(filterName: .category, filterValues: filters?.categoryValues),
+                Filter(filterName: .ingredients, filterValues: filters?.ingredientsValues),
+                Filter(filterName: .glass, filterValues: filters?.glassValues)
+            ].compactMap { $0 }
+        }
+    }
+    
+    //store all available filters that succeeded from API Calls, hide the others
+    @Published var availableFilters: [Filter]?
     
     private let networkProvider: NetworkProvider
     
@@ -39,4 +52,52 @@ struct Filters {
     var alcoholicList: Result<AlcoholicListAPI.Output, ErrorData>
     var ingrendientsList: Result<IngredientsListAPI.Output, ErrorData>
     var glassList: Result<GlassListAPI.Output, ErrorData>
+    
+    var categoryValues: [String]? {
+        if case .success(let value) = categoryList {
+            return value.drinks.map(\.strCategory)
+        }
+        return nil
+    }
+    
+    var alcoholicValues: [String]? {
+        if case .success(let value) = alcoholicList {
+            return value.drinks.map(\.strAlcoholic)
+        }
+        return nil
+    }
+    
+    var ingredientsValues: [String]? {
+        if case .success(let value) = ingrendientsList {
+            return value.drinks.map(\.strIngredient1)
+        }
+        return nil
+    }
+    
+    var glassValues: [String]? {
+        if case .success(let value) = glassList {
+            return value.drinks.map(\.strGlass)
+        }
+        return nil
+    }
+}
+
+struct Filter {
+    var filterName: FilterName
+    var filterValues: [String]
+    
+    init?(filterName: FilterName, filterValues: [String]?) {
+        guard let filterValues else {
+            return nil
+        }
+        self.filterName = filterName
+        self.filterValues = filterValues
+    }
+}
+
+enum FilterName: String {
+    case category = "Category"
+    case alcoholic = "Alcoholic"
+    case glass = "Glass"
+    case ingredients = "Ingredients"
 }
