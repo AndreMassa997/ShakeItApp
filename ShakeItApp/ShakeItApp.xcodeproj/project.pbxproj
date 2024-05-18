@@ -14,6 +14,7 @@
 		3E85E4092BF7B30C00C3AD98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E85E4082BF7B30C00C3AD98 /* Assets.xcassets */; };
 		3E85E40C2BF7B30C00C3AD98 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E85E40A2BF7B30C00C3AD98 /* LaunchScreen.storyboard */; };
 		3E85E4172BF7B30C00C3AD98 /* ShakeItAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4162BF7B30C00C3AD98 /* ShakeItAppTests.swift */; };
+		3E85E43A2BF8A13800C3AD98 /* APIElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4392BF8A13800C3AD98 /* APIElement.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,7 @@
 		3E85E40D2BF7B30C00C3AD98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3E85E4122BF7B30C00C3AD98 /* ShakeItAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShakeItAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E85E4162BF7B30C00C3AD98 /* ShakeItAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShakeItAppTests.swift; sourceTree = "<group>"; };
+		3E85E4392BF8A13800C3AD98 /* APIElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIElement.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 		3E85E3FE2BF7B30B00C3AD98 /* ShakeItApp */ = {
 			isa = PBXGroup;
 			children = (
+				3E85E4382BF8A10000C3AD98 /* API */,
 				3E85E3FF2BF7B30B00C3AD98 /* AppDelegate.swift */,
 				3E85E4012BF7B30B00C3AD98 /* SceneDelegate.swift */,
 				3E85E4032BF7B30B00C3AD98 /* ViewController.swift */,
@@ -95,6 +98,14 @@
 				3E85E4162BF7B30C00C3AD98 /* ShakeItAppTests.swift */,
 			);
 			path = ShakeItAppTests;
+			sourceTree = "<group>";
+		};
+		3E85E4382BF8A10000C3AD98 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				3E85E4392BF8A13800C3AD98 /* APIElement.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,6 +212,7 @@
 				3E85E4042BF7B30B00C3AD98 /* ViewController.swift in Sources */,
 				3E85E4002BF7B30B00C3AD98 /* AppDelegate.swift in Sources */,
 				3E85E4022BF7B30B00C3AD98 /* SceneDelegate.swift in Sources */,
+				3E85E43A2BF8A13800C3AD98 /* APIElement.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
