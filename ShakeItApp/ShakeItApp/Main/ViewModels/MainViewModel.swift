@@ -37,13 +37,13 @@ final class MainViewModel {
                 Filter(.ingredients, values: filters?.ingredientsValues),
                 Filter(.glass, values: filters?.glassValues)
             ].compactMap { $0 }
-            selectedFilters = availableFilters
+            selectedFilters = availableFilters ?? []
         }
     }
     
     //store all available filters that succeeded from API Calls, hide the others
     private var availableFilters: [Filter]?
-    @Published var selectedFilters: [Filter]?
+    @Published var selectedFilters: [Filter] = []
     @Published var filteredDrinks = [Drink]()
     
     //MARK: - First Loading
@@ -69,10 +69,7 @@ extension MainViewModel {
     }
     
     private func filterDrinksByCurrentFilters() -> [Drink] {
-        guard let selectedFilters else {
-            return allDrinks
-        }
-        return self.allDrinks.filter { drink in
+        allDrinks.filter { drink in
             return selectedFilters.allSatisfy{ $0.isContained(in: drink) }
         }
     }
