@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class MainViewController: UIViewController {
     private let viewModel: MainViewModel
@@ -14,6 +15,7 @@ final class MainViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.translatesAutoresizingMaskIntoConstraints = false
         return cv
     }()
     
@@ -29,12 +31,39 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        bindProperties()
         viewModel.firstLoad()
+        setupFiltersView()
+        setupLayout()
+    }
+    
+    private func bindProperties() {
+        viewModel.$selectedFilters
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: { [weak self] _ in
+                self?.updateFilterView()
+            })
+            .store(in: &viewModel.anyCancellables)
     }
     
     private func setupFiltersView() {
+        self.view.addSubview(filtersCollectionView)
         filtersCollectionView.delegate = self
         filtersCollectionView.dataSource = self
+        filtersCollectionView.register(cellType: FilterCell.self)
+    }
+    
+    private func updateFilterView() {
+        filtersCollectionView.reloadData()
+    }
+    
+    private func setupLayout() {
+        NSLayoutConstraint.activate([
+            filtersCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            filtersCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            filtersCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            filtersCollectionView.heightAnchor.constraint(equalToConstant: 100)
+        ])
     }
 }
 
@@ -44,7 +73,10 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+        let filterCell = collectionView.dequeueReusableCell(for: indexPath, cellType: FilterCell.self)
+        let filterCellViewModel = FilterCellViewModel(filter: viewModel.selectedFilters[indexPath.row])
+        filterCell.configure(with: filterCellViewModel)
+        return filterCell
     }
 }
 

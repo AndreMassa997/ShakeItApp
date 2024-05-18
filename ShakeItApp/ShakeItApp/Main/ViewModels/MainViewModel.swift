@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class MainViewModel {
+final class MainViewModel: ObservableObject {
     private let networkProvider: NetworkProvider
     private var currentPage: Int = 0
     
@@ -45,6 +45,8 @@ final class MainViewModel {
     private var availableFilters: [Filter]?
     @Published var selectedFilters: [Filter] = []
     @Published var filteredDrinks = [Drink]()
+    
+    var anyCancellables: Set<AnyCancellable> = Set()
     
     //MARK: - First Loading
     func firstLoad() {
@@ -145,14 +147,16 @@ struct Filters {
 
 struct Filter {
     let type: FilterType
-    var values: [String]
+    var selectedValues: [String]
+    var allValues: [String]
     
     init?(_ type: FilterType, values: [String]?) {
         guard let values else {
             return nil
         }
         self.type = type
-        self.values = values
+        self.selectedValues = values
+        self.allValues = values
     }
     
     func isContained(in drink: Drink) -> Bool {
@@ -169,7 +173,7 @@ struct Filter {
     }
     
     func filterBy(values: [String]) -> Bool {
-        self.values.allSatisfy { element in values.contains(element) }
+        self.selectedValues.allSatisfy { element in values.contains(element) }
     }
 }
 
@@ -178,4 +182,17 @@ enum FilterType: String {
     case alcoholic = "Alcoholic"
     case glass = "Glass"
     case ingredients = "Ingredients"
+    
+    var color: String {
+        switch self {
+        case .alcoholic:
+            return "#fb8e86"
+        case .category:
+            return "#d9ead3"
+        case .glass:
+            return "#cfe2f3"
+        case .ingredients:
+            return "#fce5cd"
+        }
+    }
 }
