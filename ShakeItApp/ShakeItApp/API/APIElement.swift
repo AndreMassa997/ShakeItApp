@@ -35,6 +35,7 @@ enum QueryParameterKey: String {
     case alcoholic = "a"
     case glass = "g"
     case ingredients = "i"
+    case firstLetter = "f"
 }
 
 enum ErrorData: Error {
