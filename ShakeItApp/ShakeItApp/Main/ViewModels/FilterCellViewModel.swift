@@ -27,6 +27,10 @@ final class FilterCellViewModel {
     }
     
     var backgroundColor: String {
-        filter.type.color
+        filter.type.backgroundColor
+    }
+    
+    var imageName: String {
+        filter.type.rawValue.lowercased()
     }
 }

@@ -183,16 +183,20 @@ enum FilterType: String {
     case glass = "Glass"
     case ingredients = "Ingredients"
     
-    var color: String {
-        switch self {
-        case .alcoholic:
-            return "#fb8e86"
-        case .category:
-            return "#d9ead3"
-        case .glass:
-            return "#cfe2f3"
-        case .ingredients:
-            return "#fce5cd"
-        }
+    var backgroundColor: String {
+        "#fdf9e6"
     }
+    
+//    var color: String {
+//        switch self {
+//        case .alcoholic:
+//            return "#fb8e86"
+//        case .category:
+//            return "#d9ead3"
+//        case .glass:
+//            return "#cfe2f3"
+//        case .ingredients:
+//            return "#fce5cd"
+//        }
+//    }
 }
