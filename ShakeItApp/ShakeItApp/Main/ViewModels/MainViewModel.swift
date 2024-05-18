@@ -9,6 +9,16 @@ import Foundation
 import Combine
 
 final class MainViewModel {
+    private let networkProvider: NetworkProvider
+    private var currentPage: Int = 0
+    
+    init(networkProvider: NetworkProvider) {
+        self.networkProvider = networkProvider
+    }
+    
+    //store all available filters that succeeded from API Calls, hide the others
+    @Published var availableFilters: [Filter]?
+    
     //Data from server for filters
     var filters: Filters? {
         didSet {
@@ -19,15 +29,6 @@ final class MainViewModel {
                 Filter(filterName: .glass, filterValues: filters?.glassValues)
             ].compactMap { $0 }
         }
-    }
-    
-    //store all available filters that succeeded from API Calls, hide the others
-    @Published var availableFilters: [Filter]?
-    
-    private let networkProvider: NetworkProvider
-    
-    init(networkProvider: NetworkProvider) {
-        self.networkProvider = networkProvider
     }
     
     func requestFilters() {
@@ -44,6 +45,12 @@ final class MainViewModel {
         async let glassList = networkProvider.fetchData(with: GlassListAPI())
         
         return await Filters(categoryList: categoryList, alcoholicList: alcoholicList, ingrendientsList: ingredientsList, glassList: glassList)
+    }
+    
+    private var alphabetizedPaging: [String] {
+        let alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"
+        let sortedChars = Array(alphabet).sorted()
+        return sortedChars.map { String($0) }
     }
 }
 
