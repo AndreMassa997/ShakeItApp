@@ -34,4 +34,5 @@ enum QueryParameterKey: String {
     case category = "c"
     case alcoholic = "a"
     case glass = "g"
+    case ingredients = "i"
 }
