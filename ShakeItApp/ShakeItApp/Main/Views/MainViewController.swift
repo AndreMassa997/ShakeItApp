@@ -32,9 +32,15 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         bindProperties()
+        setupNavigationBar()
         viewModel.firstLoad()
         setupFiltersView()
         setupLayout()
+    }
+    
+    private func setupNavigationBar() {
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.title = "Shake It App"
     }
     
     private func bindProperties() {
