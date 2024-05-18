@@ -11,6 +11,7 @@ final class FilterCell: UICollectionViewCell, CellReusable {
     private let filterNameLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        lbl.textColor = .black
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
@@ -21,7 +22,12 @@ final class FilterCell: UICollectionViewCell, CellReusable {
         return lbl
     }()
     
-    private let viewContainer = UIStackView()
+    private let viewContainer: UIStackView = {
+        let sv = UIStackView()
+        sv.axis = .vertical
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        return sv
+    }()
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -41,14 +47,32 @@ final class FilterCell: UICollectionViewCell, CellReusable {
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: viewContainer.topAnchor),
-            contentView.leftAnchor.constraint(equalTo: viewContainer.leftAnchor),
-            contentView.rightAnchor.constraint(equalTo: viewContainer.rightAnchor),
-            contentView.bottomAnchor.constraint(equalTo: viewContainer.bottomAnchor),
+            viewContainer.topAnchor.constraint(equalTo: contentView.topAnchor),
+            viewContainer.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            viewContainer.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            viewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
+        
+        layer.cornerRadius = 10
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 0)
+        layer.shadowRadius = 5
+        layer.shadowOpacity = 0.2
     }
     
-    func configure() {
+    func configure(with viewModel: FilterCellViewModel) {
+        self.backgroundColor = UIColor(hex: viewModel.backgroundColor)
+        self.filterNameLabel.text = viewModel.filterName
         
+        let boldAttributes: [NSAttributedString.Key : Any] = [.font: UIFont.systemFont(ofSize: 12, weight: .bold)]
+        let regularAttributes: [NSAttributedString.Key : Any] = [.font: UIFont.systemFont(ofSize: 12, weight: .regular)]
+        
+        let mutableAttrString = NSMutableAttributedString(string: "\(viewModel.selectedValuesCount)", attributes: boldAttributes)
+        mutableAttrString.append(NSAttributedString(string: " di ", attributes: regularAttributes))
+        mutableAttrString.append(NSAttributedString(string: "\(viewModel.allValuesCount)", attributes: boldAttributes))
+        mutableAttrString.append(NSAttributedString(string: " selezionati", attributes: regularAttributes))
+        
+        self.filterValuesLabel.attributedText = mutableAttrString
     }
 }
