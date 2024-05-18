@@ -11,7 +11,6 @@ import Combine
 final class MainViewModel {
     private let networkProvider: NetworkProvider
     private var currentPage: Int = 0
-    private var allDrinks = [Drink]()
     
     private var alphabetizedPaging: [String] {
         let alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"
@@ -23,20 +22,29 @@ final class MainViewModel {
         self.networkProvider = networkProvider
     }
     
-    //store all available filters that succeeded from API Calls, hide the others
-    @Published var availableFilters: [Filter]?
+    private var allDrinks = [Drink]() {
+        didSet {
+            filteredDrinks = self.filterDrinksByCurrentFilters()
+        }
+    }
     
     //Data from server for filters
     private var filters: Filters? {
         didSet {
             availableFilters = [
-                Filter(filterName: .alcoholic, filterValues: filters?.alcoholicValues),
-                Filter(filterName: .category, filterValues: filters?.categoryValues),
-                Filter(filterName: .ingredients, filterValues: filters?.ingredientsValues),
-                Filter(filterName: .glass, filterValues: filters?.glassValues)
+                Filter(.alcoholic, values: filters?.alcoholicValues),
+                Filter(.category, values: filters?.categoryValues),
+                Filter(.ingredients, values: filters?.ingredientsValues),
+                Filter(.glass, values: filters?.glassValues)
             ].compactMap { $0 }
+            selectedFilters = availableFilters
         }
     }
+    
+    //store all available filters that succeeded from API Calls, hide the others
+    private var availableFilters: [Filter]?
+    @Published var selectedFilters: [Filter]?
+    @Published var filteredDrinks = [Drink]()
     
     //MARK: - First Loading
     func firstLoad() {
@@ -47,6 +55,10 @@ final class MainViewModel {
         }
     }
     
+}
+
+//MARK: - Utils (Parsing, filtering)
+extension MainViewModel {
     private func parseDrinksResponse(response: Result<[Drink], ErrorData>) -> [Drink] {
         switch response {
         case let .success(drinks):
@@ -56,6 +68,18 @@ final class MainViewModel {
         }
     }
     
+    private func filterDrinksByCurrentFilters() -> [Drink] {
+        guard let selectedFilters else {
+            return allDrinks
+        }
+        return self.allDrinks.filter { drink in
+            return selectedFilters.allSatisfy{ $0.isContained(in: drink) }
+        }
+    }
+}
+
+//MARK: - API Implementations
+extension MainViewModel {
     ///First Loading - filters + first data source in parallel using async let - await
     private func firstLoadingFromServer() async -> (Filters, Result<[Drink], ErrorData>){
         async let filters = loadFiltersValuesFromServer()
@@ -63,7 +87,6 @@ final class MainViewModel {
         
         return await (filters, alphabeticalRequest)
     }
-    
     
     ///Load filters in parallel using async let - await
     private func loadFiltersValuesFromServer() async -> Filters{
@@ -84,7 +107,6 @@ final class MainViewModel {
             let letterToRequest = alphabetizedPaging[currentPage + 1]
             request.queryParameters = [ (.firstLetter, letterToRequest)]
             return await networkProvider.fetchData(with: request).map { $0.drinks }
-            
         }
     }
 }
@@ -125,19 +147,36 @@ struct Filters {
 }
 
 struct Filter {
-    var filterName: FilterName
-    var filterValues: [String]
+    let type: FilterType
+    var values: [String]
     
-    init?(filterName: FilterName, filterValues: [String]?) {
-        guard let filterValues else {
+    init?(_ type: FilterType, values: [String]?) {
+        guard let values else {
             return nil
         }
-        self.filterName = filterName
-        self.filterValues = filterValues
+        self.type = type
+        self.values = values
+    }
+    
+    func isContained(in drink: Drink) -> Bool {
+        switch type {
+        case .alcoholic:
+            return filterBy(values: [drink.alcoholic])
+        case .category:
+            return filterBy(values: [drink.category])
+        case .glass:
+            return filterBy(values: [drink.glass])
+        case .ingredients:
+            return filterBy(values: drink.ingredients)
+        }
+    }
+    
+    func filterBy(values: [String]) -> Bool {
+        self.values.allSatisfy { element in values.contains(element) }
     }
 }
 
-enum FilterName: String {
+enum FilterType: String {
     case category = "Category"
     case alcoholic = "Alcoholic"
     case glass = "Glass"
