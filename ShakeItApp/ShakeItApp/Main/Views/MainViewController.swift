@@ -8,10 +8,10 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    private let mainViewModel: MainViewModel
+    private let viewModel: MainViewModel
     
-    init(mainViewModel: MainViewModel) {
-        self.mainViewModel = mainViewModel
+    init(viewModel: MainViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     

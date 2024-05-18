@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         
         let mainViewModel = MainViewModel(networkProvider: NetworkManager())
-        let mainViewController = MainViewController(mainViewModel: mainViewModel)
+        let mainViewController = MainViewController(viewModel: mainViewModel)
         
         let navigationController = UINavigationController(rootViewController: mainViewController)
         window.rootViewController = navigationController
