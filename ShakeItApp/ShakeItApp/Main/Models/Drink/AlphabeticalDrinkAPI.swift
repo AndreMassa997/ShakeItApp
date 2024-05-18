@@ -7,11 +7,11 @@
 
 import Foundation
 
-final class DrinkAPI: APIElement {
+final class AlphabeticalDrinkAPI: APIElement {
     typealias Output = BaseResponse<[Drink]>
     
     var path: Path {
-        .list
+        .search
     }
     
     var queryParameters: [(QueryParameterKey, Any)]?

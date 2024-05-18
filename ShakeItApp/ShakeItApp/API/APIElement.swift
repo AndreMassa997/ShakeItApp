@@ -28,6 +28,7 @@ extension APIElement{
 
 enum Path: String {
     case list = "/api/json/v1/1/list.php"
+    case search = "/api/json/v1/1/search.php"
 }
 
 enum QueryParameterKey: String {
