@@ -6,3 +6,19 @@
 //
 
 import Foundation
+
+class GlassListAPI: APIElement {
+    typealias Output = BaseResponse<[Glass]>
+    
+    var path: Path {
+        .list
+    }
+    
+    var queryParameters: [(QueryParameterKey, Any)]? {
+        [ (.glass, "list") ]
+    }
+}
+
+struct Glass: Decodable {
+    var strGlass: String
+}

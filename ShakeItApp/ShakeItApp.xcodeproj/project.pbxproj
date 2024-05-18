@@ -18,6 +18,7 @@
 		3E85E43C2BF8A1F900C3AD98 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E43B2BF8A1F900C3AD98 /* BaseResponse.swift */; };
 		3E85E4432BF8A3C900C3AD98 /* CategoryListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4422BF8A3C900C3AD98 /* CategoryListAPI.swift */; };
 		3E85E4462BF8A4BD00C3AD98 /* AlcoholicListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4452BF8A4BD00C3AD98 /* AlcoholicListAPI.swift */; };
+		3E85E4482BF8A68000C3AD98 /* GlassListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4472BF8A68000C3AD98 /* GlassListAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		3E85E43B2BF8A1F900C3AD98 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
 		3E85E4422BF8A3C900C3AD98 /* CategoryListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListAPI.swift; sourceTree = "<group>"; };
 		3E85E4452BF8A4BD00C3AD98 /* AlcoholicListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlcoholicListAPI.swift; sourceTree = "<group>"; };
+		3E85E4472BF8A68000C3AD98 /* GlassListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassListAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +121,7 @@
 		3E85E43E2BF8A31100C3AD98 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				3E85E44A2BF8A68C00C3AD98 /* Glass */,
 				3E85E4442BF8A4AD00C3AD98 /* Alcoholic */,
 				3E85E4412BF8A3BB00C3AD98 /* Categories */,
 			);
@@ -139,6 +142,14 @@
 				3E85E4452BF8A4BD00C3AD98 /* AlcoholicListAPI.swift */,
 			);
 			path = Alcoholic;
+			sourceTree = "<group>";
+		};
+		3E85E44A2BF8A68C00C3AD98 /* Glass */ = {
+			isa = PBXGroup;
+			children = (
+				3E85E4472BF8A68000C3AD98 /* GlassListAPI.swift */,
+			);
+			path = Glass;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -247,6 +258,7 @@
 				3E85E4042BF7B30B00C3AD98 /* ViewController.swift in Sources */,
 				3E85E4432BF8A3C900C3AD98 /* CategoryListAPI.swift in Sources */,
 				3E85E4002BF7B30B00C3AD98 /* AppDelegate.swift in Sources */,
+				3E85E4482BF8A68000C3AD98 /* GlassListAPI.swift in Sources */,
 				3E85E4022BF7B30B00C3AD98 /* SceneDelegate.swift in Sources */,
 				3E85E43A2BF8A13800C3AD98 /* APIElement.swift in Sources */,
 			);
