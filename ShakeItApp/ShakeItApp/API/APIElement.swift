@@ -13,8 +13,8 @@ protocol APIElement {
     associatedtype Output: Decodable
     var scheme: String { get }
     var host: String { get }
-    var path: String { get }
-    var queryParameters: [(String, Any)]? { get }
+    var path: Path { get }
+    var queryParameters: [(QueryParameterKey, Any)]? { get }
 }
 
 extension APIElement{
@@ -24,4 +24,13 @@ extension APIElement{
     var host: String {
         "www.thecocktaildb.com"
     }
+}
+
+enum Path: String {
+    case list = "/api/json/v1/1/list.php"
+}
+
+enum QueryParameterKey: String {
+    case category = "c"
+    case alcoholic = "a"
 }

@@ -10,12 +10,12 @@ import Foundation
 class CategoryListAPI: APIElement {
     typealias Output = BaseResponse<[Category]>
     
-    var path: String {
-        "/api/json/v1/1/list.php"
+    var path: Path {
+        .list
     }
     
-    var queryParameters: [(String, Any)]? {
-        [ ("c", "list") ]
+    var queryParameters: [(QueryParameterKey, Any)]? {
+        [ (.category, "list") ]
     }
 }
 
