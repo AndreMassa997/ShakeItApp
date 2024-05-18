@@ -7,11 +7,11 @@
 
 import Foundation
 
-class MainViewModel {
+final class MainViewModel {
     //Data from server for filters
     var filters: Filters?
     
-    let networkProvider: NetworkProvider
+    private let networkProvider: NetworkProvider
     
     init(networkProvider: NetworkProvider) {
         self.networkProvider = networkProvider
