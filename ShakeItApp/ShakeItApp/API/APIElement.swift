@@ -36,3 +36,20 @@ enum QueryParameterKey: String {
     case glass = "g"
     case ingredients = "i"
 }
+
+enum ErrorData: Error {
+    case invalidURL
+    case invalidData
+    case decodingError
+    
+    var description: String{
+        switch self {
+        case .invalidURL:
+            return "Invalid URL"
+        case .invalidData:
+            return "Invalid Data Received"
+        case .decodingError:
+            return "Decoding Error from Data"
+        }
+    }
+}

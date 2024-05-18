@@ -20,6 +20,7 @@
 		3E85E4462BF8A4BD00C3AD98 /* AlcoholicListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4452BF8A4BD00C3AD98 /* AlcoholicListAPI.swift */; };
 		3E85E4482BF8A68000C3AD98 /* GlassListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4472BF8A68000C3AD98 /* GlassListAPI.swift */; };
 		3E85E44D2BF8A75F00C3AD98 /* IngredientsListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E44C2BF8A75F00C3AD98 /* IngredientsListAPI.swift */; };
+		3E85E4512BF8A8EC00C3AD98 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4502BF8A8EC00C3AD98 /* NetworkProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		3E85E4452BF8A4BD00C3AD98 /* AlcoholicListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlcoholicListAPI.swift; sourceTree = "<group>"; };
 		3E85E4472BF8A68000C3AD98 /* GlassListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassListAPI.swift; sourceTree = "<group>"; };
 		3E85E44C2BF8A75F00C3AD98 /* IngredientsListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsListAPI.swift; sourceTree = "<group>"; };
+		3E85E4502BF8A8EC00C3AD98 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 			children = (
 				3E85E4392BF8A13800C3AD98 /* APIElement.swift */,
 				3E85E43B2BF8A1F900C3AD98 /* BaseResponse.swift */,
+				3E85E4502BF8A8EC00C3AD98 /* NetworkProvider.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				3E85E44D2BF8A75F00C3AD98 /* IngredientsListAPI.swift in Sources */,
 				3E85E4022BF7B30B00C3AD98 /* SceneDelegate.swift in Sources */,
 				3E85E43A2BF8A13800C3AD98 /* APIElement.swift in Sources */,
+				3E85E4512BF8A8EC00C3AD98 /* NetworkProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
