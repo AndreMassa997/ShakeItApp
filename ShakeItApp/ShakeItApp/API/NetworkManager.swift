@@ -23,7 +23,7 @@ struct NetworkManager: NetworkProvider {
             return .failure(.invalidURL)
         }
         
-        print("🔵 URL: \(url.absoluteString)")
+        print("🔵 URL request: \(url.absoluteString)")
         
         guard let dataResponse = try? await URLSession.shared.data(from: url) else {
             print("🔴 Invalid Data Response")
@@ -31,12 +31,11 @@ struct NetworkManager: NetworkProvider {
         }
         
         let data = dataResponse.0
-        
         guard let decodedData = try? JSONDecoder().decode(T.Output.self, from: data) else {
             print("🔴 Decoding error")
             return .failure(.decodingError)
         }
-        
+        print("🟢 Data Retrieved from: \(url.absoluteString) with response:\n\(String(data: data, encoding: .utf8)!)")
         return .success(decodedData)
     }
 }
