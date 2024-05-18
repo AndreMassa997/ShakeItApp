@@ -74,6 +74,7 @@ final class MainViewController: UIViewController {
     }
 }
 
+//MARK: Filters Collection View
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.selectedFilters.count
