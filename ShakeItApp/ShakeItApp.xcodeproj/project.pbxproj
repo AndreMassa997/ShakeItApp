@@ -41,6 +41,10 @@
 		3E85E4892BFA445C00C3AD98 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 3E85E4882BFA445C00C3AD98 /* Lottie */; };
 		3E85E48B2BFA449900C3AD98 /* MainViewLoaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E48A2BFA449900C3AD98 /* MainViewLoaderCell.swift */; };
 		3E85E48F2BFA461100C3AD98 /* loader.json in Resources */ = {isa = PBXBuildFile; fileRef = 3E85E48E2BFA461100C3AD98 /* loader.json */; };
+		3E85E4912BFA633F00C3AD98 /* ErrorPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4902BFA633F00C3AD98 /* ErrorPopupView.swift */; };
+		3E85E4932BFA635300C3AD98 /* ErrorPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E85E4922BFA635200C3AD98 /* ErrorPopupView.xib */; };
+		3E85E49B2BFA70B500C3AD98 /* error.json in Resources */ = {isa = PBXBuildFile; fileRef = 3E85E49A2BFA70B500C3AD98 /* error.json */; };
+		3E85E49E2BFA714000C3AD98 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E49D2BFA714000C3AD98 /* UIView+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +94,10 @@
 		3E85E4852BFA2FE700C3AD98 /* ErrorData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorData.swift; sourceTree = "<group>"; };
 		3E85E48A2BFA449900C3AD98 /* MainViewLoaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewLoaderCell.swift; sourceTree = "<group>"; };
 		3E85E48E2BFA461100C3AD98 /* loader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loader.json; sourceTree = "<group>"; };
+		3E85E4902BFA633F00C3AD98 /* ErrorPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPopupView.swift; sourceTree = "<group>"; };
+		3E85E4922BFA635200C3AD98 /* ErrorPopupView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorPopupView.xib; sourceTree = "<group>"; };
+		3E85E49A2BFA70B500C3AD98 /* error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error.json; sourceTree = "<group>"; };
+		3E85E49D2BFA714000C3AD98 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,9 +141,9 @@
 			isa = PBXGroup;
 			children = (
 				3E85E48C2BFA45F800C3AD98 /* Resources */,
-				3E85E4652BF8F92800C3AD98 /* Utils */,
 				3E85E4382BF8A10000C3AD98 /* API */,
 				3E85E43E2BF8A31100C3AD98 /* Main */,
+				3E85E4652BF8F92800C3AD98 /* Utils */,
 				3E85E3FF2BF7B30B00C3AD98 /* AppDelegate.swift */,
 				3E85E4012BF7B30B00C3AD98 /* SceneDelegate.swift */,
 				3E85E40A2BF7B30C00C3AD98 /* LaunchScreen.storyboard */,
@@ -226,6 +234,8 @@
 				3E85E4742BFA0D3B00C3AD98 /* HeadersFooter */,
 				3E85E4622BF8F84100C3AD98 /* Cells */,
 				3E85E4032BF7B30B00C3AD98 /* MainViewController.swift */,
+				3E85E4902BFA633F00C3AD98 /* ErrorPopupView.swift */,
+				3E85E4922BFA635200C3AD98 /* ErrorPopupView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -268,6 +278,7 @@
 				3E85E46C2BF9027300C3AD98 /* UIColor+Ext.swift */,
 				3E85E4702BF9DCE800C3AD98 /* UITableView+Ext.swift */,
 				3E85E4792BFA123400C3AD98 /* CircleImageView.swift */,
+				3E85E49D2BFA714000C3AD98 /* UIView+Ext.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -292,6 +303,7 @@
 		3E85E48D2BFA460200C3AD98 /* LottieAnimations */ = {
 			isa = PBXGroup;
 			children = (
+				3E85E49A2BFA70B500C3AD98 /* error.json */,
 				3E85E48E2BFA461100C3AD98 /* loader.json */,
 			);
 			path = LottieAnimations;
@@ -384,6 +396,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E85E49B2BFA70B500C3AD98 /* error.json in Resources */,
+				3E85E4932BFA635300C3AD98 /* ErrorPopupView.xib in Resources */,
 				3E85E48F2BFA461100C3AD98 /* loader.json in Resources */,
 				3E85E40C2BF7B30C00C3AD98 /* LaunchScreen.storyboard in Resources */,
 				3E85E4092BF7B30C00C3AD98 /* Assets.xcassets in Resources */,
@@ -417,9 +431,11 @@
 				3E85E4002BF7B30B00C3AD98 /* AppDelegate.swift in Sources */,
 				3E85E4482BF8A68000C3AD98 /* GlassListAPI.swift in Sources */,
 				3E85E4642BF8F86400C3AD98 /* FilterCell.swift in Sources */,
+				3E85E49E2BFA714000C3AD98 /* UIView+Ext.swift in Sources */,
 				3E85E4732BF9E16C00C3AD98 /* FiltersCarouselViewModel.swift in Sources */,
 				3E85E46F2BF9DBBB00C3AD98 /* FiltersCarouselView.swift in Sources */,
 				3E85E44D2BF8A75F00C3AD98 /* IngredientsListAPI.swift in Sources */,
+				3E85E4912BFA633F00C3AD98 /* ErrorPopupView.swift in Sources */,
 				3E85E4022BF7B30B00C3AD98 /* SceneDelegate.swift in Sources */,
 				3E85E47A2BFA123400C3AD98 /* CircleImageView.swift in Sources */,
 				3E85E4612BF8C0FB00C3AD98 /* AlphabeticalDrinkAPI.swift in Sources */,
