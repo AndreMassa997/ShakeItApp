@@ -6,8 +6,13 @@
 //
 
 import UIKit
+import Combine
 
 final class DrinkCell: UITableViewCell, CellReusable {
+    private var viewModel: DrinkCellViewModel?
+    
+    private(set) var isSelectable: Bool = false
+    
     private let viewContainer: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -68,6 +73,12 @@ final class DrinkCell: UITableViewCell, CellReusable {
         self.contentView.addSubview(viewContainer)
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.alcoholicTypeImageView.image = UIImage(named: "placeholder")
+        self.disableSelection()
+    }
+    
     private func setupLayout() {
         NSLayoutConstraint.activate([
             viewContainer.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
@@ -104,6 +115,41 @@ final class DrinkCell: UITableViewCell, CellReusable {
         viewContainer.backgroundColor = UIColor(hex: viewModel.backgroundColor)
         titleLabel.text = viewModel.drink.name.capitalized
         ingredientsLabel.text = viewModel.ingredientsString
+        self.viewModel = viewModel
+        bindProperties()
     }
-
+    
+    func bindProperties() {
+        guard let viewModel else { return }
+        viewModel.$drinkImageData
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: { [weak self] data in
+                guard let data else {
+                    return
+                }
+                self?.enableSelection(with: UIImage(data: data))
+            })
+            .store(in: &viewModel.anyCancellables)
+    }
+    
+    private func enableSelection(with image: UIImage?) {
+        UIView.transition(with: arrowImage, duration: 0.3,
+                          options: .transitionCrossDissolve,
+                          animations: {
+            self.arrowImage.isHidden = false
+        })
+        
+        UIView.transition(with: alcoholicTypeImageView, duration: 0.3,
+                          options: .transitionCrossDissolve,
+                          animations: {
+            self.alcoholicTypeImageView.image = image
+        })
+        
+        isSelectable = true
+    }
+    
+    private func disableSelection() {
+        arrowImage.isHidden = true
+        isSelectable = false
+    }
 }
