@@ -212,4 +212,13 @@ enum MainViewSection: Int, CaseIterable {
     static subscript(_ index: Int) -> MainViewSection{
         MainViewSection.allCases[index]
     }
+    
+    var title: String {
+        switch self {
+        case .filters:
+            return "Filters"
+        case .drinks:
+            return "Drinks"
+        }
+    }
 }

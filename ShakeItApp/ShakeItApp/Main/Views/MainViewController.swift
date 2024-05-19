@@ -57,6 +57,7 @@ final class MainViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(cellType: FiltersCarouselView.self)
+        tableView.register(headerType: MainViewHeader.self)
     }
     
     private func setupLayout() {
@@ -95,6 +96,13 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         case .drinks:
             return UITableViewCell()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableHeader(headerType: MainViewHeader.self)
+        let tableViewSection = MainViewSection[section]
+        header.configure(text: tableViewSection.title)
+        return header
     }
 }
 

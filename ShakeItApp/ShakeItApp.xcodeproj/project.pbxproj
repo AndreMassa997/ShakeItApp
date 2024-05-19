@@ -31,6 +31,7 @@
 		3E85E46F2BF9DBBB00C3AD98 /* FiltersCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E46E2BF9DBBB00C3AD98 /* FiltersCarouselView.swift */; };
 		3E85E4712BF9DCE800C3AD98 /* UITableView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4702BF9DCE800C3AD98 /* UITableView+Ext.swift */; };
 		3E85E4732BF9E16C00C3AD98 /* FiltersCarouselViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4722BF9E16C00C3AD98 /* FiltersCarouselViewModel.swift */; };
+		3E85E4762BFA0D5F00C3AD98 /* MainViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4752BFA0D5F00C3AD98 /* MainViewHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		3E85E46E2BF9DBBB00C3AD98 /* FiltersCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersCarouselView.swift; sourceTree = "<group>"; };
 		3E85E4702BF9DCE800C3AD98 /* UITableView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Ext.swift"; sourceTree = "<group>"; };
 		3E85E4722BF9E16C00C3AD98 /* FiltersCarouselViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersCarouselViewModel.swift; sourceTree = "<group>"; };
+		3E85E4752BFA0D5F00C3AD98 /* MainViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +202,7 @@
 		3E85E45B2BF8ADD000C3AD98 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3E85E4742BFA0D3B00C3AD98 /* Headers */,
 				3E85E4622BF8F84100C3AD98 /* Cells */,
 				3E85E4032BF7B30B00C3AD98 /* MainViewController.swift */,
 			);
@@ -242,6 +245,14 @@
 				3E85E4702BF9DCE800C3AD98 /* UITableView+Ext.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		3E85E4742BFA0D3B00C3AD98 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				3E85E4752BFA0D5F00C3AD98 /* MainViewHeader.swift */,
+			);
+			path = Headers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -360,6 +371,7 @@
 				3E85E44D2BF8A75F00C3AD98 /* IngredientsListAPI.swift in Sources */,
 				3E85E4022BF7B30B00C3AD98 /* SceneDelegate.swift in Sources */,
 				3E85E4612BF8C0FB00C3AD98 /* AlphabeticalDrinkAPI.swift in Sources */,
+				3E85E4762BFA0D5F00C3AD98 /* MainViewHeader.swift in Sources */,
 				3E85E43A2BF8A13800C3AD98 /* APIElement.swift in Sources */,
 				3E85E46D2BF9027300C3AD98 /* UIColor+Ext.swift in Sources */,
 				3E85E4712BF9DCE800C3AD98 /* UITableView+Ext.swift in Sources */,
