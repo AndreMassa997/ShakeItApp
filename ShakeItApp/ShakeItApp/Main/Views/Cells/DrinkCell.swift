@@ -15,7 +15,7 @@ final class DrinkCell: UITableViewCell, CellReusable {
     }()
     
     private let alcoholicTypeImageView: CircleImageView = {
-        let iv = CircleImageView()
+        let iv = CircleImageView(image: UIImage(named: "placeholder"))
         iv.contentMode = .scaleAspectFill
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
@@ -23,14 +23,12 @@ final class DrinkCell: UITableViewCell, CellReusable {
     
     private let titleLabel: UILabel = {
         let lbl = UILabel()
-        lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = UIFont.systemFont(ofSize: 16, weight: .light)
         return lbl
     }()
     
     private let ingredientsLabel: UILabel = {
         let lbl = UILabel()
-        lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = UIFont.systemFont(ofSize: 12, weight: .thin)
         return lbl
     }()
@@ -40,6 +38,14 @@ final class DrinkCell: UITableViewCell, CellReusable {
         sv.axis = .vertical
         sv.translatesAutoresizingMaskIntoConstraints = false
         return sv
+    }()
+    
+    private let arrowImage: UIImageView = {
+        let iv = UIImageView(image: UIImage(systemName: "chevron.right"))
+        iv.contentMode = .scaleAspectFit
+        iv.tintColor = .black.withAlphaComponent(0.3)
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        return iv
     }()
     
     required init?(coder: NSCoder) {
@@ -58,6 +64,7 @@ final class DrinkCell: UITableViewCell, CellReusable {
         labelsViewContainer.addArrangedSubview(ingredientsLabel)
         self.viewContainer.addSubview(alcoholicTypeImageView)
         self.viewContainer.addSubview(labelsViewContainer)
+        self.viewContainer.addSubview(arrowImage)
         self.contentView.addSubview(viewContainer)
     }
     
@@ -76,8 +83,13 @@ final class DrinkCell: UITableViewCell, CellReusable {
             
             labelsViewContainer.topAnchor.constraint(equalTo: viewContainer.topAnchor, constant: 15),
             labelsViewContainer.leftAnchor.constraint(equalTo: alcoholicTypeImageView.rightAnchor, constant: 10),
-            labelsViewContainer.rightAnchor.constraint(equalTo: viewContainer.rightAnchor, constant: -5),
             labelsViewContainer.bottomAnchor.constraint(equalTo: viewContainer.bottomAnchor, constant: -15),
+            
+            arrowImage.centerYAnchor.constraint(equalTo: viewContainer.centerYAnchor),
+            arrowImage.heightAnchor.constraint(equalToConstant: 20),
+            arrowImage.widthAnchor.constraint(equalTo: arrowImage.heightAnchor),
+            arrowImage.leftAnchor.constraint(equalTo: labelsViewContainer.rightAnchor, constant: 10),
+            arrowImage.rightAnchor.constraint(equalTo: viewContainer.rightAnchor, constant: -5),
         ])
         
         viewContainer.layer.cornerRadius = 20
