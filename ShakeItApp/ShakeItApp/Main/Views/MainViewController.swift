@@ -80,7 +80,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(for: indexPath, cellType: FiltersCarouselView.self)
-        cell.configure(with: viewModel)
+        let filterCarouselViewModel = viewModel.filterCarouselViewModel
+        cell.configure(with: filterCarouselViewModel)
         return cell
     }
 }

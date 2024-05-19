@@ -17,7 +17,7 @@ final class FiltersCarouselView: UITableViewCell, CellReusable {
         return cv
     }()
     
-    private var viewModel: MainViewModel?
+    private var viewModel: FiltersCarouselViewModel!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -50,7 +50,7 @@ final class FiltersCarouselView: UITableViewCell, CellReusable {
         ])
     }
     
-    func configure(with viewModel: MainViewModel) {
+    func configure(with viewModel: FiltersCarouselViewModel) {
         self.viewModel = viewModel
         updateView()
     }
@@ -59,12 +59,12 @@ final class FiltersCarouselView: UITableViewCell, CellReusable {
 //MARK: Filters Collection View Delegates
 extension FiltersCarouselView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel!.selectedFilters.count
+        viewModel.numberOfItems
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let filterCell = collectionView.dequeueReusableCell(for: indexPath, cellType: FilterCell.self)
-        let filterCellViewModel = FilterCellViewModel(filter: viewModel!.selectedFilters[indexPath.row])
+        let filterCellViewModel = viewModel.getFilterCellViewModel(at: indexPath)
         filterCell.configure(with: filterCellViewModel)
         return filterCell
     }

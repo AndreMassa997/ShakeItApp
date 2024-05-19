@@ -30,6 +30,7 @@
 		3E85E46D2BF9027300C3AD98 /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E46C2BF9027300C3AD98 /* UIColor+Ext.swift */; };
 		3E85E46F2BF9DBBB00C3AD98 /* FiltersCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E46E2BF9DBBB00C3AD98 /* FiltersCarouselView.swift */; };
 		3E85E4712BF9DCE800C3AD98 /* UITableView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4702BF9DCE800C3AD98 /* UITableView+Ext.swift */; };
+		3E85E4732BF9E16C00C3AD98 /* FiltersCarouselViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4722BF9E16C00C3AD98 /* FiltersCarouselViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		3E85E46C2BF9027300C3AD98 /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
 		3E85E46E2BF9DBBB00C3AD98 /* FiltersCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersCarouselView.swift; sourceTree = "<group>"; };
 		3E85E4702BF9DCE800C3AD98 /* UITableView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Ext.swift"; sourceTree = "<group>"; };
+		3E85E4722BF9E16C00C3AD98 /* FiltersCarouselViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersCarouselViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +211,7 @@
 			children = (
 				3E85E45C2BF8AE2700C3AD98 /* MainViewModel.swift */,
 				3E85E4682BF8FBB400C3AD98 /* FilterCellViewModel.swift */,
+				3E85E4722BF9E16C00C3AD98 /* FiltersCarouselViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				3E85E4002BF7B30B00C3AD98 /* AppDelegate.swift in Sources */,
 				3E85E4482BF8A68000C3AD98 /* GlassListAPI.swift in Sources */,
 				3E85E4642BF8F86400C3AD98 /* FilterCell.swift in Sources */,
+				3E85E4732BF9E16C00C3AD98 /* FiltersCarouselViewModel.swift in Sources */,
 				3E85E46F2BF9DBBB00C3AD98 /* FiltersCarouselView.swift in Sources */,
 				3E85E44D2BF8A75F00C3AD98 /* IngredientsListAPI.swift in Sources */,
 				3E85E4022BF7B30B00C3AD98 /* SceneDelegate.swift in Sources */,

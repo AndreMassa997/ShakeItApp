@@ -57,6 +57,10 @@ final class MainViewModel: ObservableObject {
         }
     }
     
+    var filterCarouselViewModel: FiltersCarouselViewModel {
+        FiltersCarouselViewModel(filters: self.selectedFilters)
+    }
+    
 }
 
 //MARK: - Utils (Parsing, filtering)
