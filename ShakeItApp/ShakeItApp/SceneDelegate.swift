@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         
-        let mainViewModel = MainViewModel(networkProvider: NetworkManager())
+        let mainViewModel = MainViewModel(networkProvider: NetworkManager(), imageProvider: ImagesManager())
         let mainViewController = MainViewController(viewModel: mainViewModel)
         
         let navigationController = UINavigationController(rootViewController: mainViewController)

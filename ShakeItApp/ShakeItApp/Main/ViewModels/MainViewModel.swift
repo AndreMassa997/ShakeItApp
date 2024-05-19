@@ -11,14 +11,16 @@ import Combine
 final class MainViewModel: ObservableObject {
     private let networkProvider: NetworkProvider
     private var currentPage: Int = 0
+    private let imageProvider: ImageProvider
     
     private var alphabetizedPaging: [String] {
         let alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"
         return alphabet.map { String($0) }
     }
     
-    init(networkProvider: NetworkProvider) {
+    init(networkProvider: NetworkProvider, imageProvider: ImageProvider) {
         self.networkProvider = networkProvider
+        self.imageProvider = imageProvider
     }
     
     private var allDrinks = [Drink]() {
@@ -61,7 +63,7 @@ final class MainViewModel: ObservableObject {
     }
     
     func getDrinkViewModel(for index: Int) -> DrinkCellViewModel{
-        DrinkCellViewModel(drink: filteredDrinks[index])
+        DrinkCellViewModel(drink: filteredDrinks[index], imageProvider: imageProvider)
     }
 }
 

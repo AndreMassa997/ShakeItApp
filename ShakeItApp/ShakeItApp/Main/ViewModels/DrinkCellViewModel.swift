@@ -9,9 +9,11 @@ import Foundation
 
 final class DrinkCellViewModel {
     let drink: Drink
+    let imageProvider: ImageProvider
     
-    init(drink: Drink) {
+    init(drink: Drink, imageProvider: ImageProvider) {
         self.drink = drink
+        self.imageProvider = imageProvider
     }
     
     let backgroundColor: String = "#fdf9e6"
