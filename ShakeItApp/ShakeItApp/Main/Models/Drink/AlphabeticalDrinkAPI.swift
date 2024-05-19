@@ -24,6 +24,7 @@ struct Drink: Decodable, Identifiable {
     var alcoholic: String
     var glass: String
     var ingredients: [String]
+    var imageURL: URL
     
     enum CodingKeys: String, CodingKey {
         case idDrink
@@ -36,6 +37,7 @@ struct Drink: Decodable, Identifiable {
         case strIngredient3
         case strIngredient4
         case strIngredient5
+        case strDrinkThumb
     }
     
     init(from decoder: Decoder) throws {
@@ -50,5 +52,6 @@ struct Drink: Decodable, Identifiable {
                             try container.decodeIfPresent(String.self, forKey: .strIngredient3),
                             try container.decodeIfPresent(String.self, forKey: .strIngredient4),
                             try container.decodeIfPresent(String.self, forKey: .strIngredient5)].compactMap { $0 }
+        self.imageURL = try container.decode(URL.self, forKey: .strDrinkThumb)
     }
 }
