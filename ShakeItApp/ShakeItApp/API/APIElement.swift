@@ -38,20 +38,3 @@ enum QueryParameterKey: String {
     case ingredients = "i"
     case firstLetter = "f"
 }
-
-enum ErrorData: Error {
-    case invalidURL
-    case invalidData
-    case decodingError
-    
-    var description: String{
-        switch self {
-        case .invalidURL:
-            return "Invalid URL"
-        case .invalidData:
-            return "Invalid Data Received"
-        case .decodingError:
-            return "Decoding Error from Data"
-        }
-    }
-}
