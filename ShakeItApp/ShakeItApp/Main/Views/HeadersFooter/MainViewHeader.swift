@@ -25,7 +25,7 @@ final class MainViewHeader: UITableViewHeaderFooterView, CellReusable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(text: String) {
+    func configure(text: String?) {
         self.title.text = text
     }
     

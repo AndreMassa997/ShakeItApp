@@ -62,7 +62,6 @@ final class MainViewModel: ObservableObject {
         Task {
             let drinkResponse = await loadDataSourceFromServer(by: name)
             self.allDrinks.append(contentsOf: parseDrinksResponse(response: drinkResponse))
-
         }
     }
     
@@ -236,17 +235,20 @@ enum FilterType: String {
 enum MainViewSection: Int, CaseIterable {
     case filters
     case drinks
+    case loader
     
     static subscript(_ index: Int) -> MainViewSection{
         MainViewSection.allCases[index]
     }
     
-    var title: String {
+    var title: String? {
         switch self {
         case .filters:
             return "Filters"
         case .drinks:
             return "Drinks"
+        default:
+            return nil
         }
     }
 }

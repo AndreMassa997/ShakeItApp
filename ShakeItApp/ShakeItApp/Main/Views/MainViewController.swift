@@ -69,6 +69,7 @@ final class MainViewController: UIViewController {
         tableView.register(cellType: FiltersCarouselView.self)
         tableView.register(headerType: MainViewHeader.self)
         tableView.register(cellType: DrinkCell.self)
+        tableView.register(cellType: MainViewLoaderCell.self)
     }
     
     private func setupLayout() {
@@ -89,7 +90,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let tableViewSection = MainViewSection[section]
         switch tableViewSection {
-        case .filters:
+        case .filters, .loader:
             return 1
         case .drinks:
             return viewModel.filteredDrinks.count
@@ -109,6 +110,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             let drinkViewModel = viewModel.getDrinkViewModel(for: indexPath.row)
             cell.configure(with: drinkViewModel)
             return cell
+        case .loader:
+            let cell = tableView.dequeueReusableCell(for: indexPath, cellType: MainViewLoaderCell.self)
+            cell.startAnimating()
+            return cell
         }
     }
     
@@ -120,19 +125,13 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard section != MainViewSection.loader.rawValue else {
+            return nil
+        }
         let header = tableView.dequeueReusableHeader(headerType: MainViewHeader.self)
         let tableViewSection = MainViewSection[section]
         header.configure(text: tableViewSection.title)
         return header
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        section == MainViewSection.drinks.rawValue ? 50 : 0
-    }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        guard section == MainViewSection.drinks.rawValue else { return nil }
-        return UIActivityIndicatorView()
     }
 }
 
