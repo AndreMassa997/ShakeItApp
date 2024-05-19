@@ -11,13 +11,11 @@ import Combine
 final class MainViewController: UIViewController {
     private let viewModel: MainViewModel
     
-    private let filtersCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.showsHorizontalScrollIndicator = false
-        return cv
+    private let tableView: UITableView = {
+        let tv = UITableView()
+        tv.separatorStyle = .none
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        return tv
     }()
     
     init(viewModel: MainViewModel) {
@@ -35,7 +33,7 @@ final class MainViewController: UIViewController {
         bindProperties()
         setupNavigationBar()
         viewModel.firstLoad()
-        setupFiltersView()
+        setupTableView()
         setupLayout()
     }
     
@@ -48,55 +46,41 @@ final class MainViewController: UIViewController {
         viewModel.$selectedFilters
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [weak self] _ in
-                self?.updateFilterView()
+                self?.tableView.reloadData()
             })
             .store(in: &viewModel.anyCancellables)
     }
     
-    private func setupFiltersView() {
-        self.view.addSubview(filtersCollectionView)
-        filtersCollectionView.delegate = self
-        filtersCollectionView.dataSource = self
-        filtersCollectionView.register(cellType: FilterCell.self)
-    }
-    
-    private func updateFilterView() {
-        filtersCollectionView.reloadData()
+    private func setupTableView() {
+        self.view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(cellType: FiltersCarouselView.self)
     }
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            filtersCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            filtersCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            filtersCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            filtersCollectionView.heightAnchor.constraint(equalToConstant: 140)
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
 
-//MARK: Filters Collection View
-extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.selectedFilters.count
+extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        1
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let filterCell = collectionView.dequeueReusableCell(for: indexPath, cellType: FilterCell.self)
-        let filterCellViewModel = FilterCellViewModel(filter: viewModel.selectedFilters[indexPath.row])
-        filterCell.configure(with: filterCellViewModel)
-        return filterCell
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+       1
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: 100, height: 120)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        20
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(for: indexPath, cellType: FiltersCarouselView.self)
+        cell.configure(with: viewModel)
+        return cell
     }
 }
 
