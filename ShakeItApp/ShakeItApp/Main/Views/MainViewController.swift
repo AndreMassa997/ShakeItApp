@@ -16,6 +16,9 @@ final class MainViewController: UIViewController {
         tv.backgroundColor = .white
         tv.separatorStyle = .none
         tv.translatesAutoresizingMaskIntoConstraints = false
+        if #available(iOS 15.0, *) {
+            tv.sectionHeaderTopPadding = 0
+        }
         return tv
     }()
     
@@ -121,6 +124,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let tableViewSection = MainViewSection[section]
         header.configure(text: tableViewSection.title)
         return header
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        section == MainViewSection.drinks.rawValue ? 50 : 0
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
