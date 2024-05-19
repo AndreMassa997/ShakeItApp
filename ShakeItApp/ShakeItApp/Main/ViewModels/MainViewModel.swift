@@ -58,6 +58,14 @@ final class MainViewModel: ObservableObject {
         }
     }
     
+    func loadDrinks(by name: String? = nil) {
+        Task {
+            let drinkResponse = await loadDataSourceFromServer(by: name)
+            self.allDrinks.append(contentsOf: parseDrinksResponse(response: drinkResponse))
+
+        }
+    }
+    
     var filterCarouselViewModel: FiltersCarouselViewModel {
         FiltersCarouselViewModel(filters: self.selectedFilters)
     }
@@ -72,6 +80,10 @@ final class MainViewModel: ObservableObject {
             }
             .store(in: &anyCancellables)
         return drinkCellViewModel
+    }
+    
+    func shouldLoadOtherItems(at index: Int) -> Bool {
+        index == filteredDrinks.count - 1
     }
 }
 

@@ -217,7 +217,7 @@
 		3E85E45B2BF8ADD000C3AD98 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				3E85E4742BFA0D3B00C3AD98 /* Headers */,
+				3E85E4742BFA0D3B00C3AD98 /* HeadersFooter */,
 				3E85E4622BF8F84100C3AD98 /* Cells */,
 				3E85E4032BF7B30B00C3AD98 /* MainViewController.swift */,
 			);
@@ -265,12 +265,12 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		3E85E4742BFA0D3B00C3AD98 /* Headers */ = {
+		3E85E4742BFA0D3B00C3AD98 /* HeadersFooter */ = {
 			isa = PBXGroup;
 			children = (
 				3E85E4752BFA0D5F00C3AD98 /* MainViewHeader.swift */,
 			);
-			path = Headers;
+			path = HeadersFooter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

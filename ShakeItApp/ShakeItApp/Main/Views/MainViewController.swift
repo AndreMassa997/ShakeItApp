@@ -47,14 +47,14 @@ final class MainViewController: UIViewController {
         viewModel.$selectedFilters
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [weak self] _ in
-                self?.tableView.reloadSections(IndexSet(integer: MainViewSection.filters.rawValue), with: .automatic)
+                self?.tableView.reloadData()
             })
             .store(in: &viewModel.anyCancellables)
         
         viewModel.$filteredDrinks
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [weak self] _ in
-                self?.tableView.reloadSections(IndexSet(integer: MainViewSection.drinks.rawValue), with: .automatic)
+                self?.tableView.reloadData()
             })
             .store(in: &viewModel.anyCancellables)
     }
@@ -109,11 +109,23 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard MainViewSection[indexPath.section] == .drinks else { return }
+        if viewModel.shouldLoadOtherItems(at: indexPath.row) {
+            viewModel.loadDrinks()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeader(headerType: MainViewHeader.self)
         let tableViewSection = MainViewSection[section]
         header.configure(text: tableViewSection.title)
         return header
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard section == MainViewSection.drinks.rawValue else { return nil }
+        return UIActivityIndicatorView()
     }
 }
 
