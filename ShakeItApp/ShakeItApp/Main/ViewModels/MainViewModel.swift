@@ -46,6 +46,7 @@ final class MainViewModel: ObservableObject {
     private var availableFilters: [Filter]?
     @Published var selectedFilters: [Filter] = []
     @Published var filteredDrinks = [Drink]()
+    @Published var dataSourceLoadingError: String?
     
     var anyCancellables: Set<AnyCancellable> = Set()
     
@@ -54,14 +55,14 @@ final class MainViewModel: ObservableObject {
         Task {
             let (filters, drinkResponse) = await firstLoadingFromServer()
             self.filters = filters
-            self.allDrinks.append(contentsOf: parseDrinksResponse(response: drinkResponse))
+            validateDrinkResponse(response: drinkResponse)
         }
     }
     
     func loadDrinks(by name: String? = nil) {
         Task {
             let drinkResponse = await loadDataSourceFromServer(by: name)
-            self.allDrinks.append(contentsOf: parseDrinksResponse(response: drinkResponse))
+            validateDrinkResponse(response: drinkResponse)
         }
     }
     
@@ -88,12 +89,13 @@ final class MainViewModel: ObservableObject {
 
 //MARK: - Utils (Parsing, filtering)
 extension MainViewModel {
-    private func parseDrinksResponse(response: Result<[Drink], ErrorData>) -> [Drink] {
+    private func validateDrinkResponse(response: Result<[Drink], ErrorData>) {
         switch response {
         case let .success(drinks):
-            return drinks
+            currentPage += 1
+            allDrinks.append(contentsOf: drinks)
         case let .failure(error):
-            fatalError("non implemented yet")
+            self.dataSourceLoadingError = error.description
         }
     }
     
@@ -133,9 +135,6 @@ extension MainViewModel {
             let letterToRequest = alphabetizedPaging[currentPage]
             request.queryParameters = [ (.firstLetter, letterToRequest)]
             let response = await networkProvider.fetchData(with: request).map { $0.drinks }
-            if case .success = response {
-                currentPage += 1
-            }
             return response
         }
     }
