@@ -12,7 +12,8 @@ final class MainViewController: UIViewController {
     private let viewModel: MainViewModel
     
     private let tableView: UITableView = {
-        let tv = UITableView()
+        let tv = UITableView(frame: .zero, style: .grouped)
+        tv.backgroundColor = .white
         tv.separatorStyle = .none
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
