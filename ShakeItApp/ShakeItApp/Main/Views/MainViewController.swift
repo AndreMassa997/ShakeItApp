@@ -49,16 +49,23 @@ final class MainViewController: UIViewController {
     private func bindProperties() {
         viewModel.$selectedFilters
             .receive(on: RunLoop.main)
-            .sink(receiveValue: { [weak self] _ in
+            .sink { [weak self] _ in
                 self?.tableView.reloadData()
-            })
+            }
             .store(in: &viewModel.anyCancellables)
         
         viewModel.$filteredDrinks
             .receive(on: RunLoop.main)
-            .sink(receiveValue: { [weak self] _ in
+            .sink { [weak self] _ in
                 self?.tableView.reloadData()
-            })
+            }
+            .store(in: &viewModel.anyCancellables)
+        
+        viewModel.$dataSourceLoadingError
+            .receive(on: RunLoop.main)
+            .sink { [weak self] error in
+                self?.showErrorPopup(error: error)
+            }
             .store(in: &viewModel.anyCancellables)
     }
     
@@ -79,6 +86,16 @@ final class MainViewController: UIViewController {
             tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func showErrorPopup(error: String?) {
+        guard let error else { return }
+        let popupView = ErrorPopupView(frame: self.view.frame)
+        popupView.configure(with: error) { [weak self] in
+            self?.viewModel.loadDrinks()
+            popupView.hide()
+        }
+        popupView.show(in: self.view)
     }
 }
 
