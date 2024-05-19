@@ -92,13 +92,3 @@ final class FilterCell: UICollectionViewCell, CellReusable {
         self.filterValuesLabel.attributedText = mutableAttrString
     }
 }
-
-class CircleImageView: UIImageView {
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        layer.cornerRadius = frame.size.width / 2
-        clipsToBounds = true
-        layer.borderWidth = 1.0
-        layer.borderColor = UIColor.black.cgColor
-    }
-}

@@ -32,6 +32,9 @@
 		3E85E4712BF9DCE800C3AD98 /* UITableView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4702BF9DCE800C3AD98 /* UITableView+Ext.swift */; };
 		3E85E4732BF9E16C00C3AD98 /* FiltersCarouselViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4722BF9E16C00C3AD98 /* FiltersCarouselViewModel.swift */; };
 		3E85E4762BFA0D5F00C3AD98 /* MainViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4752BFA0D5F00C3AD98 /* MainViewHeader.swift */; };
+		3E85E4782BFA11D500C3AD98 /* DrinkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4772BFA11D500C3AD98 /* DrinkCell.swift */; };
+		3E85E47A2BFA123400C3AD98 /* CircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4792BFA123400C3AD98 /* CircleImageView.swift */; };
+		3E85E47C2BFA152F00C3AD98 /* DrinkCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E47B2BFA152F00C3AD98 /* DrinkCellViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +76,9 @@
 		3E85E4702BF9DCE800C3AD98 /* UITableView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Ext.swift"; sourceTree = "<group>"; };
 		3E85E4722BF9E16C00C3AD98 /* FiltersCarouselViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersCarouselViewModel.swift; sourceTree = "<group>"; };
 		3E85E4752BFA0D5F00C3AD98 /* MainViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewHeader.swift; sourceTree = "<group>"; };
+		3E85E4772BFA11D500C3AD98 /* DrinkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkCell.swift; sourceTree = "<group>"; };
+		3E85E4792BFA123400C3AD98 /* CircleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
+		3E85E47B2BFA152F00C3AD98 /* DrinkCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkCellViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,6 +221,7 @@
 				3E85E45C2BF8AE2700C3AD98 /* MainViewModel.swift */,
 				3E85E4682BF8FBB400C3AD98 /* FilterCellViewModel.swift */,
 				3E85E4722BF9E16C00C3AD98 /* FiltersCarouselViewModel.swift */,
+				3E85E47B2BFA152F00C3AD98 /* DrinkCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -232,6 +239,7 @@
 			children = (
 				3E85E4632BF8F86400C3AD98 /* FilterCell.swift */,
 				3E85E46E2BF9DBBB00C3AD98 /* FiltersCarouselView.swift */,
+				3E85E4772BFA11D500C3AD98 /* DrinkCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -243,6 +251,7 @@
 				3E85E46A2BF8FC1100C3AD98 /* UICollectionView+Ext.swift */,
 				3E85E46C2BF9027300C3AD98 /* UIColor+Ext.swift */,
 				3E85E4702BF9DCE800C3AD98 /* UITableView+Ext.swift */,
+				3E85E4792BFA123400C3AD98 /* CircleImageView.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -357,6 +366,7 @@
 			files = (
 				3E85E4462BF8A4BD00C3AD98 /* AlcoholicListAPI.swift in Sources */,
 				3E85E43C2BF8A1F900C3AD98 /* BaseResponse.swift in Sources */,
+				3E85E4782BFA11D500C3AD98 /* DrinkCell.swift in Sources */,
 				3E85E4672BF8F93F00C3AD98 /* CellReusable.swift in Sources */,
 				3E85E46B2BF8FC1100C3AD98 /* UICollectionView+Ext.swift in Sources */,
 				3E85E4042BF7B30B00C3AD98 /* MainViewController.swift in Sources */,
@@ -370,11 +380,13 @@
 				3E85E46F2BF9DBBB00C3AD98 /* FiltersCarouselView.swift in Sources */,
 				3E85E44D2BF8A75F00C3AD98 /* IngredientsListAPI.swift in Sources */,
 				3E85E4022BF7B30B00C3AD98 /* SceneDelegate.swift in Sources */,
+				3E85E47A2BFA123400C3AD98 /* CircleImageView.swift in Sources */,
 				3E85E4612BF8C0FB00C3AD98 /* AlphabeticalDrinkAPI.swift in Sources */,
 				3E85E4762BFA0D5F00C3AD98 /* MainViewHeader.swift in Sources */,
 				3E85E43A2BF8A13800C3AD98 /* APIElement.swift in Sources */,
 				3E85E46D2BF9027300C3AD98 /* UIColor+Ext.swift in Sources */,
 				3E85E4712BF9DCE800C3AD98 /* UITableView+Ext.swift in Sources */,
+				3E85E47C2BFA152F00C3AD98 /* DrinkCellViewModel.swift in Sources */,
 				3E85E4512BF8A8EC00C3AD98 /* NetworkProvider.swift in Sources */,
 				3E85E45D2BF8AE2700C3AD98 /* MainViewModel.swift in Sources */,
 			);
