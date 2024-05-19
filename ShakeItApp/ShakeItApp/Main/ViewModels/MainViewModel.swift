@@ -204,3 +204,12 @@ enum FilterType: String {
 //        }
 //    }
 }
+
+enum MainViewSection: Int, CaseIterable {
+    case filters
+    case drinks
+    
+    static subscript(_ index: Int) -> MainViewSection{
+        MainViewSection.allCases[index]
+    }
+}

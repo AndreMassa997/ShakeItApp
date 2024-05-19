@@ -71,18 +71,30 @@ final class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        1
+        MainViewSection.allCases.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       1
+        let tableViewSection = MainViewSection[section]
+        switch tableViewSection {
+        case .filters:
+            return 1
+        case .drinks:
+            return viewModel.filteredDrinks.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(for: indexPath, cellType: FiltersCarouselView.self)
-        let filterCarouselViewModel = viewModel.filterCarouselViewModel
-        cell.configure(with: filterCarouselViewModel)
-        return cell
+        let tableViewSection = MainViewSection[indexPath.section]
+        switch tableViewSection {
+        case .filters:
+            let cell = tableView.dequeueReusableCell(for: indexPath, cellType: FiltersCarouselView.self)
+            let filterCarouselViewModel = viewModel.filterCarouselViewModel
+            cell.configure(with: filterCarouselViewModel)
+            return cell
+        case .drinks:
+            return UITableViewCell()
+        }
     }
 }
 
