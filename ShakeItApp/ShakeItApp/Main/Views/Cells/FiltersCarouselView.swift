@@ -59,7 +59,7 @@ final class FiltersCarouselView: UITableViewCell, CellReusable {
 //MARK: Filters Collection View Delegates
 extension FiltersCarouselView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.numberOfItems
+        viewModel.filters.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
