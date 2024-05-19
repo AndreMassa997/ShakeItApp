@@ -15,6 +15,12 @@ final class DrinkCellViewModel: ObservableObject {
     @Published var drinkImageData: Data?
     var anyCancellables: Set<AnyCancellable> = Set()
     
+    let cellTapSubject = PassthroughSubject<Drink, Never>()
+    
+    var cellTapPublisher: AnyPublisher<Drink, Never> {
+        cellTapSubject.eraseToAnyPublisher()
+    }
+    
     init(drink: Drink, imageProvider: ImageProvider) {
         self.drink = drink
         self.imageProvider = imageProvider
@@ -37,5 +43,10 @@ final class DrinkCellViewModel: ObservableObject {
     
     var ingredientsString: String {
         drink.ingredients.joined(separator: ", ").capitalized
+    }
+    
+    deinit {
+        print("Deinit \(drink.name) view model instance")
+        anyCancellables.forEach{ $0.cancel() }
     }
 }

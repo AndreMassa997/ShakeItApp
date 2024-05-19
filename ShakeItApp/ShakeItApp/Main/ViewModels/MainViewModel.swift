@@ -63,7 +63,15 @@ final class MainViewModel: ObservableObject {
     }
     
     func getDrinkViewModel(for index: Int) -> DrinkCellViewModel{
-        DrinkCellViewModel(drink: filteredDrinks[index], imageProvider: imageProvider)
+        let drinkCellViewModel = DrinkCellViewModel(drink: filteredDrinks[index], imageProvider: imageProvider)
+        drinkCellViewModel.cellTapPublisher
+            .receive(on: RunLoop.main)
+            .sink { [weak self] drinkTapped in
+                //Go to details
+                print("Tapped \(drinkTapped.name)")
+            }
+            .store(in: &anyCancellables)
+        return drinkCellViewModel
     }
 }
 

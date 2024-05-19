@@ -62,6 +62,7 @@ final class DrinkCell: UITableViewCell, CellReusable {
         selectionStyle = .none
         self.addSubviews()
         self.setupLayout()
+        viewContainer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGesture)))
     }
     
     private func addSubviews() {
@@ -112,23 +113,18 @@ final class DrinkCell: UITableViewCell, CellReusable {
     }
     
     func configure(with viewModel: DrinkCellViewModel) {
+        self.viewModel = viewModel
         viewContainer.backgroundColor = UIColor(hex: viewModel.backgroundColor)
         titleLabel.text = viewModel.drink.name.capitalized
         ingredientsLabel.text = viewModel.ingredientsString
-        self.viewModel = viewModel
-        bindProperties()
-    }
-    
-    func bindProperties() {
-        guard let viewModel else { return }
         viewModel.$drinkImageData
             .receive(on: RunLoop.main)
-            .sink(receiveValue: { [weak self] data in
+            .sink{ [weak self] data in
                 guard let data else {
                     return
                 }
                 self?.enableSelection(with: UIImage(data: data))
-            })
+            }
             .store(in: &viewModel.anyCancellables)
     }
     
@@ -151,5 +147,14 @@ final class DrinkCell: UITableViewCell, CellReusable {
     private func disableSelection() {
         arrowImage.isHidden = true
         isSelectable = false
+    }
+    
+    @objc private func tapGesture() {
+        guard isSelectable, let viewModel else { return }
+        viewModel.cellTapSubject.send(viewModel.drink)
+    }
+    
+    deinit {
+        print("Deinit cell")
     }
 }
