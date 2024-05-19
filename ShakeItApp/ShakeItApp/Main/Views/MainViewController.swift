@@ -12,7 +12,7 @@ final class MainViewController: UIViewController {
     private let viewModel: MainViewModel
     
     private let tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .grouped)
+        let tv = UITableView(frame: .zero, style: .plain)
         tv.backgroundColor = .white
         tv.separatorStyle = .none
         tv.translatesAutoresizingMaskIntoConstraints = false
@@ -47,7 +47,14 @@ final class MainViewController: UIViewController {
         viewModel.$selectedFilters
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [weak self] _ in
-                self?.tableView.reloadData()
+                self?.tableView.reloadSections(IndexSet(integer: MainViewSection.filters.rawValue), with: .automatic)
+            })
+            .store(in: &viewModel.anyCancellables)
+        
+        viewModel.$filteredDrinks
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: { [weak self] _ in
+                self?.tableView.reloadSections(IndexSet(integer: MainViewSection.drinks.rawValue), with: .automatic)
             })
             .store(in: &viewModel.anyCancellables)
     }
@@ -58,6 +65,7 @@ final class MainViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(cellType: FiltersCarouselView.self)
         tableView.register(headerType: MainViewHeader.self)
+        tableView.register(cellType: DrinkCell.self)
     }
     
     private func setupLayout() {
@@ -94,7 +102,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             cell.configure(with: filterCarouselViewModel)
             return cell
         case .drinks:
-            return UITableViewCell()
+            let cell = tableView.dequeueReusableCell(for: indexPath, cellType: DrinkCell.self)
+            let drinkViewModel = viewModel.getDrinkViewModel(for: indexPath.row)
+            cell.configure(with: drinkViewModel)
+            return cell
         }
     }
     
