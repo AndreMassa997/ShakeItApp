@@ -14,8 +14,7 @@ final class MainViewModel: ObservableObject {
     
     private var alphabetizedPaging: [String] {
         let alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"
-        let sortedChars = Array(alphabet).sorted()
-        return sortedChars.map { String($0) }
+        return alphabet.map { String($0) }
     }
     
     init(networkProvider: NetworkProvider) {
@@ -61,6 +60,9 @@ final class MainViewModel: ObservableObject {
         FiltersCarouselViewModel(filters: self.selectedFilters)
     }
     
+    func getDrinkViewModel(for index: Int) -> DrinkCellViewModel{
+        DrinkCellViewModel(drink: filteredDrinks[index])
+    }
 }
 
 //MARK: - Utils (Parsing, filtering)
@@ -107,9 +109,13 @@ extension MainViewModel {
             fatalError("non implemented yet")
         } else {
             let request = AlphabeticalDrinkAPI()
-            let letterToRequest = alphabetizedPaging[currentPage + 1]
+            let letterToRequest = alphabetizedPaging[currentPage]
             request.queryParameters = [ (.firstLetter, letterToRequest)]
-            return await networkProvider.fetchData(with: request).map { $0.drinks }
+            let response = await networkProvider.fetchData(with: request).map { $0.drinks }
+            if case .success = response {
+                currentPage += 1
+            }
+            return response
         }
     }
 }
@@ -177,7 +183,7 @@ struct Filter {
     }
     
     func filterBy(values: [String]) -> Bool {
-        self.selectedValues.allSatisfy { element in values.contains(element) }
+        self.selectedValues.contains(where: values.contains)
     }
 }
 
