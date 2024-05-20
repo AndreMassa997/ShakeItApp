@@ -1,5 +1,5 @@
 //
-//  MainViewHeader.swift
+//  StandardViewHeader.swift
 //  ShakeItApp
 //
 //  Created by Andrea Massari on 19/05/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MainViewHeader: UITableViewHeaderFooterView, CellReusable {
+final class StandardViewHeader: UITableViewHeaderFooterView, CellReusable {
     private let title: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false

@@ -31,7 +31,7 @@
 		3E85E46F2BF9DBBB00C3AD98 /* FiltersCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E46E2BF9DBBB00C3AD98 /* FiltersCarouselView.swift */; };
 		3E85E4712BF9DCE800C3AD98 /* UITableView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4702BF9DCE800C3AD98 /* UITableView+Ext.swift */; };
 		3E85E4732BF9E16C00C3AD98 /* FiltersCarouselViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4722BF9E16C00C3AD98 /* FiltersCarouselViewModel.swift */; };
-		3E85E4762BFA0D5F00C3AD98 /* MainViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4752BFA0D5F00C3AD98 /* MainViewHeader.swift */; };
+		3E85E4762BFA0D5F00C3AD98 /* StandardViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4752BFA0D5F00C3AD98 /* StandardViewHeader.swift */; };
 		3E85E4782BFA11D500C3AD98 /* DrinkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4772BFA11D500C3AD98 /* DrinkCell.swift */; };
 		3E85E47A2BFA123400C3AD98 /* CircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4792BFA123400C3AD98 /* CircleImageView.swift */; };
 		3E85E47C2BFA152F00C3AD98 /* DrinkCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E47B2BFA152F00C3AD98 /* DrinkCellViewModel.swift */; };
@@ -89,7 +89,7 @@
 		3E85E46E2BF9DBBB00C3AD98 /* FiltersCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersCarouselView.swift; sourceTree = "<group>"; };
 		3E85E4702BF9DCE800C3AD98 /* UITableView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Ext.swift"; sourceTree = "<group>"; };
 		3E85E4722BF9E16C00C3AD98 /* FiltersCarouselViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersCarouselViewModel.swift; sourceTree = "<group>"; };
-		3E85E4752BFA0D5F00C3AD98 /* MainViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewHeader.swift; sourceTree = "<group>"; };
+		3E85E4752BFA0D5F00C3AD98 /* StandardViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardViewHeader.swift; sourceTree = "<group>"; };
 		3E85E4772BFA11D500C3AD98 /* DrinkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkCell.swift; sourceTree = "<group>"; };
 		3E85E4792BFA123400C3AD98 /* CircleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
 		3E85E47B2BFA152F00C3AD98 /* DrinkCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkCellViewModel.swift; sourceTree = "<group>"; };
@@ -152,6 +152,7 @@
 			children = (
 				3E85E48C2BFA45F800C3AD98 /* Resources */,
 				3E85E4382BF8A10000C3AD98 /* API */,
+				3E85E4B12BFB43B400C3AD98 /* Common */,
 				3E85E43E2BF8A31100C3AD98 /* Main */,
 				3E85E4AC2BFB3BB900C3AD98 /* Filters */,
 				3E85E4652BF8F92800C3AD98 /* Utils */,
@@ -242,7 +243,6 @@
 		3E85E45B2BF8ADD000C3AD98 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				3E85E4742BFA0D3B00C3AD98 /* HeadersFooter */,
 				3E85E4622BF8F84100C3AD98 /* Cells */,
 				3E85E4032BF7B30B00C3AD98 /* MainViewController.swift */,
 				3E85E4902BFA633F00C3AD98 /* ErrorPopupView.swift */,
@@ -298,7 +298,7 @@
 		3E85E4742BFA0D3B00C3AD98 /* HeadersFooter */ = {
 			isa = PBXGroup;
 			children = (
-				3E85E4752BFA0D5F00C3AD98 /* MainViewHeader.swift */,
+				3E85E4752BFA0D5F00C3AD98 /* StandardViewHeader.swift */,
 			);
 			path = HeadersFooter;
 			sourceTree = "<group>";
@@ -329,6 +329,14 @@
 				3E85E4AF2BFB3BFD00C3AD98 /* FiltersViewModel.swift */,
 			);
 			path = Filters;
+			sourceTree = "<group>";
+		};
+		3E85E4B12BFB43B400C3AD98 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				3E85E4742BFA0D3B00C3AD98 /* HeadersFooter */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -464,7 +472,7 @@
 				3E85E4022BF7B30B00C3AD98 /* SceneDelegate.swift in Sources */,
 				3E85E47A2BFA123400C3AD98 /* CircleImageView.swift in Sources */,
 				3E85E4612BF8C0FB00C3AD98 /* AlphabeticalDrinkAPI.swift in Sources */,
-				3E85E4762BFA0D5F00C3AD98 /* MainViewHeader.swift in Sources */,
+				3E85E4762BFA0D5F00C3AD98 /* StandardViewHeader.swift in Sources */,
 				3E85E43A2BF8A13800C3AD98 /* APIElement.swift in Sources */,
 				3E85E46D2BF9027300C3AD98 /* UIColor+Ext.swift in Sources */,
 				3E85E4712BF9DCE800C3AD98 /* UITableView+Ext.swift in Sources */,

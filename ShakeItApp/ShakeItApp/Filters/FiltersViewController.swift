@@ -79,7 +79,7 @@ final class FiltersViewController: UIViewController {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(headerType: MainViewHeader.self)
+        tableView.register(headerType: StandardViewHeader.self)
     }
 }
 
@@ -97,7 +97,7 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeader(headerType: MainViewHeader.self)
+        let header = tableView.dequeueReusableHeader(headerType: StandardViewHeader.self)
         let filterName = viewModel.filters[section].type.name
         header.configure(text: filterName)
         return header
