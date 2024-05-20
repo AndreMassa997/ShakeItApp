@@ -16,12 +16,10 @@ final class FilterCell: UITableViewCell, CellReusable {
         return view
     }()
     
-    private let checkBoxButton: UIButton = {
-        let btn = UIButton(type: .system)
-        btn.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
-        btn.setImage(UIImage(systemName: "circle"), for: .normal)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
+    private let checkBoxView: UIImageView = {
+        let iv = UIImageView()
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        return iv
     }()
     
     private let filterTitleLabel: UILabel = {
@@ -43,7 +41,7 @@ final class FilterCell: UITableViewCell, CellReusable {
     }
     
     private func addSubviews() {
-        self.viewContainer.addSubview(checkBoxButton)
+        self.viewContainer.addSubview(checkBoxView)
         self.viewContainer.addSubview(filterTitleLabel)
         self.contentView.addSubview(viewContainer)
     }
@@ -54,14 +52,14 @@ final class FilterCell: UITableViewCell, CellReusable {
             viewContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             viewContainer.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
             viewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            viewContainer.bottomAnchor.constraint(equalTo: checkBoxButton.bottomAnchor),
+            viewContainer.bottomAnchor.constraint(equalTo: checkBoxView.bottomAnchor),
             
-            checkBoxButton.topAnchor.constraint(equalTo: viewContainer.topAnchor),
-            checkBoxButton.leftAnchor.constraint(equalTo: viewContainer.leftAnchor),
-            checkBoxButton.widthAnchor.constraint(equalToConstant: 30),
-            checkBoxButton.heightAnchor.constraint(equalToConstant: 30),
+            checkBoxView.topAnchor.constraint(equalTo: viewContainer.topAnchor),
+            checkBoxView.leftAnchor.constraint(equalTo: viewContainer.leftAnchor),
+            checkBoxView.widthAnchor.constraint(equalToConstant: 25),
+            checkBoxView.heightAnchor.constraint(equalToConstant: 25),
 
-            filterTitleLabel.leftAnchor.constraint(equalTo: checkBoxButton.rightAnchor, constant: 5),
+            filterTitleLabel.leftAnchor.constraint(equalTo: checkBoxView.rightAnchor, constant: 10),
             filterTitleLabel.rightAnchor.constraint(equalTo: viewContainer.rightAnchor, constant: -15),
             filterTitleLabel.topAnchor.constraint(equalTo: viewContainer.topAnchor),
             filterTitleLabel.bottomAnchor.constraint(equalTo: viewContainer.bottomAnchor)
@@ -77,8 +75,8 @@ final class FilterCell: UITableViewCell, CellReusable {
     
     private func setupButton(_ isSelected: Bool) {
         let image = isSelected ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "circle")
-        UIView.transition(with: checkBoxButton, duration: 0.3, options: .transitionFlipFromRight, animations: {
-            self.checkBoxButton.setImage(image, for: .normal)
+        UIView.transition(with: checkBoxView, duration: 0.3, options: .transitionFlipFromRight, animations: {
+            self.checkBoxView.image = image
         })
     }
 }
