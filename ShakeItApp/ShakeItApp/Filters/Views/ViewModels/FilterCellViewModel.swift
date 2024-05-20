@@ -8,9 +8,11 @@
 import Foundation
 
 final class FilterCellViewModel {
-    private let filter: Filter
+    let filterName: String
+    let isSelected: Bool
     
-    init(filter: Filter) {
-        self.filter = filter
+    init(filterName: String, isSelected: Bool) {
+        self.filterName = filterName
+        self.isSelected = isSelected
     }
 }

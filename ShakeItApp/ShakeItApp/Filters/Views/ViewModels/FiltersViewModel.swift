@@ -16,7 +16,11 @@ final class FiltersViewModel {
 }
 
 extension FiltersViewModel {
-    func getFilterCellViewModel(for index: Int) -> FilterCellViewModel {
-        FilterCellViewModel(filter: filters[index])
+    func getFilterCellViewModel(for indexPath: IndexPath) -> FilterCellViewModel {
+        let filter = filters[indexPath.section]
+        let value = filter.allValues[indexPath.row]
+        let isSelected = filter.selectedValues.contains(where: { $0 == value })
+        let viewModel = FilterCellViewModel(filterName: value, isSelected: isSelected)
+        return viewModel
     }
 }

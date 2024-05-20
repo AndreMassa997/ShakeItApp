@@ -94,7 +94,7 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellViewModel = viewModel.getFilterCellViewModel(for: indexPath.section)
+        let cellViewModel = viewModel.getFilterCellViewModel(for: indexPath)
         let cell = tableView.dequeueReusableCell(for: indexPath, cellType: FilterCell.self)
         cell.configure(with: cellViewModel)
         return cell
