@@ -100,10 +100,12 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let tableViewSection = MainViewSection[section]
         switch tableViewSection {
-        case .filters, .loader:
+        case .filters:
             return 1
         case .drinks:
             return viewModel.filteredDrinks.count
+        case .loader:
+            return viewModel.hasFinishedLoading ? 0 : 1
         }
     }
     
