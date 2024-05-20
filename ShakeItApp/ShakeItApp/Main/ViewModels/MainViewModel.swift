@@ -51,6 +51,10 @@ final class MainViewModel: ObservableObject {
     
     var anyCancellables: Set<AnyCancellable> = Set()
     
+    var hasFinishedLoading: Bool {
+        currentPage == alphabetizedPaging.count
+    }
+    
     //MARK: - First Loading
     func firstLoad() {
         Task {
@@ -68,7 +72,15 @@ final class MainViewModel: ObservableObject {
     }
     
     func shouldLoadOtherItems(at index: Int) -> Bool {
-        index == filteredDrinks.count - 1
+        !hasFinishedLoading && index >= filteredDrinks.count - 1
+    }
+    
+    func setupNewFiltersAndAskNewDataIfNeeded(_ filters: [Filter]) {
+        self.selectedFilters = filters
+        self.filteredDrinks = self.filterDrinksByCurrentFilters()
+        if filteredDrinks.count == 0 {
+            loadDrinks()
+        }
     }
 }
 
@@ -119,7 +131,7 @@ extension MainViewModel {
             let request = AlphabeticalDrinkAPI()
             let letterToRequest = alphabetizedPaging[currentPage]
             request.queryParameters = [ (.firstLetter, letterToRequest)]
-            let response = await networkProvider.fetchData(with: request).map { $0.drinks }
+            let response = await networkProvider.fetchData(with: request).map { $0.drinks ?? [] }
             return response
         }
     }
@@ -137,8 +149,7 @@ extension MainViewModel {
             .receive(on: RunLoop.main)
             .sink { [weak self] newFilters in
                 guard let self else { return }
-                self.selectedFilters = newFilters
-                self.filteredDrinks = self.filterDrinksByCurrentFilters()
+                self.setupNewFiltersAndAskNewDataIfNeeded(newFilters)
             }
             .store(in: &anyCancellables)
         return filtersViewModel
