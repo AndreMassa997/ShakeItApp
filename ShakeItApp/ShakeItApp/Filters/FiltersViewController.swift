@@ -103,7 +103,16 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeader(headerType: StandardViewHeader.self)
         let filterName = viewModel.filters[section].type.name
-        header.configure(text: filterName)
+        let filterCounter = viewModel.getFiltersCountLabel(for: section)
+        header.configure(text: filterName, buttonText: filterCounter)
         return header
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.selectedFilter(at: indexPath)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+        if let header = tableView.headerView(forSection: indexPath.section) as? StandardViewHeader {
+            header.setupButtonTextAnimated(text: viewModel.getFiltersCountLabel(for: indexPath.section))
+        }
     }
 }

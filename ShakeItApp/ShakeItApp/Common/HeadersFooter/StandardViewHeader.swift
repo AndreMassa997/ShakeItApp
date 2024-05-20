@@ -16,7 +16,7 @@ final class StandardViewHeader: UITableViewHeaderFooterView, CellReusable {
     }()
     
     private let rightButton: UIButton = {
-        let btn = UIButton()
+        let btn = UIButton(type: .system)
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.tintColor = .black
         btn.setTitleColor(.black, for: .normal)
@@ -42,13 +42,20 @@ final class StandardViewHeader: UITableViewHeaderFooterView, CellReusable {
         self.rightButton.addTarget(self, action: #selector(self.rightButtonTapped), for: .touchUpInside)
     }
     
-    func configure(text: String?, buttonText: String? = nil, buttonImageNamed: String? = nil, onButtonTapped: (() -> Void)? = nil) {
+    func configure(text: String?, buttonText: String? = nil, buttonImageNamed: String? = nil, isButtonEnabled: Bool = false, onButtonTapped: (() -> Void)? = nil) {
         self.title.text = text
+        self.rightButton.isEnabled = isButtonEnabled
         self.rightButton.setTitle(buttonText, for: .normal)
         if let buttonImageNamed {
             self.rightButton.setImage(UIImage(systemName: buttonImageNamed), for: .normal)
         }
         self.onButtonTapped = onButtonTapped
+    }
+    
+    func setupButtonTextAnimated(text: String?) {
+        UIView.transition(with: self.rightButton, duration: 0.3, options: .transitionCrossDissolve, animations: { [weak self] in
+            self?.rightButton.setTitle(text, for: .normal)
+        })
     }
     
     private func setupLayout(){

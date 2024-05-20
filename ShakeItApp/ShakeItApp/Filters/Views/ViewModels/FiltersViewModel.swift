@@ -8,13 +8,26 @@
 import Foundation
 
 final class FiltersViewModel {
-    @Published var filters: [Filter]
+    private(set) var filters: [Filter]
     
     init(filters: [Filter]) {
         self.filters = filters
     }
+    
+    func getFiltersCountLabel(for index: Int) -> String {
+        let filter = filters[index]
+        return "MAIN.SECTION.FILTER_SELECTION".localized(with: String(filter.selectedValues.count), String(filter.allValues.count))
+    }
+    
+    func selectedFilter(at indexPath: IndexPath) {
+        var filter = filters[indexPath.section]
+        let value = filter.allValues[indexPath.row]
+        filter.selectOrDeleselectValue(value: value)
+        filters[indexPath.section] = filter
+    }
 }
 
+//MARK: - ViewModels provider
 extension FiltersViewModel {
     func getFilterCellViewModel(for indexPath: IndexPath) -> FilterCellViewModel {
         let filter = filters[indexPath.section]

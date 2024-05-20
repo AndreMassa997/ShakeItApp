@@ -213,6 +213,14 @@ struct Filter {
     func filterBy(values: [String]) -> Bool {
         self.selectedValues.contains(where: values.contains)
     }
+    
+    mutating func selectOrDeleselectValue(value: String) {
+        if let index = selectedValues.firstIndex(where: { $0 == value }) {
+            selectedValues.remove(at: index)
+        } else {
+            selectedValues.append(value)
+        }
+    }
 }
 
 enum FilterType: String {
