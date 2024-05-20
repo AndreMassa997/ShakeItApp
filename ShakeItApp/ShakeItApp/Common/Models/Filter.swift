@@ -17,8 +17,9 @@ struct Filter {
             return nil
         }
         self.type = type
-        self.selectedValues = values
-        self.allValues = values
+        let sortedValues = values.sorted()
+        self.selectedValues = sortedValues
+        self.allValues = sortedValues
     }
     
     func isContained(in drink: Drink) -> Bool {
