@@ -85,6 +85,10 @@ final class MainViewModel: ObservableObject {
     func shouldLoadOtherItems(at index: Int) -> Bool {
         index == filteredDrinks.count - 1
     }
+    
+    func goToFiltersPage() {
+        
+    }
 }
 
 //MARK: - Utils (Parsing, filtering)
@@ -246,6 +250,28 @@ enum MainViewSection: Int, CaseIterable {
             return "Filters"
         case .drinks:
             return "Drinks"
+        default:
+            return nil
+        }
+    }
+    
+    var buttonTitle: String? {
+        switch self {
+        case .filters:
+            return "Filter"
+        case .drinks:
+            return "Go on top"
+        default:
+            return nil
+        }
+    }
+    
+    var buttonImageNamed: String? {
+        switch self {
+        case .filters:
+            return "line.3.horizontal.decrease.circle"
+        case .drinks:
+            return "chevron.up.circle"
         default:
             return nil
         }

@@ -46,7 +46,7 @@ final class DrinkCell: UITableViewCell, CellReusable {
     }()
     
     private let arrowImage: UIImageView = {
-        let iv = UIImageView(image: UIImage(systemName: "chevron.right"))
+        let iv = UIImageView(image: UIImage(systemName: "chevron.right.circle"))
         iv.contentMode = .scaleAspectFit
         iv.tintColor = .black.withAlphaComponent(0.3)
         iv.translatesAutoresizingMaskIntoConstraints = false

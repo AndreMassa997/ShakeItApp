@@ -147,7 +147,13 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         }
         let header = tableView.dequeueReusableHeader(headerType: MainViewHeader.self)
         let tableViewSection = MainViewSection[section]
-        header.configure(text: tableViewSection.title)
+        header.configure(text: tableViewSection.title, buttonText: tableViewSection.buttonTitle, buttonImageNamed: tableViewSection.buttonImageNamed) { [weak self] in
+            if tableViewSection == .drinks {
+                self?.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            } else if tableViewSection == .filters {
+                self?.viewModel.goToFiltersPage()
+            }
+        }
         return header
     }
 }
