@@ -36,6 +36,11 @@ final class StandardViewHeader: UITableViewHeaderFooterView, CellReusable {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setupButtonImageToRight()
+    }
+    
     private func addSubviews() {
         self.contentView.addSubview(title)
         self.contentView.addSubview(rightButton)
@@ -48,7 +53,6 @@ final class StandardViewHeader: UITableViewHeaderFooterView, CellReusable {
         self.rightButton.setTitle(buttonText, for: .normal)
         if let buttonImageNamed {
             self.rightButton.setImage(UIImage(systemName: buttonImageNamed), for: .normal)
-            self.setupButtonImageToRight()
         }
         self.onButtonTapped = onButtonTapped
     }
