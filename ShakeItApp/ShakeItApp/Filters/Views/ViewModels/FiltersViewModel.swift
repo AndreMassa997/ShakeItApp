@@ -14,3 +14,9 @@ final class FiltersViewModel {
         self.filters = filters
     }
 }
+
+extension FiltersViewModel {
+    func getFilterCellViewModel(for index: Int) -> FilterCellViewModel {
+        FilterCellViewModel(filter: filters[index])
+    }
+}

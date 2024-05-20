@@ -80,6 +80,7 @@ final class FiltersViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(headerType: StandardViewHeader.self)
+        tableView.register(cellType: FilterCell.self)
     }
 }
 
@@ -93,7 +94,10 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cellViewModel = viewModel.getFilterCellViewModel(for: indexPath.section)
+        let cell = tableView.dequeueReusableCell(for: indexPath, cellType: FilterCell.self)
+        cell.configure(with: cellViewModel)
+        return cell
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

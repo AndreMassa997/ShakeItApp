@@ -1,5 +1,5 @@
 //
-//  FilterCellViewModel.swift
+//  FilterCarouselCellViewModel.swift
 //  ShakeItApp
 //
 //  Created by Andrea Massari on 18/05/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class FilterCellViewModel {
+final class FilterCarouselCellViewModel {
     private let filter: Filter
     
     init(filter: Filter) {

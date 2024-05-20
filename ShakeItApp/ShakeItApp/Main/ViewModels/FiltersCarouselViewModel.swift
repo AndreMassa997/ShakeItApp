@@ -14,7 +14,7 @@ final class FiltersCarouselViewModel {
         self.filters = filters
     }
     
-    func getFilterCellViewModel(at indexPath: IndexPath) -> FilterCellViewModel {
-        FilterCellViewModel(filter: filters[indexPath.row])
+    func getFilterCellViewModel(at indexPath: IndexPath) -> FilterCarouselCellViewModel {
+        FilterCarouselCellViewModel(filter: filters[indexPath.row])
     }
 }

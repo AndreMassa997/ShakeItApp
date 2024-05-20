@@ -76,7 +76,7 @@ final class FilterCarouselCell: UICollectionViewCell, CellReusable {
         layer.shadowOpacity = 0.01
     }
     
-    func configure(with viewModel: FilterCellViewModel) {
+    func configure(with viewModel: FilterCarouselCellViewModel) {
         self.backgroundColor = UIColor(hex: viewModel.backgroundColor)
         self.filterImageView.image = UIImage(named: viewModel.imageName)
         self.filterNameLabel.text = viewModel.filterName
