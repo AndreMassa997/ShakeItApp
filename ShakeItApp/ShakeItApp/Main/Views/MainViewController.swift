@@ -70,6 +70,7 @@ final class MainViewController: UIViewController {
         tableView.register(headerType: LabelButtonHeader.self)
         tableView.register(cellType: DrinkCell.self)
         tableView.register(cellType: MainViewLoaderCell.self)
+        tableView.register(cellType: NoItemsCell.self)
     }
     
     private func setupLayout() {
@@ -123,7 +124,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             cell.startAnimating()
             return cell
         case .noItems:
-            return UITableViewCell()
+            return tableView.dequeueReusableCell(for: indexPath, cellType: NoItemsCell.self)
         }
     }
     
@@ -134,12 +135,12 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let tableViewSection = viewModel.tableViewSections[section]
-        guard tableViewSection != .loader else {
+        guard let headerData = tableViewSection.headerData else {
             return nil
         }
         let header = tableView.dequeueReusableHeader(headerType: LabelButtonHeader.self)
-        header.configure(text: tableViewSection.title, buttonText: tableViewSection.buttonTitle, buttonImageNamed: tableViewSection.buttonImageNamed) { [weak self] in
-            if case MainViewSection.drinks = tableViewSection {
+        header.configure(text: headerData.title, buttonText: headerData.buttonTitle, buttonImageNamed: headerData.buttonImageName) { [weak self] in
+            if tableViewSection == .drinks {
                 self?.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
             } else if tableViewSection == .filters {
                 self?.goToFiltersPage()

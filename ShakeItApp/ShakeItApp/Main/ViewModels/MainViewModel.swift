@@ -239,34 +239,12 @@ enum MainViewSection: Equatable {
     case loader
     case noItems
     
-    var title: String? {
+    var headerData: (title: String, buttonTitle: String, buttonImageName: String)? {
         switch self {
         case .filters:
-            return "MAIN.SECTION.FILTERS".localized
+            return ("MAIN.SECTION.FILTERS".localized, "MAIN.SECTION.FILTER_BY".localized, "line.3.horizontal.decrease.circle")
         case .drinks:
-            return "MAIN.SECTION.DRINKS".localized
-        default:
-            return nil
-        }
-    }
-    
-    var buttonTitle: String? {
-        switch self {
-        case .filters:
-            return "MAIN.SECTION.FILTER_BY".localized
-        case .drinks:
-            return "MAIN.SECTION.GO_TOP".localized
-        default:
-            return nil
-        }
-    }
-    
-    var buttonImageNamed: String? {
-        switch self {
-        case .filters:
-            return "line.3.horizontal.decrease.circle"
-        case .drinks:
-            return "chevron.up.circle"
+            return ("MAIN.SECTION.DRINKS".localized, "MAIN.SECTION.GO_TOP".localized, "chevron.up.circle")
         default:
             return nil
         }

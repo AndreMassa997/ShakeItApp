@@ -52,6 +52,8 @@
 		3E85E4B52BFB461C00C3AD98 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4B42BFB461C00C3AD98 /* FilterCell.swift */; };
 		3E85E4B82BFB46F200C3AD98 /* FilterCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4B72BFB46F200C3AD98 /* FilterCellViewModel.swift */; };
 		3EA187C62BFB65260066D1BF /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA187C52BFB65260066D1BF /* Filter.swift */; };
+		3EA187C82BFBD2540066D1BF /* NoItemsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA187C72BFBD2540066D1BF /* NoItemsCell.swift */; };
+		3EA187CA2BFBD2EF0066D1BF /* no_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 3EA187C92BFBD2EF0066D1BF /* no_data.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +116,8 @@
 		3E85E4B42BFB461C00C3AD98 /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		3E85E4B72BFB46F200C3AD98 /* FilterCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCellViewModel.swift; sourceTree = "<group>"; };
 		3EA187C52BFB65260066D1BF /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
+		3EA187C72BFBD2540066D1BF /* NoItemsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoItemsCell.swift; sourceTree = "<group>"; };
+		3EA187C92BFBD2EF0066D1BF /* no_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = no_data.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -283,6 +287,7 @@
 				3E85E4632BF8F86400C3AD98 /* FilterCarouselCell.swift */,
 				3E85E46E2BF9DBBB00C3AD98 /* FiltersCarouselView.swift */,
 				3E85E4772BFA11D500C3AD98 /* DrinkCell.swift */,
+				3EA187C72BFBD2540066D1BF /* NoItemsCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -322,6 +327,7 @@
 		3E85E48D2BFA460200C3AD98 /* LottieAnimations */ = {
 			isa = PBXGroup;
 			children = (
+				3EA187C92BFBD2EF0066D1BF /* no_data.json */,
 				3E85E49A2BFA70B500C3AD98 /* error.json */,
 				3E85E48E2BFA461100C3AD98 /* loader.json */,
 			);
@@ -471,6 +477,7 @@
 				3E85E49B2BFA70B500C3AD98 /* error.json in Resources */,
 				3E85E4A22BFB2A6600C3AD98 /* Localizable.strings in Resources */,
 				3E85E4932BFA635300C3AD98 /* ErrorPopupView.xib in Resources */,
+				3EA187CA2BFBD2EF0066D1BF /* no_data.json in Resources */,
 				3E85E48F2BFA461100C3AD98 /* loader.json in Resources */,
 				3E85E40C2BF7B30C00C3AD98 /* LaunchScreen.storyboard in Resources */,
 				3E85E4092BF7B30C00C3AD98 /* Assets.xcassets in Resources */,
@@ -504,6 +511,7 @@
 				3E85E4002BF7B30B00C3AD98 /* AppDelegate.swift in Sources */,
 				3E85E4482BF8A68000C3AD98 /* GlassListAPI.swift in Sources */,
 				3E85E4642BF8F86400C3AD98 /* FilterCarouselCell.swift in Sources */,
+				3EA187C82BFBD2540066D1BF /* NoItemsCell.swift in Sources */,
 				3E85E49E2BFA714000C3AD98 /* UIView+Ext.swift in Sources */,
 				3E85E4B52BFB461C00C3AD98 /* FilterCell.swift in Sources */,
 				3E85E4732BF9E16C00C3AD98 /* FiltersCarouselViewModel.swift in Sources */,

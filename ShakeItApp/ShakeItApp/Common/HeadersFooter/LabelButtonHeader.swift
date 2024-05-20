@@ -47,12 +47,10 @@ final class LabelButtonHeader: UITableViewHeaderFooterView, CellReusable {
         self.rightButton.addTarget(self, action: #selector(self.rightButtonTapped), for: .touchUpInside)
     }
     
-    func configure(text: String?, buttonText: String?, buttonImageNamed: String?, onButtonTapped: (() -> Void)?) {
+    func configure(text: String, buttonText: String, buttonImageNamed: String, onButtonTapped: @escaping (() -> Void)) {
         self.title.text = text
         self.rightButton.setTitle(buttonText, for: .normal)
-        if let buttonImageNamed {
-            self.rightButton.setImage(UIImage(systemName: buttonImageNamed), for: .normal)
-        }
+        self.rightButton.setImage(UIImage(systemName: buttonImageNamed), for: .normal)
         self.onButtonTapped = onButtonTapped
     }
     

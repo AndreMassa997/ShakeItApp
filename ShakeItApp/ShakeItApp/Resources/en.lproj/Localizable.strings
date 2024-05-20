@@ -15,6 +15,7 @@
 "MAIN.SECTION.FILTER_GLASS" = "Glass";
 "MAIN.SECTION.FILTER_SELECTION" = "%@ of %@\nselected";
 "MAIN.SECTION.GO_TOP" = "Go on top";
+"MAIN.NO_DRINKS" = "No drinks founded for the selected filters.\nPlease try to set new filters!";
 "MAIN.ERROR.RETRY" = "Retry";
 "FILTER.APPLY" = "Apply";
 "BACK" = "Back";

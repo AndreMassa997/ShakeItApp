@@ -13,7 +13,6 @@ final class MainViewLoaderCell: UITableViewCell, CellReusable {
         let av = LottieAnimationView(name: "loader")
         av.contentMode = .scaleAspectFit
         av.loopMode = .loop
-        av.animationSpeed = 0.5
         av.translatesAutoresizingMaskIntoConstraints = false
         return av
     }()

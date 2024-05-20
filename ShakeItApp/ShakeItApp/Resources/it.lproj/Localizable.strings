@@ -15,6 +15,7 @@
 "MAIN.SECTION.FILTER_GLASS" = "Bicchiere";
 "MAIN.SECTION.FILTER_SELECTION" = "%@ di %@\nselezionati";
 "MAIN.SECTION.GO_TOP" = "Torna su";
+"MAIN.NO_DRINKS" = "Nessun drink trovato per i filtri scelti.\nProva ad impostarne di nuovi!";
 "MAIN.ERROR.RETRY" = "Riprova";
 "FILTER.APPLY" = "Applica";
 "BACK" = "Indietro";
