@@ -109,8 +109,9 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeader(headerType: LabelButtonHeader.self)
         let buttonConfigurations = viewModel.getFilterHeaderValue(for: section)
-        header.configure(text: viewModel.filters[section].type.name, buttonText: buttonConfigurations.text, buttonImageNamed: buttonConfigurations.imageName) {
-            
+        header.configure(text: viewModel.filters[section].type.name, buttonText: buttonConfigurations.text, buttonImageNamed: buttonConfigurations.imageName) { [weak self] in
+            self?.viewModel.selectDeselectAllValues(at: section)
+            self?.tableView.reloadSections(IndexSet(integer: section), with: .none)
         }
         return header
     }
@@ -120,6 +121,7 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.reloadRows(at: [indexPath], with: .automatic)
         
         guard let header = tableView.headerView(forSection: indexPath.section) as? LabelButtonHeader else { return }
+        
         let buttonConfigurations = viewModel.getFilterHeaderValue(for: indexPath.section)
         header.setupButtonTextAnimated(text: buttonConfigurations.text, buttonImageNamed: buttonConfigurations.imageName)
     }

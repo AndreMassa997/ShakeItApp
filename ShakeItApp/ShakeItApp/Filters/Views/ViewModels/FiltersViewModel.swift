@@ -41,6 +41,12 @@ final class FiltersViewModel {
         filtersSubject.send(filters)
     }
     
+    func selectDeselectAllValues(at index: Int) {
+        var filter = filters[index]
+        filter.selectOrDeselectAll()
+        filters[index] = filter
+    }
+    
     deinit {
         print("Deinit filters view controller")
     }
