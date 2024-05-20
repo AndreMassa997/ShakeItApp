@@ -86,7 +86,7 @@ final class DrinkCell: UITableViewCell, CellReusable {
             viewContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             viewContainer.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15),
             viewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            viewContainer.bottomAnchor.constraint(equalTo: alcoholicTypeImageView.bottomAnchor, constant: 5),
+            viewContainer.bottomAnchor.constraint(equalTo: alcoholicTypeImageView.bottomAnchor, constant: 10),
             
             alcoholicTypeImageView.topAnchor.constraint(equalTo: viewContainer.topAnchor, constant: 10),
             alcoholicTypeImageView.widthAnchor.constraint(equalToConstant: 50),
