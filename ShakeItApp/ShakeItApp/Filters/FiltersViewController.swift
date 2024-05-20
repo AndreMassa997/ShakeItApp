@@ -77,7 +77,29 @@ final class FiltersViewController: UIViewController {
     }
     
     private func setupTableView() {
-//        tableView.delegate = self
-//        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(headerType: MainViewHeader.self)
+    }
+}
+
+extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        viewModel.filters.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel.filters[section].allValues.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableHeader(headerType: MainViewHeader.self)
+        let filterName = viewModel.filters[section].type.name
+        header.configure(text: filterName)
+        return header
     }
 }

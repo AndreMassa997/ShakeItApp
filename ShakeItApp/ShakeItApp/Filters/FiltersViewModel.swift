@@ -8,5 +8,9 @@
 import Foundation
 
 final class FiltersViewModel {
+    @Published var filters: [Filter]
     
+    init(filters: [Filter]) {
+        self.filters = filters
+    }
 }

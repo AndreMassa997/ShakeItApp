@@ -131,7 +131,7 @@ extension MainViewModel {
     }
     
     var filtersViewModel: FiltersViewModel {
-        FiltersViewModel()
+        FiltersViewModel(filters: self.selectedFilters)
     }
 
     

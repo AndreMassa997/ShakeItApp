@@ -42,7 +42,7 @@ final class MainViewHeader: UITableViewHeaderFooterView, CellReusable {
         self.rightButton.addTarget(self, action: #selector(self.rightButtonTapped), for: .touchUpInside)
     }
     
-    func configure(text: String?, buttonText: String?, buttonImageNamed: String?, onButtonTapped: (() -> Void)?) {
+    func configure(text: String?, buttonText: String? = nil, buttonImageNamed: String? = nil, onButtonTapped: (() -> Void)? = nil) {
         self.title.text = text
         self.rightButton.setTitle(buttonText, for: .normal)
         if let buttonImageNamed {
