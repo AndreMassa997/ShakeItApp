@@ -67,7 +67,7 @@ final class MainViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(cellType: FiltersCarouselView.self)
-        tableView.register(headerType: StandardViewHeader.self)
+        tableView.register(headerType: LabelButtonHeader.self)
         tableView.register(cellType: DrinkCell.self)
         tableView.register(cellType: MainViewLoaderCell.self)
     }
@@ -140,9 +140,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         guard section != MainViewSection.loader.rawValue else {
             return nil
         }
-        let header = tableView.dequeueReusableHeader(headerType: StandardViewHeader.self)
+        let header = tableView.dequeueReusableHeader(headerType: LabelButtonHeader.self)
         let tableViewSection = MainViewSection[section]
-        header.configure(text: tableViewSection.title, buttonText: tableViewSection.buttonTitle, buttonImageNamed: tableViewSection.buttonImageNamed, isButtonEnabled: true) { [weak self] in
+        header.configure(text: tableViewSection.title, buttonText: tableViewSection.buttonTitle, buttonImageNamed: tableViewSection.buttonImageNamed) { [weak self] in
             if tableViewSection == .drinks {
                 self?.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
             } else if tableViewSection == .filters {

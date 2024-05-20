@@ -20,9 +20,14 @@ final class FiltersViewModel {
         self.filters = filters
     }
     
-    func getFiltersCountLabel(for index: Int) -> String {
+    func getFilterHeaderValue(for index: Int) -> (text: String, imageName: String) {
         let filter = filters[index]
-        return "MAIN.SECTION.FILTER_SELECTION".localized(with: String(filter.selectedValues.count), String(filter.allValues.count))
+        let counter = "FILTERS.COUNTER".localized(with: String(filter.selectedValues.count), String(filter.allValues.count))
+        if filter.selectedValues.count == filter.allValues.count {
+            return (counter + " - " + "FILTERS.DESELECT_ALL".localized, "checkmark.circle.fill")
+        } else {
+            return (counter + " - " + "FILTERS.SELECT_ALL".localized, "circle")
+        }
     }
     
     func selectedFilter(at indexPath: IndexPath) {

@@ -80,7 +80,7 @@ final class FiltersViewController: UIViewController {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(headerType: StandardViewHeader.self)
+        tableView.register(headerType: LabelButtonHeader.self)
         tableView.register(cellType: FilterCell.self)
     }
     
@@ -107,18 +107,20 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeader(headerType: StandardViewHeader.self)
-        let filterName = viewModel.filters[section].type.name
-        let filterCounter = viewModel.getFiltersCountLabel(for: section)
-        header.configure(text: filterName, buttonText: filterCounter)
+        let header = tableView.dequeueReusableHeader(headerType: LabelButtonHeader.self)
+        let buttonConfigurations = viewModel.getFilterHeaderValue(for: section)
+        header.configure(text: viewModel.filters[section].type.name, buttonText: buttonConfigurations.text, buttonImageNamed: buttonConfigurations.imageName) {
+            
+        }
         return header
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.selectedFilter(at: indexPath)
         tableView.reloadRows(at: [indexPath], with: .automatic)
-        if let header = tableView.headerView(forSection: indexPath.section) as? StandardViewHeader {
-            header.setupButtonTextAnimated(text: viewModel.getFiltersCountLabel(for: indexPath.section))
-        }
+        
+        guard let header = tableView.headerView(forSection: indexPath.section) as? LabelButtonHeader else { return }
+        let buttonConfigurations = viewModel.getFilterHeaderValue(for: indexPath.section)
+        header.setupButtonTextAnimated(text: buttonConfigurations.text, buttonImageNamed: buttonConfigurations.imageName)
     }
 }

@@ -18,3 +18,6 @@
 "MAIN.ERROR.RETRY" = "Riprova";
 "FILTER.APPLY" = "Applica";
 "BACK" = "Indietro";
+"FILTERS.COUNTER" = "%@ di %@";
+"FILTERS.SELECT_ALL" = "Seleziona tutto";
+"FILTERS.DESELECT_ALL" = "Deseleziona tutto";

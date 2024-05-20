@@ -18,3 +18,6 @@
 "MAIN.ERROR.RETRY" = "Retry";
 "FILTER.APPLY" = "Apply";
 "BACK" = "Back";
+"FILTERS.COUNTER" = "%@ of %@";
+"FILTERS.SELECT_ALL" = "Select all";
+"FILTERS.DESELECT_ALL" = "Deselect all";

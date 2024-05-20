@@ -1,5 +1,5 @@
 //
-//  StandardViewHeader.swift
+//  LabelButtonHeader.swift
 //  ShakeItApp
 //
 //  Created by Andrea Massari on 19/05/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class StandardViewHeader: UITableViewHeaderFooterView, CellReusable {
+final class LabelButtonHeader: UITableViewHeaderFooterView, CellReusable {
     private let title: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
@@ -47,9 +47,8 @@ final class StandardViewHeader: UITableViewHeaderFooterView, CellReusable {
         self.rightButton.addTarget(self, action: #selector(self.rightButtonTapped), for: .touchUpInside)
     }
     
-    func configure(text: String?, buttonText: String? = nil, buttonImageNamed: String? = nil, isButtonEnabled: Bool = false, onButtonTapped: (() -> Void)? = nil) {
+    func configure(text: String?, buttonText: String?, buttonImageNamed: String?, onButtonTapped: (() -> Void)?) {
         self.title.text = text
-        self.rightButton.isEnabled = isButtonEnabled
         self.rightButton.setTitle(buttonText, for: .normal)
         if let buttonImageNamed {
             self.rightButton.setImage(UIImage(systemName: buttonImageNamed), for: .normal)
@@ -57,9 +56,10 @@ final class StandardViewHeader: UITableViewHeaderFooterView, CellReusable {
         self.onButtonTapped = onButtonTapped
     }
     
-    func setupButtonTextAnimated(text: String?) {
+    func setupButtonTextAnimated(text: String, buttonImageNamed: String) {
         UIView.transition(with: self.rightButton, duration: 0.3, options: .transitionCrossDissolve, animations: { [weak self] in
             self?.rightButton.setTitle(text, for: .normal)
+            self?.rightButton.setImage(UIImage(systemName: buttonImageNamed), for: .normal)
         })
     }
     
