@@ -66,28 +66,8 @@ final class MainViewModel: ObservableObject {
         }
     }
     
-    var filterCarouselViewModel: FiltersCarouselViewModel {
-        FiltersCarouselViewModel(filters: self.selectedFilters)
-    }
-    
-    func getDrinkViewModel(for index: Int) -> DrinkCellViewModel{
-        let drinkCellViewModel = DrinkCellViewModel(drink: filteredDrinks[index], imageProvider: imageProvider)
-        drinkCellViewModel.cellTapPublisher
-            .receive(on: RunLoop.main)
-            .sink { [weak self] drinkTapped in
-                //Go to details
-                print("Tapped \(drinkTapped.name)")
-            }
-            .store(in: &anyCancellables)
-        return drinkCellViewModel
-    }
-    
     func shouldLoadOtherItems(at index: Int) -> Bool {
         index == filteredDrinks.count - 1
-    }
-    
-    func goToFiltersPage() {
-        
     }
 }
 
@@ -141,6 +121,30 @@ extension MainViewModel {
             let response = await networkProvider.fetchData(with: request).map { $0.drinks }
             return response
         }
+    }
+}
+
+//MARK: ViewModels Provider
+extension MainViewModel {
+    var filterCarouselViewModel: FiltersCarouselViewModel {
+        FiltersCarouselViewModel(filters: self.selectedFilters)
+    }
+    
+    var filtersViewModel: FiltersViewModel {
+        FiltersViewModel()
+    }
+
+    
+    func getDrinkViewModel(for index: Int) -> DrinkCellViewModel{
+        let drinkCellViewModel = DrinkCellViewModel(drink: filteredDrinks[index], imageProvider: imageProvider)
+        drinkCellViewModel.cellTapPublisher
+            .receive(on: RunLoop.main)
+            .sink { [weak self] drinkTapped in
+                //Go to details
+                print("Tapped \(drinkTapped.name)")
+            }
+            .store(in: &anyCancellables)
+        return drinkCellViewModel
     }
 }
 

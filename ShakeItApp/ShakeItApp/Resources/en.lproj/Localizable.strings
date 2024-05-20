@@ -16,3 +16,5 @@
 "MAIN.SECTION.FILTER_SELECTION" = "%@ of %@\nselected";
 "MAIN.SECTION.GO_TOP" = "Go on top";
 "MAIN.ERROR.RETRY" = "Retry";
+"FILTER.APPLY" = "Apply";
+"BACK" = "Back";

@@ -151,10 +151,18 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             if tableViewSection == .drinks {
                 self?.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
             } else if tableViewSection == .filters {
-                self?.viewModel.goToFiltersPage()
+                self?.goToFiltersPage()
             }
         }
         return header
+    }
+}
+
+//Filters
+extension MainViewController {
+    func goToFiltersPage() {
+        let filtersViewController = FiltersViewController(viewModel: viewModel.filtersViewModel)
+        self.navigationController?.pushViewController(filtersViewController, animated: true)
     }
 }
 
