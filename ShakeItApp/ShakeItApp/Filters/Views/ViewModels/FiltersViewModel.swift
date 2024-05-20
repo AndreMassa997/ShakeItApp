@@ -35,6 +35,10 @@ final class FiltersViewModel {
     func applyTapped() {
         filtersSubject.send(filters)
     }
+    
+    deinit {
+        print("Deinit filters view controller")
+    }
 }
 
 //MARK: - ViewModels provider
