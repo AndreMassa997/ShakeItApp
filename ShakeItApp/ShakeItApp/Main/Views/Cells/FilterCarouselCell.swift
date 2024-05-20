@@ -1,5 +1,5 @@
 //
-//  FilterCell.swift
+//  FilterCarouselCell.swift
 //  ShakeItApp
 //
 //  Created by Andrea Massari on 18/05/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class FilterCell: UICollectionViewCell, CellReusable {
+final class FilterCarouselCell: UICollectionViewCell, CellReusable {
     private let filterNameLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = UIFont.systemFont(ofSize: 14, weight: .light)

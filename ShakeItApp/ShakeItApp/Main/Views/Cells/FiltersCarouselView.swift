@@ -33,7 +33,7 @@ final class FiltersCarouselView: UITableViewCell, CellReusable {
     private func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(cellType: FilterCell.self)
+        collectionView.register(cellType: FilterCarouselCell.self)
     }
     
     private func updateView() {
@@ -63,7 +63,7 @@ extension FiltersCarouselView: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let filterCell = collectionView.dequeueReusableCell(for: indexPath, cellType: FilterCell.self)
+        let filterCell = collectionView.dequeueReusableCell(for: indexPath, cellType: FilterCarouselCell.self)
         let filterCellViewModel = viewModel.getFilterCellViewModel(at: indexPath)
         filterCell.configure(with: filterCellViewModel)
         return filterCell
