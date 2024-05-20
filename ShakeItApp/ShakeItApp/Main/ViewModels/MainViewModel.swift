@@ -23,6 +23,7 @@ final class MainViewModel: ObservableObject {
         self.imageProvider = imageProvider
     }
     
+    //Data from server for drinks
     private var allDrinks = [Drink]() {
         didSet {
             filteredDrinks = self.filterDrinksByCurrentFilters()
@@ -30,21 +31,21 @@ final class MainViewModel: ObservableObject {
     }
     
     //Data from server for filters
-    private var filters: Filters? {
+    private var filtersData: FilterResponses? {
         didSet {
-            availableFilters = [
-                Filter(.alcoholic, values: filters?.alcoholicValues),
-                Filter(.categories, values: filters?.categoryValues),
-                Filter(.ingredients, values: filters?.ingredientsValues),
-                Filter(.glass, values: filters?.glassValues)
+            selectedFilters = [
+                Filter(.alcoholic, values: filtersData?.alcoholicValues),
+                Filter(.categories, values: filtersData?.categoryValues),
+                Filter(.ingredients, values: filtersData?.ingredientsValues),
+                Filter(.glass, values: filtersData?.glassValues)
             ].compactMap { $0 }
-            selectedFilters = availableFilters ?? []
         }
     }
     
     //store all available filters that succeeded from API Calls, hide the others
-    private var availableFilters: [Filter]?
-    var selectedFilters: [Filter] = []
+    private var selectedFilters: [Filter] = []
+    
+    //Published values for reloading
     @Published var filteredDrinks = [Drink]()
     @Published var dataSourceLoadingError: String?
     
@@ -54,7 +55,7 @@ final class MainViewModel: ObservableObject {
     func firstLoad() {
         Task {
             let (filters, drinkResponse) = await firstLoadingFromServer()
-            self.filters = filters
+            self.filtersData = filters
             validateDrinkResponse(response: drinkResponse)
         }
     }
@@ -93,7 +94,7 @@ extension MainViewModel {
 //MARK: - API Implementations
 extension MainViewModel {
     ///First Loading - filters + first data source in parallel using async let - await
-    private func firstLoadingFromServer() async -> (Filters, Result<[Drink], ErrorData>){
+    private func firstLoadingFromServer() async -> (FilterResponses, Result<[Drink], ErrorData>){
         async let filters = loadFiltersValuesFromServer()
         async let alphabeticalRequest = loadDataSourceFromServer()
         
@@ -101,13 +102,13 @@ extension MainViewModel {
     }
     
     ///Load filters in parallel using async let - await
-    private func loadFiltersValuesFromServer() async -> Filters{
+    private func loadFiltersValuesFromServer() async -> FilterResponses{
         async let categoryList = networkProvider.fetchData(with: CategoryListAPI())
         async let alcoholicList = networkProvider.fetchData(with: AlcoholicListAPI())
         async let ingredientsList = networkProvider.fetchData(with: IngredientsListAPI())
         async let glassList = networkProvider.fetchData(with: GlassListAPI())
         
-        return await Filters(categoryList: categoryList, alcoholicList: alcoholicList, ingrendientsList: ingredientsList, glassList: glassList)
+        return await FilterResponses(categoryList: categoryList, alcoholicList: alcoholicList, ingrendientsList: ingredientsList, glassList: glassList)
     }
     
     private func loadDataSourceFromServer(by name: String? = nil) async -> Result<[Drink], ErrorData> {
@@ -157,7 +158,7 @@ extension MainViewModel {
     }
 }
 
-struct Filters {
+fileprivate struct FilterResponses {
     var categoryList: Result<CategoryListAPI.Output, ErrorData>
     var alcoholicList: Result<AlcoholicListAPI.Output, ErrorData>
     var ingrendientsList: Result<IngredientsListAPI.Output, ErrorData>
@@ -190,74 +191,6 @@ struct Filters {
         }
         return nil
     }
-}
-
-struct Filter {
-    let type: FilterType
-    var selectedValues: [String]
-    var allValues: [String]
-    
-    init?(_ type: FilterType, values: [String]?) {
-        guard let values else {
-            return nil
-        }
-        self.type = type
-        self.selectedValues = values
-        self.allValues = values
-    }
-    
-    func isContained(in drink: Drink) -> Bool {
-        switch type {
-        case .alcoholic:
-            return filterBy(values: [drink.alcoholic])
-        case .categories:
-            return filterBy(values: [drink.category])
-        case .glass:
-            return filterBy(values: [drink.glass])
-        case .ingredients:
-            return filterBy(values: drink.ingredients)
-        }
-    }
-    
-    func filterBy(values: [String]) -> Bool {
-        self.selectedValues.contains(where: values.contains)
-    }
-    
-    mutating func selectOrDeleselectValue(value: String) {
-        if let index = selectedValues.firstIndex(where: { $0 == value }) {
-            selectedValues.remove(at: index)
-        } else {
-            selectedValues.append(value)
-        }
-    }
-}
-
-enum FilterType: String {
-    case categories
-    case alcoholic
-    case glass
-    case ingredients
-    
-    var backgroundColor: String {
-        "#fdf9e6"
-    }
-    
-    var name: String {
-        "MAIN.SECTION.FILTER_\(rawValue.uppercased())".localized
-    }
-    
-//    var color: String {
-//        switch self {
-//        case .alcoholic:
-//            return "#fb8e86"
-//        case .category:
-//            return "#d9ead3"
-//        case .glass:
-//            return "#cfe2f3"
-//        case .ingredients:
-//            return "#fce5cd"
-//        }
-//    }
 }
 
 enum MainViewSection: Int, CaseIterable {
