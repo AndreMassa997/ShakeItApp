@@ -6,9 +6,15 @@
 //
 
 import Foundation
+import Combine
 
 final class FiltersViewModel {
     private(set) var filters: [Filter]
+    
+    private let filtersSubject = PassthroughSubject<[Filter], Never>()
+    var filtersPublisher: AnyPublisher<[Filter], Never> {
+        filtersSubject.eraseToAnyPublisher()
+    }
     
     init(filters: [Filter]) {
         self.filters = filters
@@ -24,6 +30,10 @@ final class FiltersViewModel {
         let value = filter.allValues[indexPath.row]
         filter.selectOrDeleselectValue(value: value)
         filters[indexPath.section] = filter
+    }
+    
+    func applyTapped() {
+        filtersSubject.send(filters)
     }
 }
 

@@ -47,6 +47,7 @@ final class FiltersViewController: UIViewController {
         setupNavigationBar()
         setupLayout()
         setupTableView()
+        applyButton.addTarget(self, action: #selector(applyTapped), for: .touchUpInside)
     }
     
     private func addSubviews() {
@@ -81,6 +82,11 @@ final class FiltersViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(headerType: StandardViewHeader.self)
         tableView.register(cellType: FilterCell.self)
+    }
+    
+    @objc private func applyTapped() {
+        viewModel.applyTapped()
+        navigationController?.popViewController(animated: true)
     }
 }
 

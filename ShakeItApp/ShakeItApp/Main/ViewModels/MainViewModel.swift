@@ -44,7 +44,7 @@ final class MainViewModel: ObservableObject {
     
     //store all available filters that succeeded from API Calls, hide the others
     private var availableFilters: [Filter]?
-    @Published var selectedFilters: [Filter] = []
+    var selectedFilters: [Filter] = []
     @Published var filteredDrinks = [Drink]()
     @Published var dataSourceLoadingError: String?
     
@@ -131,7 +131,16 @@ extension MainViewModel {
     }
     
     var filtersViewModel: FiltersViewModel {
-        FiltersViewModel(filters: self.selectedFilters)
+        let filtersViewModel = FiltersViewModel(filters: self.selectedFilters)
+        filtersViewModel.filtersPublisher
+            .receive(on: RunLoop.main)
+            .sink { [weak self] newFilters in
+                guard let self else { return }
+                self.selectedFilters = newFilters
+                self.filteredDrinks = self.filterDrinksByCurrentFilters()
+            }
+            .store(in: &anyCancellables)
+        return filtersViewModel
     }
 
     

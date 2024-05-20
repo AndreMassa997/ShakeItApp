@@ -47,13 +47,6 @@ final class MainViewController: UIViewController {
     }
     
     private func bindProperties() {
-        viewModel.$selectedFilters
-            .receive(on: RunLoop.main)
-            .sink { [weak self] _ in
-                self?.tableView.reloadData()
-            }
-            .store(in: &viewModel.anyCancellables)
-        
         viewModel.$filteredDrinks
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
