@@ -48,6 +48,7 @@ final class StandardViewHeader: UITableViewHeaderFooterView, CellReusable {
         self.rightButton.setTitle(buttonText, for: .normal)
         if let buttonImageNamed {
             self.rightButton.setImage(UIImage(systemName: buttonImageNamed), for: .normal)
+            self.setupButtonImageToRight()
         }
         self.onButtonTapped = onButtonTapped
     }
@@ -69,7 +70,9 @@ final class StandardViewHeader: UITableViewHeaderFooterView, CellReusable {
             rightButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             title.rightAnchor.constraint(equalTo: rightButton.leftAnchor, constant: -15),
         ])
-        
+    }
+    
+    private func setupButtonImageToRight() {
         rightButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         rightButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         rightButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
