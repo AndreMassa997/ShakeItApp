@@ -72,7 +72,7 @@ final class LabelButtonHeader: UITableViewHeaderFooterView, CellReusable {
             rightButton.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15),
             rightButton.heightAnchor.constraint(equalToConstant: 30),
             rightButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            title.rightAnchor.constraint(equalTo: rightButton.leftAnchor, constant: -15),
+            title.rightAnchor.constraint(lessThanOrEqualTo: rightButton.leftAnchor, constant: -15),
         ])
     }
     
