@@ -55,7 +55,8 @@ final class MainViewController: UIViewController {
             }
             .store(in: &viewModel.anyCancellables)
         
-        viewModel.$dataSourceLoadingError
+        viewModel.loadingErrorSubject
+            .eraseToAnyPublisher()
             .receive(on: RunLoop.main)
             .sink { [weak self] error in
                 self?.showErrorPopup(error: error)

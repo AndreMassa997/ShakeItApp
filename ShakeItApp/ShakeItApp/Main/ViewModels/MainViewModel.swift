@@ -24,7 +24,7 @@ final class MainViewModel: ObservableObject {
     private(set) var filteredDrinks = [Drink]()
     
     //Published values for reloading
-    @Published var dataSourceLoadingError: String?
+    let loadingErrorSubject = PassthroughSubject<String, Never>()
     @Published var tableViewSections: [MainViewSection] = [.loader]
     
     private var alphabetizedPaging: [String] {
@@ -126,7 +126,7 @@ extension MainViewModel {
             setupTableViewSections()
             loadMoreIfFilteredDrinksIsEmpty()
         case let .failure(error):
-            self.dataSourceLoadingError = error.description
+            self.loadingErrorSubject.send(error.description)
         }
     }
     
