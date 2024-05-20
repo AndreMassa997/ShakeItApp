@@ -131,14 +131,14 @@ final class DrinkCell: UITableViewCell, CellReusable {
     private func enableSelection(with image: UIImage?) {
         UIView.transition(with: arrowImage, duration: 0.3,
                           options: .transitionCrossDissolve,
-                          animations: {
-            self.arrowImage.isHidden = false
+                          animations: { [weak self] in
+            self?.arrowImage.isHidden = false
         })
         
         UIView.transition(with: alcoholicTypeImageView, duration: 0.3,
                           options: .transitionCrossDissolve,
-                          animations: {
-            self.alcoholicTypeImageView.image = image
+                          animations: { [weak self] in
+            self?.alcoholicTypeImageView.image = image
         })
         
         isSelectable = true
@@ -152,9 +152,5 @@ final class DrinkCell: UITableViewCell, CellReusable {
     @objc private func tapGesture() {
         guard isSelectable, let viewModel else { return }
         viewModel.cellTapSubject.send(viewModel.drink)
-    }
-    
-    deinit {
-        print("Deinit cell")
     }
 }

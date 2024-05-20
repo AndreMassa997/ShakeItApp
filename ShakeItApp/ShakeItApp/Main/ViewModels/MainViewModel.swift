@@ -174,7 +174,8 @@ extension MainViewModel {
     
     var filtersViewModel: FiltersViewModel {
         let filtersViewModel = FiltersViewModel(filters: self.selectedFilters)
-        filtersViewModel.filtersPublisher
+        filtersViewModel.filtersSubject
+            .eraseToAnyPublisher()
             .receive(on: RunLoop.main)
             .sink { [weak self] newFilters in
                 guard let self else { return }
@@ -187,7 +188,8 @@ extension MainViewModel {
     
     func getDrinkViewModel(for index: Int) -> DrinkCellViewModel{
         let drinkCellViewModel = DrinkCellViewModel(drink: filteredDrinks[index], imageProvider: imageProvider)
-        drinkCellViewModel.cellTapPublisher
+        drinkCellViewModel.cellTapSubject
+            .eraseToAnyPublisher()
             .receive(on: RunLoop.main)
             .sink { [weak self] drinkTapped in
                 //Go to details

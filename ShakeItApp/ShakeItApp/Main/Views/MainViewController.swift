@@ -16,6 +16,7 @@ final class MainViewController: UIViewController {
         tv.backgroundColor = .white
         tv.separatorStyle = .none
         tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.showsVerticalScrollIndicator = false
         if #available(iOS 15.0, *) {
             tv.sectionHeaderTopPadding = 0
         }

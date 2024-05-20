@@ -69,14 +69,13 @@ final class FilterCell: UITableViewCell, CellReusable {
     func configure(with viewModel: FilterCellViewModel) {
         self.viewModel = viewModel
         self.filterTitleLabel.text = viewModel.filterName
-        self.isSelected = viewModel.isSelected
         setupButton(viewModel.isSelected)
     }
     
     private func setupButton(_ isSelected: Bool) {
         let image = isSelected ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "circle")
-        UIView.transition(with: checkBoxView, duration: 0.3, options: .transitionFlipFromRight, animations: {
-            self.checkBoxView.image = image
+        UIView.transition(with: checkBoxView, duration: 0.3, options: .transitionFlipFromRight, animations: { [weak self] in
+            self?.checkBoxView.image = image
         })
     }
 }

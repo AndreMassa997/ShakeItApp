@@ -11,10 +11,7 @@ import Combine
 final class FiltersViewModel {
     private(set) var filters: [Filter]
     
-    private let filtersSubject = PassthroughSubject<[Filter], Never>()
-    var filtersPublisher: AnyPublisher<[Filter], Never> {
-        filtersSubject.eraseToAnyPublisher()
-    }
+    let filtersSubject = PassthroughSubject<[Filter], Never>()
     
     init(filters: [Filter]) {
         self.filters = filters

@@ -17,10 +17,6 @@ final class DrinkCellViewModel: ObservableObject {
     
     let cellTapSubject = PassthroughSubject<Drink, Never>()
     
-    var cellTapPublisher: AnyPublisher<Drink, Never> {
-        cellTapSubject.eraseToAnyPublisher()
-    }
-    
     init(drink: Drink, imageProvider: ImageProvider) {
         self.drink = drink
         self.imageProvider = imageProvider

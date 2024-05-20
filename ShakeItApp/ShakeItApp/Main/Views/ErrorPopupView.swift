@@ -54,8 +54,8 @@ final class ErrorPopupView: UIView {
     }
 
     func hide() {
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut, animations: {
-            self.alpha = 0
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut, animations: { [weak self] in
+            self?.alpha = 0
         }, completion: { [weak self] _ in
             self?.removeFromSuperview()
         })
