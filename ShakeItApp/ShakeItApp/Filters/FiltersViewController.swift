@@ -68,7 +68,7 @@ final class FiltersViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: applyButton.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: applyButton.topAnchor, constant: -5),
             applyButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             applyButton.widthAnchor.constraint(equalToConstant: 150),
             applyButton.heightAnchor.constraint(equalToConstant: 50),
