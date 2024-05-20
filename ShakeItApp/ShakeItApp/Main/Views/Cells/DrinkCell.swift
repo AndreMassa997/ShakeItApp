@@ -91,7 +91,7 @@ final class DrinkCell: UITableViewCell, CellReusable {
             alcoholicTypeImageView.topAnchor.constraint(equalTo: viewContainer.topAnchor, constant: 10),
             alcoholicTypeImageView.widthAnchor.constraint(equalToConstant: 50),
             alcoholicTypeImageView.heightAnchor.constraint(equalTo: alcoholicTypeImageView.widthAnchor),
-            alcoholicTypeImageView.leftAnchor.constraint(equalTo: viewContainer.leftAnchor, constant: 10),
+            alcoholicTypeImageView.leftAnchor.constraint(equalTo: viewContainer.leftAnchor, constant: 15),
             
             labelsViewContainer.topAnchor.constraint(equalTo: viewContainer.topAnchor, constant: 15),
             labelsViewContainer.leftAnchor.constraint(equalTo: alcoholicTypeImageView.rightAnchor, constant: 10),
@@ -101,7 +101,7 @@ final class DrinkCell: UITableViewCell, CellReusable {
             arrowImage.heightAnchor.constraint(equalToConstant: 20),
             arrowImage.widthAnchor.constraint(equalTo: arrowImage.heightAnchor),
             arrowImage.leftAnchor.constraint(equalTo: labelsViewContainer.rightAnchor, constant: 10),
-            arrowImage.rightAnchor.constraint(equalTo: viewContainer.rightAnchor, constant: -5),
+            arrowImage.rightAnchor.constraint(equalTo: viewContainer.rightAnchor, constant: -15),
         ])
         
         viewContainer.layer.cornerRadius = 20
