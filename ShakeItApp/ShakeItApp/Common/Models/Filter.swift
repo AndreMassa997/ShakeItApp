@@ -21,31 +21,6 @@ struct Filter {
         self.selectedValues = sortedValues
         self.allValues = sortedValues
     }
-    
-    func isContained(in drink: Drink) -> Bool {
-        switch type {
-        case .alcoholic:
-            return filterBy(values: [drink.alcoholic])
-        case .categories:
-            return filterBy(values: [drink.category])
-        case .glass:
-            return filterBy(values: [drink.glass])
-        case .ingredients:
-            return filterBy(values: drink.ingredients)
-        }
-    }
-    
-    func filterBy(values: [String]) -> Bool {
-        self.selectedValues.contains(where: values.contains)
-    }
-    
-    mutating func selectOrDeleselectValue(value: String) {
-        if let index = selectedValues.firstIndex(where: { $0 == value }) {
-            selectedValues.remove(at: index)
-        } else {
-            selectedValues.append(value)
-        }
-    }
 }
 
 enum FilterType: String {

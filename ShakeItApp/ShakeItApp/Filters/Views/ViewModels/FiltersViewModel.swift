@@ -56,3 +56,21 @@ extension FiltersViewModel {
         return viewModel
     }
 }
+
+fileprivate extension Filter {
+    mutating func selectOrDeleselectValue(value: String) {
+        if let index = selectedValues.firstIndex(where: { $0 == value }) {
+            selectedValues.remove(at: index)
+        } else {
+            selectedValues.append(value)
+        }
+    }
+    
+    mutating func selectOrDeselectAll() {
+        if selectedValues.count < allValues.count {
+            selectedValues = allValues
+        } else {
+            selectedValues.removeAll()
+        }
+    }
+}

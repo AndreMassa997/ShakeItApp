@@ -246,3 +246,22 @@ enum MainViewSection: Int, CaseIterable {
         }
     }
 }
+
+fileprivate extension Filter {
+    func isContained(in drink: Drink) -> Bool {
+        switch type {
+        case .alcoholic:
+            return filterBy(values: [drink.alcoholic])
+        case .categories:
+            return filterBy(values: [drink.category])
+        case .glass:
+            return filterBy(values: [drink.glass])
+        case .ingredients:
+            return filterBy(values: drink.ingredients)
+        }
+    }
+    
+    private func filterBy(values: [String]) -> Bool {
+        self.selectedValues.contains(where: values.contains)
+    }
+}
