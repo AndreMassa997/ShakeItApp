@@ -10,24 +10,38 @@ import Combine
 
 final class MainViewModel: ObservableObject {
     private let networkProvider: NetworkProvider
-    private var currentPage: Int = 0
     private let imageProvider: ImageProvider
+    var anyCancellables: Set<AnyCancellable> = Set()
+
+    init(networkProvider: NetworkProvider, imageProvider: ImageProvider) {
+        self.networkProvider = networkProvider
+        self.imageProvider = imageProvider
+    }
+    //store all available filters that succeeded from API Calls, hide the others
+    private var selectedFilters: [Filter] = []
+    //Data from server for drinks
+    private var allDrinks = [Drink]()
+    private(set) var filteredDrinks = [Drink]()
+    
+    //Published values for reloading
+    @Published var dataSourceLoadingError: String?
+    @Published var tableViewSections: [MainViewSection] = [.loader]
     
     private var alphabetizedPaging: [String] {
         let alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"
         return alphabet.map { String($0) }
     }
     
-    init(networkProvider: NetworkProvider, imageProvider: ImageProvider) {
-        self.networkProvider = networkProvider
-        self.imageProvider = imageProvider
+    private var currentPage: Int = 0 {
+        didSet {
+            if hasFinishedLoading {
+                self.setupTableViewSections()
+            }
+        }
     }
     
-    //Data from server for drinks
-    private var allDrinks = [Drink]() {
-        didSet {
-            filteredDrinks = self.filterDrinksByCurrentFilters()
-        }
+    private var hasFinishedLoading: Bool {
+        currentPage == alphabetizedPaging.count
     }
     
     //Data from server for filters
@@ -42,19 +56,6 @@ final class MainViewModel: ObservableObject {
         }
     }
     
-    //store all available filters that succeeded from API Calls, hide the others
-    private var selectedFilters: [Filter] = []
-    
-    //Published values for reloading
-    @Published var filteredDrinks = [Drink]()
-    @Published var dataSourceLoadingError: String?
-    
-    var anyCancellables: Set<AnyCancellable> = Set()
-    
-    var hasFinishedLoading: Bool {
-        currentPage == alphabetizedPaging.count
-    }
-    
     //MARK: - First Loading
     func firstLoad() {
         Task {
@@ -64,23 +65,53 @@ final class MainViewModel: ObservableObject {
         }
     }
     
-    func loadDrinks(by name: String? = nil) {
+    func loadMoreDrinks() {
         Task {
-            let drinkResponse = await loadDataSourceFromServer(by: name)
+            let drinkResponse = await loadDataSourceFromServer()
             validateDrinkResponse(response: drinkResponse)
         }
     }
     
-    func shouldLoadOtherItems(at index: Int) -> Bool {
-        !hasFinishedLoading && index >= filteredDrinks.count - 1
+    func askForNewDrinksIfNeeded(at index: Int) {
+        if !hasFinishedLoading && index >= filteredDrinks.count - 1 {
+            loadMoreDrinks()
+        }
     }
     
-    func setupNewFiltersAndAskNewDataIfNeeded(_ filters: [Filter]) {
+    private func setupNewFiltersAndAskNewDataIfNeeded(_ filters: [Filter]) {
         self.selectedFilters = filters
         self.filteredDrinks = self.filterDrinksByCurrentFilters()
-        if filteredDrinks.count == 0 {
-            loadDrinks()
+        self.setupTableViewSections()
+        loadMoreIfFilteredDrinksIsEmpty()
+    }
+    
+    /// Method to setup the table view section and trigger update of the table view
+    private func setupTableViewSections() {
+        var sections: [MainViewSection] = []
+        if !selectedFilters.isEmpty {
+            sections.append(.filters)
         }
+        if !filteredDrinks.isEmpty {
+            sections.append(.drinks)
+        }
+        if hasFinishedLoading {
+            if filteredDrinks.isEmpty {
+                sections.append(.noItems)
+            }
+        } else {
+            sections.append(.loader)
+        }
+        self.tableViewSections = sections
+    }
+    
+    private func loadMoreIfFilteredDrinksIsEmpty() {
+        if filteredDrinks.isEmpty, !hasFinishedLoading {
+            loadMoreDrinks()
+        }
+    }
+    
+    func reloadDrinkFromError() {
+        loadMoreDrinks()
     }
 }
 
@@ -91,6 +122,9 @@ extension MainViewModel {
         case let .success(drinks):
             currentPage += 1
             allDrinks.append(contentsOf: drinks)
+            filteredDrinks = self.filterDrinksByCurrentFilters()
+            setupTableViewSections()
+            loadMoreIfFilteredDrinksIsEmpty()
         case let .failure(error):
             self.dataSourceLoadingError = error.description
         }
@@ -123,17 +157,12 @@ extension MainViewModel {
         return await FilterResponses(categoryList: categoryList, alcoholicList: alcoholicList, ingrendientsList: ingredientsList, glassList: glassList)
     }
     
-    private func loadDataSourceFromServer(by name: String? = nil) async -> Result<[Drink], ErrorData> {
-        if let name {
-            //TODO: Implements filter by naming from server
-            fatalError("non implemented yet")
-        } else {
-            let request = AlphabeticalDrinkAPI()
-            let letterToRequest = alphabetizedPaging[currentPage]
-            request.queryParameters = [ (.firstLetter, letterToRequest)]
-            let response = await networkProvider.fetchData(with: request).map { $0.drinks ?? [] }
-            return response
-        }
+    private func loadDataSourceFromServer() async -> Result<[Drink], ErrorData> {
+        let request = AlphabeticalDrinkAPI()
+        let letterToRequest = alphabetizedPaging[currentPage]
+        request.queryParameters = [ (.firstLetter, letterToRequest)]
+        let response = await networkProvider.fetchData(with: request).map { $0.drinks ?? [] }
+        return response
     }
 }
 
@@ -204,14 +233,11 @@ fileprivate struct FilterResponses {
     }
 }
 
-enum MainViewSection: Int, CaseIterable {
+enum MainViewSection: Equatable {
     case filters
     case drinks
     case loader
-    
-    static subscript(_ index: Int) -> MainViewSection{
-        MainViewSection.allCases[index]
-    }
+    case noItems
     
     var title: String? {
         switch self {

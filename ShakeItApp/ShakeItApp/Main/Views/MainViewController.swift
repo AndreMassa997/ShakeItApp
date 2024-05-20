@@ -47,7 +47,7 @@ final class MainViewController: UIViewController {
     }
     
     private func bindProperties() {
-        viewModel.$filteredDrinks
+        viewModel.$tableViewSections
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
@@ -85,7 +85,7 @@ final class MainViewController: UIViewController {
         guard let error else { return }
         let popupView = ErrorPopupView(frame: self.view.frame)
         popupView.configure(with: error) { [weak self] in
-            self?.viewModel.loadDrinks()
+            self?.viewModel.reloadDrinkFromError()
             popupView.hide()
         }
         popupView.show(in: self.view)
@@ -94,24 +94,20 @@ final class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        MainViewSection.allCases.count
+        viewModel.tableViewSections.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let tableViewSection = MainViewSection[section]
-        switch tableViewSection {
-        case .filters:
+        switch viewModel.tableViewSections[section] {
+        case .filters, .noItems, .loader:
             return 1
         case .drinks:
             return viewModel.filteredDrinks.count
-        case .loader:
-            return viewModel.hasFinishedLoading ? 0 : 1
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let tableViewSection = MainViewSection[indexPath.section]
-        switch tableViewSection {
+        switch viewModel.tableViewSections[indexPath.section] {
         case .filters:
             let cell = tableView.dequeueReusableCell(for: indexPath, cellType: FiltersCarouselView.self)
             let filterCarouselViewModel = viewModel.filterCarouselViewModel
@@ -126,24 +122,24 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(for: indexPath, cellType: MainViewLoaderCell.self)
             cell.startAnimating()
             return cell
+        case .noItems:
+            return UITableViewCell()
         }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard MainViewSection[indexPath.section] == .drinks else { return }
-        if viewModel.shouldLoadOtherItems(at: indexPath.row) {
-            viewModel.loadDrinks()
-        }
+        guard viewModel.tableViewSections[indexPath.section] == .drinks else { return }
+        viewModel.askForNewDrinksIfNeeded(at: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard section != MainViewSection.loader.rawValue else {
+        let tableViewSection = viewModel.tableViewSections[section]
+        guard tableViewSection != .loader else {
             return nil
         }
         let header = tableView.dequeueReusableHeader(headerType: LabelButtonHeader.self)
-        let tableViewSection = MainViewSection[section]
         header.configure(text: tableViewSection.title, buttonText: tableViewSection.buttonTitle, buttonImageNamed: tableViewSection.buttonImageNamed) { [weak self] in
-            if tableViewSection == .drinks {
+            if case MainViewSection.drinks = tableViewSection {
                 self?.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
             } else if tableViewSection == .filters {
                 self?.goToFiltersPage()
@@ -153,7 +149,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-//Filters
+//MARK: Filters
 extension MainViewController {
     func goToFiltersPage() {
         let filtersViewController = FiltersViewController(viewModel: viewModel.filtersViewModel)
