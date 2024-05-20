@@ -1,0 +1,18 @@
+/* 
+  Localizable.strings
+  ShakeItApp
+
+  Created by Andrea Massari on 20/05/24.
+  
+*/
+
+"MAIN.SECTION.FILTERS" = "Filtri";
+"MAIN.SECTION.DRINKS" = "Drinks";
+"MAIN.SECTION.FILTER_BY" = "Filter by";
+"MAIN.SECTION.FILTER_ALCOHOLIC" = "Alcoholic";
+"MAIN.SECTION.FILTER_CATEGORIES" = "Categories";
+"MAIN.SECTION.FILTER_INGREDIENTS" = "Ingredients";
+"MAIN.SECTION.FILTER_GLASS" = "Glass";
+"MAIN.SECTION.FILTER_SELECTION" = "%@ of %@\nselected";
+"MAIN.SECTION.GO_TOP" = "Go on top";
+"MAIN.ERROR.RETRY" = "Retry";

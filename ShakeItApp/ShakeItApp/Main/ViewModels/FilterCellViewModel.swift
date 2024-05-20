@@ -15,7 +15,7 @@ final class FilterCellViewModel {
     }
     
     var filterName: String {
-        filter.type.rawValue
+        filter.type.name
     }
     
     var selectedValuesCount: Int {

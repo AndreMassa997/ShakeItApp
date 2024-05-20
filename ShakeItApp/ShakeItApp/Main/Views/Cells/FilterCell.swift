@@ -20,6 +20,7 @@ final class FilterCell: UICollectionViewCell, CellReusable {
         let lbl = UILabel()
         lbl.textAlignment = .center
         lbl.numberOfLines = 0
+        lbl.font = UIFont.systemFont(ofSize: 12, weight: .light)
         return lbl
     }()
     
@@ -82,13 +83,7 @@ final class FilterCell: UICollectionViewCell, CellReusable {
         
         let textColor = UIColor(hex: "#e56c75") ?? .red
         
-        let attributes: [NSAttributedString.Key : Any] = [.font: UIFont.systemFont(ofSize: 12, weight: .light), .foregroundColor: textColor]
-        
-        let mutableAttrString = NSMutableAttributedString(string: "\(viewModel.selectedValuesCount)", attributes: attributes)
-        mutableAttrString.append(NSAttributedString(string: " di ", attributes: attributes))
-        mutableAttrString.append(NSAttributedString(string: "\(viewModel.allValuesCount)", attributes: attributes))
-        mutableAttrString.append(NSAttributedString(string: "\nselezionati", attributes: attributes))
-        
-        self.filterValuesLabel.attributedText = mutableAttrString
+        self.filterValuesLabel.text = "MAIN.SECTION.FILTER_SELECTION".localized(with: String(viewModel.selectedValuesCount), String(viewModel.allValuesCount))
+        self.filterValuesLabel.textColor = textColor
     }
 }

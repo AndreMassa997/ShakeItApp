@@ -31,7 +31,7 @@ final class ErrorPopupView: UIView {
     
     private var onButtonTapped: (() -> Void)?
     
-    func configure(with title: String, buttonText: String = "Riprova", onButtonTapped: @escaping () -> Void) {
+    func configure(with title: String, buttonText: String = "MAIN.ERROR.RETRY".localized, onButtonTapped: @escaping () -> Void) {
         self.loadFromNib()
         self.onButtonTapped = onButtonTapped
         self.retryButton.setTitle(buttonText, for: .normal)

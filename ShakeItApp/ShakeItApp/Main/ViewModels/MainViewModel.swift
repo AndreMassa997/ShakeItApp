@@ -34,7 +34,7 @@ final class MainViewModel: ObservableObject {
         didSet {
             availableFilters = [
                 Filter(.alcoholic, values: filters?.alcoholicValues),
-                Filter(.category, values: filters?.categoryValues),
+                Filter(.categories, values: filters?.categoryValues),
                 Filter(.ingredients, values: filters?.ingredientsValues),
                 Filter(.glass, values: filters?.glassValues)
             ].compactMap { $0 }
@@ -197,7 +197,7 @@ struct Filter {
         switch type {
         case .alcoholic:
             return filterBy(values: [drink.alcoholic])
-        case .category:
+        case .categories:
             return filterBy(values: [drink.category])
         case .glass:
             return filterBy(values: [drink.glass])
@@ -212,13 +212,17 @@ struct Filter {
 }
 
 enum FilterType: String {
-    case category = "Category"
-    case alcoholic = "Alcoholic"
-    case glass = "Glass"
-    case ingredients = "Ingredients"
+    case categories
+    case alcoholic
+    case glass
+    case ingredients
     
     var backgroundColor: String {
         "#fdf9e6"
+    }
+    
+    var name: String {
+        "MAIN.SECTION.FILTER_\(rawValue.uppercased())".localized
     }
     
 //    var color: String {
@@ -247,9 +251,9 @@ enum MainViewSection: Int, CaseIterable {
     var title: String? {
         switch self {
         case .filters:
-            return "Filters"
+            return "MAIN.SECTION.FILTERS".localized
         case .drinks:
-            return "Drinks"
+            return "MAIN.SECTION.DRINKS".localized
         default:
             return nil
         }
@@ -258,9 +262,9 @@ enum MainViewSection: Int, CaseIterable {
     var buttonTitle: String? {
         switch self {
         case .filters:
-            return "Filter"
+            return "MAIN.SECTION.FILTER_BY".localized
         case .drinks:
-            return "Go on top"
+            return "MAIN.SECTION.GO_TOP".localized
         default:
             return nil
         }
