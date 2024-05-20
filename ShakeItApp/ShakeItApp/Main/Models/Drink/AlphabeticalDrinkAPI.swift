@@ -8,7 +8,7 @@
 import Foundation
 
 final class AlphabeticalDrinkAPI: APIElement {
-    typealias Output = BaseResponse<[Drink]>
+    typealias Output = BaseResponse<[Drink]?>
     
     var path: Path {
         .search
