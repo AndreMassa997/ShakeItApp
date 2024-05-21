@@ -25,6 +25,7 @@ final class MainViewModel: ObservableObject {
     
     //Published values for reloading
     let loadingErrorSubject = PassthroughSubject<String, Never>()
+    let tapOnDrink = PassthroughSubject<Drink, Never>()
     @Published var tableViewSections: [MainViewSection] = [.loader]
     
     private var alphabetizedPaging: [String] {
@@ -186,17 +187,21 @@ extension MainViewModel {
     }
 
     
-    func getDrinkViewModel(for index: Int) -> DrinkCellViewModel{
+    func getDrinkViewModel(for index: Int) -> DrinkCellViewModel {
         let drinkCellViewModel = DrinkCellViewModel(drink: filteredDrinks[index], imageProvider: imageProvider)
         drinkCellViewModel.cellTapSubject
             .eraseToAnyPublisher()
             .receive(on: RunLoop.main)
             .sink { [weak self] drinkTapped in
                 //Go to details
-                print("Tapped \(drinkTapped.name)")
+                self?.tapOnDrink.send(drinkTapped)
             }
             .store(in: &anyCancellables)
         return drinkCellViewModel
+    }
+    
+    func getDetailViewModel(for drink: Drink) -> DetailViewModel {
+        DetailViewModel(drink: drink)
     }
 }
 
