@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E4124E32BFCAD2700734B6D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4124E22BFCAD2700734B6D /* DetailViewController.swift */; };
+		3E4124E52BFCAD4900734B6D /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4124E42BFCAD4900734B6D /* DetailViewModel.swift */; };
+		3E4124E92BFCC9DC00734B6D /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E4124E82BFCC9DC00734B6D /* DetailViewController.xib */; };
 		3E85E4002BF7B30B00C3AD98 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E3FF2BF7B30B00C3AD98 /* AppDelegate.swift */; };
 		3E85E4022BF7B30B00C3AD98 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4012BF7B30B00C3AD98 /* SceneDelegate.swift */; };
 		3E85E4042BF7B30B00C3AD98 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4032BF7B30B00C3AD98 /* MainViewController.swift */; };
@@ -67,6 +70,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3E4124E22BFCAD2700734B6D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		3E4124E42BFCAD4900734B6D /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
+		3E4124E82BFCC9DC00734B6D /* DetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
 		3E85E3FC2BF7B30B00C3AD98 /* ShakeItApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShakeItApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E85E3FF2BF7B30B00C3AD98 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3E85E4012BF7B30B00C3AD98 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -139,6 +145,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3E4124DF2BFCAABC00734B6D /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				3E4124E12BFCAAD800734B6D /* Views */,
+				3E4124E02BFCAAD100734B6D /* ViewModel */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		3E4124E02BFCAAD100734B6D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3E4124E42BFCAD4900734B6D /* DetailViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3E4124E12BFCAAD800734B6D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3E4124E22BFCAD2700734B6D /* DetailViewController.swift */,
+				3E4124E82BFCC9DC00734B6D /* DetailViewController.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		3E85E3F32BF7B30B00C3AD98 = {
 			isa = PBXGroup;
 			children = (
@@ -165,6 +197,7 @@
 				3E85E4B12BFB43B400C3AD98 /* Common */,
 				3E85E43E2BF8A31100C3AD98 /* Main */,
 				3E85E4AC2BFB3BB900C3AD98 /* Filters */,
+				3E4124DF2BFCAABC00734B6D /* Detail */,
 				3E85E4652BF8F92800C3AD98 /* Utils */,
 				3E85E3FF2BF7B30B00C3AD98 /* AppDelegate.swift */,
 				3E85E4012BF7B30B00C3AD98 /* SceneDelegate.swift */,
@@ -477,6 +510,7 @@
 				3E85E49B2BFA70B500C3AD98 /* error.json in Resources */,
 				3E85E4A22BFB2A6600C3AD98 /* Localizable.strings in Resources */,
 				3E85E4932BFA635300C3AD98 /* ErrorPopupView.xib in Resources */,
+				3E4124E92BFCC9DC00734B6D /* DetailViewController.xib in Resources */,
 				3EA187CA2BFBD2EF0066D1BF /* no_data.json in Resources */,
 				3E85E48F2BFA461100C3AD98 /* loader.json in Resources */,
 				3E85E40C2BF7B30C00C3AD98 /* LaunchScreen.storyboard in Resources */,
@@ -498,6 +532,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E4124E32BFCAD2700734B6D /* DetailViewController.swift in Sources */,
 				3E85E4462BF8A4BD00C3AD98 /* AlcoholicListAPI.swift in Sources */,
 				3E85E43C2BF8A1F900C3AD98 /* BaseResponse.swift in Sources */,
 				3E85E4782BFA11D500C3AD98 /* DrinkCell.swift in Sources */,
@@ -520,6 +555,7 @@
 				3E85E4912BFA633F00C3AD98 /* ErrorPopupView.swift in Sources */,
 				3E85E4B02BFB3BFE00C3AD98 /* FiltersViewModel.swift in Sources */,
 				3E85E4022BF7B30B00C3AD98 /* SceneDelegate.swift in Sources */,
+				3E4124E52BFCAD4900734B6D /* DetailViewModel.swift in Sources */,
 				3E85E47A2BFA123400C3AD98 /* CircleImageView.swift in Sources */,
 				3E85E4612BF8C0FB00C3AD98 /* AlphabeticalDrinkAPI.swift in Sources */,
 				3E85E4762BFA0D5F00C3AD98 /* LabelButtonHeader.swift in Sources */,
