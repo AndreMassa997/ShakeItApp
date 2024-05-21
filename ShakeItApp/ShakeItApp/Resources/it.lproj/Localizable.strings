@@ -1,0 +1,24 @@
+/* 
+  Localizable.strings
+  ShakeItApp
+
+  Created by Andrea Massari on 20/05/24.
+  
+*/
+
+"MAIN.SECTION.FILTERS" = "Filtri";
+"MAIN.SECTION.DRINKS" = "Drinks";
+"MAIN.SECTION.FILTER_BY" = "Filtra per";
+"MAIN.SECTION.FILTER_ALCOHOLIC" = "Alcolico";
+"MAIN.SECTION.FILTER_CATEGORIES" = "Categorie";
+"MAIN.SECTION.FILTER_INGREDIENTS" = "Ingredienti";
+"MAIN.SECTION.FILTER_GLASS" = "Bicchiere";
+"MAIN.SECTION.FILTER_SELECTION" = "%@ di %@\nselezionati";
+"MAIN.SECTION.GO_TOP" = "Torna su";
+"MAIN.NO_DRINKS" = "Nessun drink trovato per i filtri scelti.\nProva ad impostarne di nuovi!";
+"MAIN.ERROR.RETRY" = "Riprova";
+"FILTER.APPLY" = "Applica";
+"BACK" = "Indietro";
+"FILTERS.COUNTER" = "%@ di %@";
+"FILTERS.SELECT_ALL" = "Seleziona tutto";
+"FILTERS.DESELECT_ALL" = "Deseleziona tutto";
