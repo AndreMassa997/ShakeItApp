@@ -13,10 +13,11 @@ final class DetailViewController: UIViewController {
     @IBOutlet weak var headerViewContainer: UIView! {
         didSet {
             headerViewContainer.backgroundColor = UIColor(hex: "#fdf9e6")
+            headerViewContainer.layer.cornerRadius = 20
         }
     }
         
-    @IBOutlet weak var drinkImageView: UIImageView!
+    @IBOutlet weak var drinkImageView: CircleImageView!
     
     @IBOutlet weak var alcoholicTitle: UILabel!
     @IBOutlet weak var alcoholicLabel: UILabel!
@@ -64,5 +65,11 @@ final class DetailViewController: UIViewController {
         self.ingredientsTitle.text = "DETAIL.INGREDIENTS".localized
         self.glassTitle.text = "DETAIL.GLASS".localized
         self.descriptionTitle.text = "DETAIL.DESCRIPTION".localized
+        
+        if let data = viewModel.drink.imageData {
+            drinkImageView.image = UIImage(data: data)
+        } else {
+            drinkImageView.image = UIImage(named: "placeholder")
+        }
     }
 }
