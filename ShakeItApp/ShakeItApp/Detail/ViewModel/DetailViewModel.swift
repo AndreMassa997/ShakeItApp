@@ -14,4 +14,8 @@ final class DetailViewModel: ObservableObject {
         self.drink = drink
     }
     
+    var instructionText: String? {
+        drink.instructions["APP.LANGUAGE".localized]
+    }
+    
 }

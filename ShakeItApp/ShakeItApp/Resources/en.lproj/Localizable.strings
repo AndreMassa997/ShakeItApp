@@ -5,7 +5,7 @@
   Created by Andrea Massari on 20/05/24.
   
 */
-
+"APP.LANGUAGE" = "en";
 "MAIN.SECTION.FILTERS" = "Filtri";
 "MAIN.SECTION.DRINKS" = "Drinks";
 "MAIN.SECTION.FILTER_BY" = "Filter by";
@@ -23,7 +23,7 @@
 "FILTERS.SELECT_ALL" = "Select all";
 "FILTERS.DESELECT_ALL" = "Deselect all";
 "DETAIL.ALCOHOLIC" = "Alcoholic";
-"DETAIL.CATEGORIES" = "Categories";
+"DETAIL.CATEGORY" = "Category";
 "DETAIL.INGREDIENTS" = "Ingredients";
 "DETAIL.GLASS" = "Glass";
-"DETAIL.DESCRIPTION" = "Description";
+"DETAIL.INSTRUCTIONS" = "Instructions";

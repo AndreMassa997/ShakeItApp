@@ -26,8 +26,8 @@ final class DetailViewController: UIViewController {
     @IBOutlet weak var glassTitle: UILabel!
     @IBOutlet weak var glassLabel: UILabel!
     
-    @IBOutlet weak var descriptionTitle: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var instructionsTitle: UILabel!
+    @IBOutlet weak var instructionsLabel: UILabel!
     @IBOutlet weak var ingredientsTitle: UILabel!
 
     @IBOutlet weak var ingredientsCollectionView: UICollectionView!
@@ -57,14 +57,18 @@ final class DetailViewController: UIViewController {
     }
     
     private func setupData() {
-        self.alcoholicLabel.text = viewModel.drink.alcoholic.capitalized
-        self.categoryLabel.text = viewModel.drink.category.capitalized
-        self.glassLabel.text = viewModel.drink.glass.capitalized
         self.alcoholicTitle.text = "DETAIL.ALCOHOLIC".localized
-        self.categoryTitle.text = "DETAIL.CATEGORIES".localized
+        self.alcoholicLabel.text = viewModel.drink.alcoholic.capitalized
+
+        self.categoryTitle.text = "DETAIL.CATEGORY".localized
+        self.categoryLabel.text = viewModel.drink.category.capitalized
+        
         self.ingredientsTitle.text = "DETAIL.INGREDIENTS".localized
         self.glassTitle.text = "DETAIL.GLASS".localized
-        self.descriptionTitle.text = "DETAIL.DESCRIPTION".localized
+        self.glassLabel.text = viewModel.drink.glass.capitalized
+
+        self.instructionsTitle.text = "DETAIL.INSTRUCTIONS".localized
+        self.instructionsLabel.text = viewModel.instructionText
         
         if let data = viewModel.drink.imageData {
             drinkImageView.image = UIImage(data: data)
