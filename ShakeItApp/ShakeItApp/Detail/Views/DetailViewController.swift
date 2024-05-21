@@ -30,7 +30,11 @@ final class DetailViewController: UIViewController {
     @IBOutlet weak var instructionsLabel: UILabel!
     @IBOutlet weak var ingredientsTitle: UILabel!
 
-    @IBOutlet weak var ingredientsCollectionView: UICollectionView!
+    @IBOutlet weak var ingredientsCollectionView: UICollectionView! {
+        didSet {
+            ingredientsCollectionView.collectionViewLayout = TagsCollectionViewFlowLayout()
+        }
+    }
     
     init(viewModel: DetailViewModel) {
         self.viewModel = viewModel
@@ -94,5 +98,32 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
         let cell = collectionView.dequeueReusableCell(for: indexPath, cellType: IngredientCell.self)
         cell.configure(with: viewModel.getIngredientViewModel(for: indexPath.row))
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let ingredientNameWidth = (viewModel.getIngredientName(for: indexPath.row) as NSString).size(withAttributes: [.font: IngredientCell.ingredientFont]).width
+        let measureNameWidth = (viewModel.getMeasureName(for: indexPath.row) as NSString).size(withAttributes: [.font: IngredientCell.measureFont]).width
+        return CGSize(width: max(ingredientNameWidth, measureNameWidth) + IngredientCell.marginLeft + IngredientCell.marginRight + 10, height: 50)
+    }
+}
+
+fileprivate class TagsCollectionViewFlowLayout: UICollectionViewFlowLayout {
+    private let cellSpacing: CGFloat = 10
+    
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        self.minimumLineSpacing = cellSpacing
+        self.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        let attributes = super.layoutAttributesForElements(in: rect)
+        var leftMargin = sectionInset.left
+        var maxY: CGFloat = -1.0
+        attributes?.forEach { layoutAttribute in
+            if layoutAttribute.frame.origin.y >= maxY {
+                leftMargin = sectionInset.left
+            }
+            layoutAttribute.frame.origin.x = leftMargin
+            leftMargin += layoutAttribute.frame.width + cellSpacing
+            maxY = max(layoutAttribute.frame.maxY , maxY)
+        }
+        return attributes
     }
 }

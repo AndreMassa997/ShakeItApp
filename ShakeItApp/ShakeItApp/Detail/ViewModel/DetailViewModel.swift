@@ -19,11 +19,17 @@ final class DetailViewModel {
     }
     
     func getIngredientViewModel(for index: Int) -> IngredientViewModel {
-        let ingredient = drink.ingredients[index]
-        var measure: String = "-"
+        return IngredientViewModel(ingredient: getIngredientName(for: index), measure: getMeasureName(for: index))
+    }
+    
+    func getIngredientName(for index: Int) -> String {
+        drink.ingredients[index]
+    }
+    
+    func getMeasureName(for index: Int) -> String {
         if drink.measures.count == drink.ingredients.count {
-            measure = drink.measures[index]
+            return drink.measures[index]
         }
-        return IngredientViewModel(ingredient: ingredient, measure: measure)
+        return "-"
     }
 }

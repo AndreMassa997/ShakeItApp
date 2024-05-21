@@ -8,6 +8,12 @@
 import UIKit
 
 class IngredientCell: UICollectionViewCell, CellReusable {
+    
+    static let ingredientFont = UIFont.systemFont(ofSize: 14, weight: .light)
+    static let measureFont = UIFont.systemFont(ofSize: 10, weight: .thin)
+    static let marginRight: CGFloat = 10
+    static let marginLeft: CGFloat = 10
+    
     private let viewContainer: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -23,16 +29,16 @@ class IngredientCell: UICollectionViewCell, CellReusable {
     
     private let ingredientLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = UIFont.systemFont(ofSize: 14, weight: .light)
+        lbl.font = IngredientCell.ingredientFont
         lbl.textColor = .black
         lbl.textAlignment = .center
         return lbl
     }()
     
-    private let quantityLabel: UILabel = {
+    private let measureLabel: UILabel = {
         let lbl = UILabel()
         lbl.textAlignment = .center
-        lbl.font = UIFont.systemFont(ofSize: 10, weight: .thin)
+        lbl.font = IngredientCell.measureFont
         return lbl
     }()
     
@@ -48,7 +54,7 @@ class IngredientCell: UICollectionViewCell, CellReusable {
     
     private func addSubviews() {
         labelsStackView.addArrangedSubview(ingredientLabel)
-        labelsStackView.addArrangedSubview(quantityLabel)
+        labelsStackView.addArrangedSubview(measureLabel)
         self.contentView.addSubview(viewContainer)
         self.contentView.addSubview(labelsStackView)
     }
@@ -61,8 +67,8 @@ class IngredientCell: UICollectionViewCell, CellReusable {
             viewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             labelsStackView.topAnchor.constraint(equalTo: viewContainer.topAnchor, constant: 10),
-            labelsStackView.leftAnchor.constraint(equalTo: viewContainer.leftAnchor, constant: 10),
-            labelsStackView.rightAnchor.constraint(equalTo: viewContainer.rightAnchor, constant: -10),
+            labelsStackView.leftAnchor.constraint(equalTo: viewContainer.leftAnchor, constant: IngredientCell.marginLeft),
+            labelsStackView.rightAnchor.constraint(equalTo: viewContainer.rightAnchor, constant: -IngredientCell.marginRight),
             labelsStackView.bottomAnchor.constraint(equalTo: viewContainer.bottomAnchor, constant: -10),
         ])
         
@@ -72,7 +78,7 @@ class IngredientCell: UICollectionViewCell, CellReusable {
     func configure(with viewModel: IngredientViewModel) {
         self.viewContainer.backgroundColor = UIColor(hex: viewModel.backgroundColor)
         self.ingredientLabel.text = viewModel.ingredient
-        self.quantityLabel.text = viewModel.measure
+        self.measureLabel.text = viewModel.measure
     }
     
 }
