@@ -25,6 +25,7 @@ struct Drink: Decodable, Identifiable {
     let glass: String
     let ingredients: [String]
     let imageURL: URL
+    let instructions: [String: String]
     
     var imageData: Data?
     
@@ -40,6 +41,8 @@ struct Drink: Decodable, Identifiable {
         case strIngredient4
         case strIngredient5
         case strDrinkThumb
+        case strInstructions
+        case strInstructionsIT
     }
     
     init(from decoder: Decoder) throws {
@@ -55,5 +58,9 @@ struct Drink: Decodable, Identifiable {
                             try container.decodeIfPresent(String.self, forKey: .strIngredient4),
                             try container.decodeIfPresent(String.self, forKey: .strIngredient5)].compactMap { $0 }
         self.imageURL = try container.decode(URL.self, forKey: .strDrinkThumb)
+        let instructionsEN = try container.decode(String.self, forKey: .strInstructions)
+        let instructionsIT = try container.decodeIfPresent(String.self, forKey: .strInstructionsIT)
+        self.instructions = [ "en" : instructionsEN,
+                              "it" : instructionsIT ?? instructionsEN]
     }
 }
