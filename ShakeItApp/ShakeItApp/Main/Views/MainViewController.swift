@@ -62,6 +62,14 @@ final class MainViewController: UIViewController {
                 self?.showErrorPopup(error: error)
             }
             .store(in: &viewModel.anyCancellables)
+        
+        viewModel.tapOnDrink
+            .eraseToAnyPublisher()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] drinkTapped in
+                self?.goToDetailPage(drink: drinkTapped)
+            }
+            .store(in: &viewModel.anyCancellables)
     }
     
     private func setupTableView() {
@@ -154,9 +162,17 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 
 //MARK: Filters
 extension MainViewController {
-    func goToFiltersPage() {
+    private func goToFiltersPage() {
         let filtersViewController = FiltersViewController(viewModel: viewModel.filtersViewModel)
         self.navigationController?.pushViewController(filtersViewController, animated: true)
+    }
+}
+
+//MARK: Detail
+extension MainViewController {
+    private func goToDetailPage(drink: Drink) {
+        let detailViewController = DetailViewController(viewModel: viewModel.getDetailViewModel(for: drink))
+        self.navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 
