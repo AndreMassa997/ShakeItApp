@@ -18,13 +18,15 @@ final class AlphabeticalDrinkAPI: APIElement {
 }
 
 struct Drink: Decodable, Identifiable {
-    var id: String
-    var name: String
-    var category: String
-    var alcoholic: String
-    var glass: String
-    var ingredients: [String]
-    var imageURL: URL
+    let id: String
+    let name: String
+    let category: String
+    let alcoholic: String
+    let glass: String
+    let ingredients: [String]
+    let imageURL: URL
+    
+    var imageData: Data?
     
     enum CodingKeys: String, CodingKey {
         case idDrink
