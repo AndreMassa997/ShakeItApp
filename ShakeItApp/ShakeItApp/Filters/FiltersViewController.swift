@@ -47,7 +47,18 @@ final class FiltersViewController: UIViewController {
         setupNavigationBar()
         setupLayout()
         setupTableView()
+        bindProperties()
         applyButton.addTarget(self, action: #selector(applyTapped), for: .touchUpInside)
+    }
+    
+    func bindProperties() {
+        viewModel.filteringEnabled
+            .eraseToAnyPublisher()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] isEnabled in
+                self?.applyButton.isEnabled = isEnabled
+            }
+            .store(in: &viewModel.anyCancellables)
     }
     
     private func addSubviews() {

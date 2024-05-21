@@ -9,9 +9,15 @@ import Foundation
 import Combine
 
 final class FiltersViewModel {
-    private(set) var filters: [Filter]
+    private(set) var filters: [Filter] {
+        didSet {
+            enableDisableFiltering()
+        }
+    }
+    var anyCancellables: Set<AnyCancellable> = Set()
     
     let filtersSubject = PassthroughSubject<[Filter], Never>()
+    let filteringEnabled = PassthroughSubject<Bool, Never>()
     
     init(filters: [Filter]) {
         self.filters = filters
@@ -36,6 +42,13 @@ final class FiltersViewModel {
     
     func applyTapped() {
         filtersSubject.send(filters)
+    }
+    
+    private func enableDisableFiltering() {
+        //Check if the filters contain at least one filter not complete
+        let isFilterNotComplete = self.filters.contains(where: { $0.selectedValues.isEmpty })
+        
+        filteringEnabled.send(!isFilterNotComplete)
     }
     
     func selectDeselectAllValues(at index: Int) {
