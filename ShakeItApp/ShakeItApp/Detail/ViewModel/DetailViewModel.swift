@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class DetailViewModel: ObservableObject {
+final class DetailViewModel {
     let drink: Drink
     
     init(drink: Drink) {
@@ -18,4 +18,12 @@ final class DetailViewModel: ObservableObject {
         drink.instructions["APP.LANGUAGE".localized]
     }
     
+    func getIngredientViewModel(for index: Int) -> IngredientViewModel {
+        let ingredient = drink.ingredients[index]
+        var measure: String = "-"
+        if drink.measures.count == drink.ingredients.count {
+            measure = drink.measures[index]
+        }
+        return IngredientViewModel(ingredient: ingredient, measure: measure)
+    }
 }

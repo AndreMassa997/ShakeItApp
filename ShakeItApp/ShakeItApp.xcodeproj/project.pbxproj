@@ -10,6 +10,8 @@
 		3E4124E32BFCAD2700734B6D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4124E22BFCAD2700734B6D /* DetailViewController.swift */; };
 		3E4124E52BFCAD4900734B6D /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4124E42BFCAD4900734B6D /* DetailViewModel.swift */; };
 		3E4124E92BFCC9DC00734B6D /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E4124E82BFCC9DC00734B6D /* DetailViewController.xib */; };
+		3E4124EC2BFCEB5700734B6D /* IngredientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4124EB2BFCEB5700734B6D /* IngredientCell.swift */; };
+		3E4124EE2BFCEC3D00734B6D /* IngredientViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4124ED2BFCEC3D00734B6D /* IngredientViewModel.swift */; };
 		3E85E4002BF7B30B00C3AD98 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E3FF2BF7B30B00C3AD98 /* AppDelegate.swift */; };
 		3E85E4022BF7B30B00C3AD98 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4012BF7B30B00C3AD98 /* SceneDelegate.swift */; };
 		3E85E4042BF7B30B00C3AD98 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4032BF7B30B00C3AD98 /* MainViewController.swift */; };
@@ -73,6 +75,8 @@
 		3E4124E22BFCAD2700734B6D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		3E4124E42BFCAD4900734B6D /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		3E4124E82BFCC9DC00734B6D /* DetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
+		3E4124EB2BFCEB5700734B6D /* IngredientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientCell.swift; sourceTree = "<group>"; };
+		3E4124ED2BFCEC3D00734B6D /* IngredientViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientViewModel.swift; sourceTree = "<group>"; };
 		3E85E3FC2BF7B30B00C3AD98 /* ShakeItApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShakeItApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E85E3FF2BF7B30B00C3AD98 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3E85E4012BF7B30B00C3AD98 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -158,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				3E4124E42BFCAD4900734B6D /* DetailViewModel.swift */,
+				3E4124ED2BFCEC3D00734B6D /* IngredientViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -165,10 +170,19 @@
 		3E4124E12BFCAAD800734B6D /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3E4124EA2BFCEB3800734B6D /* Cells */,
 				3E4124E22BFCAD2700734B6D /* DetailViewController.swift */,
 				3E4124E82BFCC9DC00734B6D /* DetailViewController.xib */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		3E4124EA2BFCEB3800734B6D /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				3E4124EB2BFCEB5700734B6D /* IngredientCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		3E85E3F32BF7B30B00C3AD98 = {
@@ -535,8 +549,10 @@
 				3E4124E32BFCAD2700734B6D /* DetailViewController.swift in Sources */,
 				3E85E4462BF8A4BD00C3AD98 /* AlcoholicListAPI.swift in Sources */,
 				3E85E43C2BF8A1F900C3AD98 /* BaseResponse.swift in Sources */,
+				3E4124EE2BFCEC3D00734B6D /* IngredientViewModel.swift in Sources */,
 				3E85E4782BFA11D500C3AD98 /* DrinkCell.swift in Sources */,
 				3E85E4842BFA2ED700C3AD98 /* ImagesManager.swift in Sources */,
+				3E4124EC2BFCEB5700734B6D /* IngredientCell.swift in Sources */,
 				3E85E4672BF8F93F00C3AD98 /* CellReusable.swift in Sources */,
 				3E85E46B2BF8FC1100C3AD98 /* UICollectionView+Ext.swift in Sources */,
 				3E85E4042BF7B30B00C3AD98 /* MainViewController.swift in Sources */,

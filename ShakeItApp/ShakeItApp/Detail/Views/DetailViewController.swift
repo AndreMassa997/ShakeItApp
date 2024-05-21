@@ -46,6 +46,7 @@ final class DetailViewController: UIViewController {
         self.view.backgroundColor = .white
         setupNavigationBar()
         setupData()
+        setupIngredientsCV()
     }
     
     private func setupNavigationBar() {
@@ -54,6 +55,12 @@ final class DetailViewController: UIViewController {
         let backButtonItem = UIBarButtonItem()
         backButtonItem.title = "BACK".localized
         navigationController?.navigationBar.topItem?.backBarButtonItem = backButtonItem
+    }
+    
+    private func setupIngredientsCV() {
+        ingredientsCollectionView.dataSource = self
+        ingredientsCollectionView.delegate = self
+        ingredientsCollectionView.register(cellType: IngredientCell.self)
     }
     
     private func setupData() {
@@ -75,5 +82,17 @@ final class DetailViewController: UIViewController {
         } else {
             drinkImageView.image = UIImage(named: "placeholder")
         }
+    }
+}
+
+extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        viewModel.drink.ingredients.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(for: indexPath, cellType: IngredientCell.self)
+        cell.configure(with: viewModel.getIngredientViewModel(for: indexPath.row))
+        return cell
     }
 }
