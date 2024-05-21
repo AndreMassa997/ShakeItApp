@@ -22,3 +22,8 @@
 "FILTERS.COUNTER" = "%@ di %@";
 "FILTERS.SELECT_ALL" = "Seleziona tutto";
 "FILTERS.DESELECT_ALL" = "Deseleziona tutto";
+"DETAIL.ALCOHOLIC" = "Alcolico";
+"DETAIL.CATEGORIES" = "Categorie";
+"DETAIL.INGREDIENTS" = "Ingredienti";
+"DETAIL.GLASS" = "Bicchiere";
+"DETAIL.DESCRIPTION" = "Descrizione";

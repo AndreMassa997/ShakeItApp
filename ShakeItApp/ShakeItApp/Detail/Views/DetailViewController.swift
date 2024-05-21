@@ -10,6 +10,27 @@ import UIKit
 final class DetailViewController: UIViewController {
     private let viewModel: DetailViewModel
     
+    @IBOutlet weak var headerViewContainer: UIView! {
+        didSet {
+            headerViewContainer.backgroundColor = UIColor(hex: "#fdf9e6")
+        }
+    }
+        
+    @IBOutlet weak var drinkImageView: UIImageView!
+    
+    @IBOutlet weak var alcoholicTitle: UILabel!
+    @IBOutlet weak var alcoholicLabel: UILabel!
+    @IBOutlet weak var categoryTitle: UILabel!
+    @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var glassTitle: UILabel!
+    @IBOutlet weak var glassLabel: UILabel!
+    
+    @IBOutlet weak var descriptionTitle: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var ingredientsTitle: UILabel!
+
+    @IBOutlet weak var ingredientsCollectionView: UICollectionView!
+    
     init(viewModel: DetailViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -23,6 +44,7 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         setupNavigationBar()
+        setupData()
     }
     
     private func setupNavigationBar() {
@@ -31,5 +53,16 @@ final class DetailViewController: UIViewController {
         let backButtonItem = UIBarButtonItem()
         backButtonItem.title = "BACK".localized
         navigationController?.navigationBar.topItem?.backBarButtonItem = backButtonItem
+    }
+    
+    private func setupData() {
+        self.alcoholicLabel.text = viewModel.drink.alcoholic.capitalized
+        self.categoryLabel.text = viewModel.drink.category.capitalized
+        self.glassLabel.text = viewModel.drink.glass.capitalized
+        self.alcoholicTitle.text = "DETAIL.ALCOHOLIC".localized
+        self.categoryTitle.text = "DETAIL.CATEGORIES".localized
+        self.ingredientsTitle.text = "DETAIL.INGREDIENTS".localized
+        self.glassTitle.text = "DETAIL.GLASS".localized
+        self.descriptionTitle.text = "DETAIL.DESCRIPTION".localized
     }
 }
