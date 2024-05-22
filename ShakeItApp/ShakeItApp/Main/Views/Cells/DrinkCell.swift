@@ -114,7 +114,7 @@ final class DrinkCell: UITableViewCell, CellReusable {
     
     func configure(with viewModel: DrinkCellViewModel) {
         self.viewModel = viewModel
-        viewContainer.backgroundColor = UIColor(hex: viewModel.backgroundColor)
+        viewContainer.backgroundColor = .palette.mainColor
         titleLabel.text = viewModel.drink.name.capitalized
         ingredientsLabel.text = viewModel.ingredientsString
         viewModel.$drinkImageData

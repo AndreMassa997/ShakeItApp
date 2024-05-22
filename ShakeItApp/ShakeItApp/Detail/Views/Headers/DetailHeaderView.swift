@@ -12,7 +12,7 @@ final class DetailHeaderView: UIView {
     
     @IBOutlet private weak var viewContainer: UIView! {
         didSet {
-            viewContainer.backgroundColor = UIColor(hex: "#fdf9e6")
+            viewContainer.backgroundColor = .palette.mainColor
             viewContainer.layer.cornerRadius = 20
         }
     }

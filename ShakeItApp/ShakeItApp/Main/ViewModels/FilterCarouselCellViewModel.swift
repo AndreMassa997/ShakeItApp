@@ -26,10 +26,6 @@ final class FilterCarouselCellViewModel {
         filter.allValues.count
     }
     
-    var backgroundColor: String {
-        filter.type.backgroundColor
-    }
-    
     var imageName: String {
         filter.type.rawValue.lowercased()
     }

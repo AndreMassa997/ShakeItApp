@@ -27,7 +27,7 @@ final class FiltersViewController: UIViewController {
         btn.setTitle("FILTER.APPLY".localized, for: .normal)
         btn.setTitleColor(.black.withAlphaComponent(0.7), for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .light)
-        btn.backgroundColor = UIColor(hex: "#fdf9e6")
+        btn.backgroundColor = .palette.secondaryColor
         btn.layer.cornerRadius = 20
         return btn
     }()

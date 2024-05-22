@@ -29,10 +29,6 @@ enum FilterType: String {
     case glass
     case ingredients
     
-    var backgroundColor: String {
-        "#fdf9e6"
-    }
-    
     var name: String {
         "MAIN.SECTION.FILTER_\(rawValue.uppercased())".localized
     }

@@ -76,7 +76,7 @@ class IngredientCell: UICollectionViewCell, CellReusable {
     }
     
     func configure(with viewModel: IngredientViewModel) {
-        self.viewContainer.backgroundColor = UIColor(hex: viewModel.backgroundColor)
+        self.viewContainer.backgroundColor = .palette.mainColor
         self.ingredientLabel.text = viewModel.ingredient
         self.measureLabel.text = viewModel.measure
     }

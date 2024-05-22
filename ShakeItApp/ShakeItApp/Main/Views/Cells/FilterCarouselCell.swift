@@ -77,13 +77,11 @@ final class FilterCarouselCell: UICollectionViewCell, CellReusable {
     }
     
     func configure(with viewModel: FilterCarouselCellViewModel) {
-        self.backgroundColor = UIColor(hex: viewModel.backgroundColor)
+        self.backgroundColor = .palette.mainColor
         self.filterImageView.image = UIImage(named: viewModel.imageName)
         self.filterNameLabel.text = viewModel.filterName
-        
-        let textColor = UIColor(hex: "#e56c75") ?? .red
-        
+                
         self.filterValuesLabel.text = "MAIN.SECTION.FILTER_SELECTION".localized(with: String(viewModel.selectedValuesCount), String(viewModel.allValuesCount))
-        self.filterValuesLabel.textColor = textColor
+        self.filterValuesLabel.textColor = .palette.mainLabelColor
     }
 }
