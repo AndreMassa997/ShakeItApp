@@ -40,9 +40,7 @@ final class DrinkCellViewModel: ObservableObject {
         }
         self.drinkImageData = data
     }
-    
-    let backgroundColor: String = "#fdf9e6"
-    
+        
     var ingredientsString: String {
         drink.ingredients.joined(separator: ", ").capitalized
     }

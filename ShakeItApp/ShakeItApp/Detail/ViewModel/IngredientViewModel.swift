@@ -15,9 +15,4 @@ final class IngredientViewModel {
         self.ingredient = ingredient
         self.measure = measure
     }
-    
-    var backgroundColor: String {
-        "#fdf9e6"
-    }
-    
 }

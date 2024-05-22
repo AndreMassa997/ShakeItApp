@@ -18,8 +18,6 @@ final class LabelButtonHeader: UITableViewHeaderFooterView, CellReusable {
     private let rightButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.tintColor = .black
-        btn.setTitleColor(.black, for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         return btn
     }()
@@ -28,6 +26,7 @@ final class LabelButtonHeader: UITableViewHeaderFooterView, CellReusable {
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
+        contentView.backgroundColor = .palette.mainBackgroundColor
         addSubviews()
         setupLayout()
     }
@@ -52,6 +51,7 @@ final class LabelButtonHeader: UITableViewHeaderFooterView, CellReusable {
         self.rightButton.setTitle(buttonText, for: .normal)
         self.rightButton.setImage(UIImage(systemName: buttonImageNamed), for: .normal)
         self.onButtonTapped = onButtonTapped
+        setupUI()
     }
     
     func setupButtonTextAnimated(text: String, buttonImageNamed: String) {
@@ -72,6 +72,13 @@ final class LabelButtonHeader: UITableViewHeaderFooterView, CellReusable {
             rightButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             title.rightAnchor.constraint(lessThanOrEqualTo: rightButton.leftAnchor, constant: -15),
         ])
+    }
+    
+    private func setupUI() {
+        contentView.backgroundColor = .palette.mainBackgroundColor
+        self.title.textColor = .palette.secondaryLabelColor
+        self.rightButton.setTitleColor(.palette.secondaryLabelColor, for: .normal)
+        self.rightButton.tintColor = .palette.secondaryLabelColor
     }
     
     private func setupButtonImageToRight() {

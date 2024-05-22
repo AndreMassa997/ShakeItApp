@@ -18,6 +18,7 @@ final class LabelCell: UITableViewCell, CellReusable {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .clear
         self.contentView.addSubview(title)
         setupLayout()
     }
@@ -37,6 +38,8 @@ final class LabelCell: UITableViewCell, CellReusable {
             title.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15),
             contentView.bottomAnchor.constraint(equalTo: title.bottomAnchor, constant: 5),
         ])
+        
+        title.textColor = .palette.secondaryLabelColor
     }
 }
 

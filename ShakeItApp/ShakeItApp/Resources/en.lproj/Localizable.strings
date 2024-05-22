@@ -6,7 +6,7 @@
   
 */
 "APP.LANGUAGE" = "en";
-"MAIN.SECTION.FILTERS" = "Filtri";
+"MAIN.SECTION.FILTERS" = "Filters";
 "MAIN.SECTION.DRINKS" = "Drinks";
 "MAIN.SECTION.FILTER_BY" = "Filter by";
 "MAIN.SECTION.FILTER_ALCOHOLIC" = "Alcoholic";
@@ -27,3 +27,9 @@
 "DETAIL.INGREDIENTS" = "Ingredients";
 "DETAIL.GLASS" = "Glass";
 "DETAIL.INSTRUCTIONS" = "Instructions";
+"MAIN.SETTINGS" = "Settings";
+"MAIN.SETTINGS.CANCEL" = "Cancel";
+"MAIN.SETTINGS.THEME" = "Set theme";
+"MAIN.SETTINGS.THEME.DARK" = "Dark";
+"MAIN.SETTINGS.THEME.LIGHT" = "Light";
+"MAIN.SETTINGS.THEME.AUTO" = "Auto";

@@ -30,7 +30,7 @@ class IngredientCell: UICollectionViewCell, CellReusable {
     private let ingredientLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = IngredientCell.ingredientFont
-        lbl.textColor = .black
+        lbl.textColor = .palette.blackLabelColor
         lbl.textAlignment = .center
         return lbl
     }()
@@ -39,6 +39,7 @@ class IngredientCell: UICollectionViewCell, CellReusable {
         let lbl = UILabel()
         lbl.textAlignment = .center
         lbl.font = IngredientCell.measureFont
+        lbl.textColor = .palette.blackLabelColor
         return lbl
     }()
     
@@ -76,7 +77,7 @@ class IngredientCell: UICollectionViewCell, CellReusable {
     }
     
     func configure(with viewModel: IngredientViewModel) {
-        self.viewContainer.backgroundColor = UIColor(hex: viewModel.backgroundColor)
+        self.viewContainer.backgroundColor = .palette.mainColor
         self.ingredientLabel.text = viewModel.ingredient
         self.measureLabel.text = viewModel.measure
     }

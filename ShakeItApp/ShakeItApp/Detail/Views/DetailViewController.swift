@@ -15,6 +15,7 @@ final class DetailViewController: UIViewController {
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.separatorStyle = .none
         tv.showsVerticalScrollIndicator = false
+        tv.backgroundColor = .clear
         if #available(iOS 15.0, *) {
             tv.sectionHeaderTopPadding = 0
         }
@@ -33,8 +34,8 @@ final class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
-        setupNavigationBar()
+        self.title = viewModel.drink.name.capitalized
+        self.view.backgroundColor = .palette.mainBackgroundColor
         self.view.addSubview(tableView)
         setupTableView()
     }
@@ -43,14 +44,6 @@ final class DetailViewController: UIViewController {
         super.viewDidLayoutSubviews()
         let headerView = DetailHeaderView(viewModel: viewModel.headerViewModel, frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 230)))
         tableView.tableHeaderView = headerView
-    }
-    
-    private func setupNavigationBar() {
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.title = viewModel.drink.name.capitalized
-        let backButtonItem = UIBarButtonItem()
-        backButtonItem.title = "BACK".localized
-        navigationController?.navigationBar.topItem?.backBarButtonItem = backButtonItem
     }
     
     private func setupTableView() {

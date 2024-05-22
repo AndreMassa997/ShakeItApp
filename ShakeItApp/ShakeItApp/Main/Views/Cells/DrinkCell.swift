@@ -29,12 +29,14 @@ final class DrinkCell: UITableViewCell, CellReusable {
     private let titleLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = UIFont.systemFont(ofSize: 16, weight: .light)
+        lbl.textColor = .palette.blackLabelColor
         return lbl
     }()
     
     private let ingredientsLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = UIFont.systemFont(ofSize: 12, weight: .thin)
+        lbl.textColor = .palette.blackLabelColor
         return lbl
     }()
     
@@ -60,6 +62,7 @@ final class DrinkCell: UITableViewCell, CellReusable {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
+        backgroundColor = .clear
         self.addSubviews()
         self.setupLayout()
         viewContainer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGesture)))
@@ -114,7 +117,7 @@ final class DrinkCell: UITableViewCell, CellReusable {
     
     func configure(with viewModel: DrinkCellViewModel) {
         self.viewModel = viewModel
-        viewContainer.backgroundColor = UIColor(hex: viewModel.backgroundColor)
+        viewContainer.backgroundColor = .palette.mainColor
         titleLabel.text = viewModel.drink.name.capitalized
         ingredientsLabel.text = viewModel.ingredientsString
         viewModel.$drinkImageData

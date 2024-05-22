@@ -15,6 +15,7 @@ final class FiltersViewController: UIViewController {
         tv.backgroundColor = .white
         tv.separatorStyle = .none
         tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.backgroundColor = .clear
         if #available(iOS 15.0, *) {
             tv.sectionHeaderTopPadding = 0
         }
@@ -27,7 +28,7 @@ final class FiltersViewController: UIViewController {
         btn.setTitle("FILTER.APPLY".localized, for: .normal)
         btn.setTitleColor(.black.withAlphaComponent(0.7), for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .light)
-        btn.backgroundColor = UIColor(hex: "#fdf9e6")
+        btn.backgroundColor = .palette.secondaryColor
         btn.layer.cornerRadius = 20
         return btn
     }()
@@ -43,8 +44,9 @@ final class FiltersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "MAIN.SECTION.FILTER_BY".localized
+        self.view.backgroundColor = .palette.mainBackgroundColor
         addSubviews()
-        setupNavigationBar()
         setupLayout()
         setupTableView()
         bindProperties()
@@ -66,16 +68,7 @@ final class FiltersViewController: UIViewController {
         self.view.addSubview(applyButton)
     }
     
-    private func setupNavigationBar() {
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.title = "MAIN.SECTION.FILTER_BY".localized
-        let backButtonItem = UIBarButtonItem()
-        backButtonItem.title = "BACK".localized
-        navigationController?.navigationBar.topItem?.backBarButtonItem = backButtonItem
-    }
-    
     private func setupLayout() {
-        self.view.backgroundColor = .white
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
