@@ -8,9 +8,7 @@
 import UIKit
 import Combine
 
-final class MainViewController: UIViewController {
-    private let viewModel: MainViewModel
-    
+final class MainViewController: MVVMViewController<MainViewModel> {
     private let tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
         tv.backgroundColor = .white
@@ -23,28 +21,15 @@ final class MainViewController: UIViewController {
         }
         return tv
     }()
-    
-    init(viewModel: MainViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("Cannot load coder, no xib exists")
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Shake it up"
-        addSubviews()
-        setupUI()
-        bindProperties()
         setupTableView()
-        setupLayout()
         viewModel.firstLoad()
     }
     
-    private func bindProperties() {
+    override func bindProperties() {
         viewModel.$tableViewSections
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
@@ -69,6 +54,30 @@ final class MainViewController: UIViewController {
             .store(in: &viewModel.anyCancellables)
     }
     
+    override func addSubviews() {
+        self.view.addSubview(tableView)
+    }
+    
+    override func setupLayout() {
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
+    override func setupNavigationBar() {
+        super.setupNavigationBar()
+        let btn = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
+        btn.tintColor = .palette.secondaryLabelColor
+        btn.setImage(UIImage(systemName: "gear"), for: .normal)
+        btn.addTarget(self, action: #selector(self.showBottomSheetSettings), for: .touchUpInside)
+        let rightBarButton = UIBarButtonItem(customView: btn)
+        navigationItem.rightBarButtonItems = [rightBarButton]
+    }
+    
+//MARK: Error popup
     private func showErrorPopup(error: String?) {
         guard let error else { return }
         let popupView = ErrorPopupView(frame: self.view.frame)
@@ -82,6 +91,16 @@ final class MainViewController: UIViewController {
 
 //MARK: - TableView delegates and datasource
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(cellType: FiltersCarouselView.self)
+        tableView.register(headerType: LabelButtonHeader.self)
+        tableView.register(cellType: DrinkCell.self)
+        tableView.register(cellType: MainViewLoaderCell.self)
+        tableView.register(cellType: NoItemsCell.self)
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         viewModel.tableViewSections.count
     }
@@ -222,55 +241,6 @@ extension MainViewController {
             setupUI()
             self.tableView.reloadData()
         }
-    }
-}
-
-//MARK: - Layout and UI + Table view registrations
-extension MainViewController {
-    private func addSubviews() {
-        self.view.addSubview(tableView)
-    }
-    
-    private func setupUI() {
-        self.view.backgroundColor = .palette.mainBackgroundColor
-        setupNavigationBar()
-    }
-    
-    private func setupNavigationBar() {
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.tintColor = .palette.secondaryLabelColor
-        self.navigationController?.navigationBar.barTintColor = .palette.mainBackgroundColor
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.palette.secondaryLabelColor]
-        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.palette.secondaryLabelColor]
-        
-        let backButtonItem = UIBarButtonItem(title: "BACK".localized, style: .plain, target: nil, action: nil)
-        navigationController?.navigationBar.topItem?.backBarButtonItem = backButtonItem
-
-        let btn = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
-        btn.tintColor = .palette.secondaryLabelColor
-        btn.setImage(UIImage(systemName: "gear"), for: .normal)
-        btn.addTarget(self, action: #selector(self.showBottomSheetSettings), for: .touchUpInside)
-        let rightBarButton = UIBarButtonItem(customView: btn)
-        navigationItem.rightBarButtonItems = [rightBarButton]
-    }
-    
-    private func setupLayout() {
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-    }
-    
-    private func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(cellType: FiltersCarouselView.self)
-        tableView.register(headerType: LabelButtonHeader.self)
-        tableView.register(cellType: DrinkCell.self)
-        tableView.register(cellType: MainViewLoaderCell.self)
-        tableView.register(cellType: NoItemsCell.self)
     }
 }
 

@@ -8,15 +8,7 @@
 import Foundation
 import Combine
 
-final class MainViewModel: ObservableObject {
-    private let networkProvider: NetworkProvider
-    private let imageProvider: ImageProvider
-    var anyCancellables: Set<AnyCancellable> = Set()
-
-    init(networkProvider: NetworkProvider, imageProvider: ImageProvider) {
-        self.networkProvider = networkProvider
-        self.imageProvider = imageProvider
-    }
+final class MainViewModel: MVVMViewModel {
     //store all available filters that succeeded from API Calls, hide the others
     private var selectedFilters: [Filter] = []
     
