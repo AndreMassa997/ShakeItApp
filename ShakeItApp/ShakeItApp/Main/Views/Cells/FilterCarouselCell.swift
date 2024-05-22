@@ -45,15 +45,26 @@ final class FilterCarouselCell: UICollectionViewCell, CellReusable {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
-        self.addSubviews()
-        self.setupLayout()
+        addSubviews()
+        setupLayout()
+        setupUI()
     }
     
+    func configure(with viewModel: FilterCarouselCellViewModel) {
+        self.filterImageView.image = UIImage(named: viewModel.imageName)
+        self.filterNameLabel.text = viewModel.filterName
+                
+        self.filterValuesLabel.text = "MAIN.SECTION.FILTER_SELECTION".localized(with: String(viewModel.selectedValuesCount), String(viewModel.allValuesCount))
+    }
+}
+
+//- MARK: Layout and UI
+extension FilterCarouselCell {
     private func addSubviews() {
         viewContainer.addArrangedSubview(filterNameLabel)
         viewContainer.addArrangedSubview(filterValuesLabel)
-        self.contentView.addSubview(filterImageView)
-        self.contentView.addSubview(viewContainer)
+        contentView.addSubview(filterImageView)
+        contentView.addSubview(viewContainer)
     }
     
     private func setupLayout() {
@@ -68,21 +79,17 @@ final class FilterCarouselCell: UICollectionViewCell, CellReusable {
             viewContainer.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5),
             viewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
         ])
-        
+    }
+    
+    private func setupUI() {
+        backgroundColor = .palette.mainColor
+        filterValuesLabel.textColor = .palette.mainLabelColor
+
         layer.cornerRadius = 20
         layer.masksToBounds = false
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowRadius = 3
         layer.shadowOpacity = 0.01
-    }
-    
-    func configure(with viewModel: FilterCarouselCellViewModel) {
-        self.backgroundColor = .palette.mainColor
-        self.filterImageView.image = UIImage(named: viewModel.imageName)
-        self.filterNameLabel.text = viewModel.filterName
-                
-        self.filterValuesLabel.text = "MAIN.SECTION.FILTER_SELECTION".localized(with: String(viewModel.selectedValuesCount), String(viewModel.allValuesCount))
-        self.filterValuesLabel.textColor = .palette.mainLabelColor
     }
 }
