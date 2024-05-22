@@ -41,6 +41,10 @@ extension DetailViewModel {
     }
 }
 
-enum DetailViewSection: Int, CaseIterable {
+enum DetailViewSection: String, CaseIterable {
     case instructions, ingredients
+    
+    var headerName: String {
+        "DETAIL.\(rawValue.uppercased())".localized
+    }
 }

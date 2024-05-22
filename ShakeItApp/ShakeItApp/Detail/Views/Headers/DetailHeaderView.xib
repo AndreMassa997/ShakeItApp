@@ -20,11 +20,10 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="M6d-f3-e4f">
+        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M6d-f3-e4f">
             <rect key="frame" x="0.0" y="0.0" width="458" height="233"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bm6-gl-v9b">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bm6-gl-v9b" userLabel="ViewContainer">
                     <rect key="frame" x="10" y="10" width="438" height="213"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="yWD-Bl-ClY">

@@ -13,6 +13,7 @@ final class DetailViewController: UIViewController {
     private let tableView: UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.separatorStyle = .none
         return tv
     }()
     
@@ -45,6 +46,9 @@ final class DetailViewController: UIViewController {
     private func setupTableView() {
         let headerView = DetailHeaderView(viewModel: viewModel.getHeaderViewModel(), frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 230)))
         tableView.tableHeaderView = headerView
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(headerType: LabelHeader.self)
     }
     
     private func setupLayout() {
@@ -71,13 +75,9 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        switch DetailViewSection.allCases[section]{
-        case .instructions:
-            break
-        case .ingredients:
-            break
-        }
-        return nil
+        let header = tableView.dequeueReusableHeader(headerType: LabelHeader.self)
+        header.configure(with: DetailViewSection.allCases[section].headerName)
+        return header
     }
 }
 
