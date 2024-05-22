@@ -8,7 +8,6 @@
 import UIKit
 
 extension UITableView {
-    
     // MARK: - Cells
     final func register<T: UITableViewCell>(cellType: T.Type) where T: CellReusable {
         self.register(cellType.self, forCellReuseIdentifier: cellType.reuseIdentifier)
@@ -20,7 +19,6 @@ extension UITableView {
         }
         return cell
     }
-    
     
     // MARK: - Header
     final func register<T: UITableViewHeaderFooterView>(headerType: T.Type) where T: CellReusable {

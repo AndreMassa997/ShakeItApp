@@ -25,13 +25,3 @@ extension String {
         String(format: self.localized, attributes)
     }
 }
-
-extension Locale {
-    static var currentLanguage: String {
-        if #available(iOS 16, *) {
-            return Locale.current.language.languageCode?.identifier ?? "en"
-        } else {
-            return Locale.current.languageCode ?? "en"
-        }
-    }
-}
