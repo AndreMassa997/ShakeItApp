@@ -7,36 +7,14 @@
 
 import UIKit
 
-final class DetailViewController: UIViewController {
-    private let viewModel: DetailViewModel
-    
-    private let tableView: UITableView = {
-        let tv = UITableView()
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.separatorStyle = .none
-        tv.showsVerticalScrollIndicator = false
-        tv.backgroundColor = .clear
-        if #available(iOS 15.0, *) {
-            tv.sectionHeaderTopPadding = 0
-        }
-        return tv
-    }()
-    
-    init(viewModel: DetailViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-        setupLayout()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+final class DetailViewController: MVVMTableViewController<DetailViewModel> {
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSubviews()
-        setupUI()
         setupTableView()
+    }
+    
+    override func setupUI() {
+        self.title = viewModel.drink.name.capitalized
     }
     
     //Need to recalculate table view header when refreshing UI (orientation changed)
@@ -82,24 +60,6 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
 
 //MARK: - Layout + UI + Table view registrations
 extension DetailViewController {
-    private func setupLayout() {
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-        ])
-    }
-    
-    private func setupUI() {
-        self.title = viewModel.drink.name.capitalized
-        self.view.backgroundColor = .palette.mainBackgroundColor
-    }
-    
-    private func addSubviews() {
-        self.view.addSubview(tableView)
-    }
-    
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
