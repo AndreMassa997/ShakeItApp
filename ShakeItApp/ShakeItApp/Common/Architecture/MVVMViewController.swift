@@ -9,7 +9,7 @@ import Foundation
 
 import UIKit
 
-class MVVMViewController<ViewModel: MVVMViewModel>: UIViewController{
+class MVVMViewController<ViewModel: BaseViewModel>: UIViewController{
     let viewModel: ViewModel
     
     init(viewModel: ViewModel) {
