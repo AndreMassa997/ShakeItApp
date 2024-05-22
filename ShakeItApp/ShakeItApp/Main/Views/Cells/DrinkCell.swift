@@ -29,12 +29,14 @@ final class DrinkCell: UITableViewCell, CellReusable {
     private let titleLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = UIFont.systemFont(ofSize: 16, weight: .light)
+        lbl.textColor = .palette.blackLabelColor
         return lbl
     }()
     
     private let ingredientsLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = UIFont.systemFont(ofSize: 12, weight: .thin)
+        lbl.textColor = .palette.blackLabelColor
         return lbl
     }()
     

@@ -29,6 +29,7 @@ final class DetailHeaderView: UIView {
         super.init(frame: frame)
         self.loadFromNib()
         self.setupData()
+        self.setupUI()
     }
     
     required init?(coder: NSCoder) {
@@ -50,6 +51,15 @@ final class DetailHeaderView: UIView {
         } else {
             drinkImageView.image = UIImage(named: "placeholder")
         }
+    }
+    
+    private func setupUI() {
+        self.alcoholicTitle.textColor = .palette.blackLabelColor
+        self.alcoholicLabel.textColor = .palette.blackLabelColor
+        self.categoryTitle.textColor = .palette.blackLabelColor
+        self.categoryLabel.textColor = .palette.blackLabelColor
+        self.glassTitle.textColor = .palette.blackLabelColor
+        self.glassLabel.textColor = .palette.blackLabelColor
     }
     
     

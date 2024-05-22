@@ -11,7 +11,7 @@ final class FilterCarouselCell: UICollectionViewCell, CellReusable {
     private let filterNameLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = UIFont.systemFont(ofSize: 14, weight: .light)
-        lbl.textColor = .black
+        lbl.textColor = .palette.blackLabelColor
         lbl.textAlignment = .center
         return lbl
     }()

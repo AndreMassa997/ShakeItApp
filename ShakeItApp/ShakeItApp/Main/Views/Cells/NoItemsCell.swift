@@ -12,7 +12,7 @@ final class NoItemsCell: UITableViewCell, CellReusable {
     private let titleLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = UIFont.systemFont(ofSize: 20, weight: .heavy)
-        lbl.textColor = .black
+        lbl.textColor = .palette.secondaryLabelColor
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.text = "MAIN.NO_DRINKS".localized
         lbl.numberOfLines = 0
