@@ -8,13 +8,16 @@
 import Foundation
 import Combine
 
-class MVVMViewModel: ObservableObject {
+class NetworkViewModel: BaseViewModel {
     let networkProvider: NetworkProvider
     let imageProvider: ImageProvider
-    var anyCancellables: Set<AnyCancellable> = Set()
     
     init(networkProvider: NetworkProvider, imageProvider: ImageProvider){
         self.networkProvider = networkProvider
         self.imageProvider = imageProvider
     }
+}
+
+class BaseViewModel: ObservableObject {
+    var anyCancellables: Set<AnyCancellable> = Set()
 }
