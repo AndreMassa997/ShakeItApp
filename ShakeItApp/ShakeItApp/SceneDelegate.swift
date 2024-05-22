@@ -21,6 +21,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let mainViewModel = MainViewModel(networkProvider: NetworkManager(), imageProvider: ImagesManager())
         let mainViewController = MainViewController(viewModel: mainViewModel)
         
+        if let storedPalette = AppPreferences.shared.storedPalette{
+            AppPreferences.shared.setupUserPalette(newPalette: storedPalette == "light" ? LightPalette() : DarkPalette())
+        } else {
+            //User has not decided palette yet, apply automatic
+            AppPreferences.shared.setupUserPalette(newPalette: window.traitCollection.userInterfaceStyle == .dark ? DarkPalette() : LightPalette())
+        }
+        
         let navigationController = UINavigationController(rootViewController: mainViewController)
         window.rootViewController = navigationController
         self.window?.backgroundColor = .white

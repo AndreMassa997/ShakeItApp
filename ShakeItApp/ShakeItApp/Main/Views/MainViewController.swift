@@ -35,15 +35,20 @@ final class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .palette.mainBackgroundColor
+        self.title = "Shake it up"
+        setupUI()
         bindProperties()
-        setupNavigationBar(title: "Shake It App")
         viewModel.firstLoad()
         setupTableView()
         setupLayout()
     }
     
-    private func setupNavigationBar(title: String) {
+    private func setupUI() {
+        self.view.backgroundColor = .palette.mainBackgroundColor
+        setupNavigationBar()
+    }
+    
+    private func setupNavigationBar() {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationController?.navigationBar.tintColor = .palette.secondaryColor
         self.navigationController?.navigationBar.barTintColor = .palette.mainBackgroundColor
@@ -55,9 +60,7 @@ final class MainViewController: UIViewController {
         btn.setImage(UIImage(systemName: "gear"), for: .normal)
         btn.addTarget(self, action: #selector(self.showBottomSheetSettings), for: .touchUpInside)
         let rightBarButton = UIBarButtonItem(customView: btn)
-        navigationItem.rightBarButtonItems = [rightBarButton]
-        
-        self.title = title
+        navigationItem.rightBarButtonItems = [rightBarButton]        
     }
     
     private func bindProperties() {
@@ -204,23 +207,34 @@ extension MainViewController {
     private func showThemeBottomSheetSettings() {
         let bottomSheet = UIAlertController(title: "MAIN.SETTINGS.THEME".localized, message: nil, preferredStyle: .actionSheet)
         bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.THEME.DARK".localized, style: .default, handler: { [weak self] _ in
-            self?.setTheme()
+            self?.setTheme(DarkPalette())
         }))
         
         bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.THEME.LIGHT".localized, style: .default, handler: { [weak self] _ in
-            self?.setTheme()
+            self?.setTheme(LightPalette())
         }))
         
         bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.THEME.AUTO".localized, style: .default, handler: { [weak self] _ in
-            self?.setTheme()
+            self?.setTheme(nil)
         }))
         
         bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.CANCEL".localized, style: .cancel))
         self.present(bottomSheet, animated: true)
     }
     
-    private func setTheme() {
+    private func setTheme(_ palette: Palette?) {
+        let hasChanged: Bool
+        if let palette {
+            hasChanged = AppPreferences.shared.setupUserPalette(newPalette: palette, storeNewPalette: true)
+        } else {
+            let mode: Palette = traitCollection.userInterfaceStyle == .dark ? DarkPalette() : LightPalette()
+            hasChanged = AppPreferences.shared.setupUserPalette(newPalette: mode, deleteStoredValue: true)
+        }
         
+        if hasChanged {
+            setupUI()
+            self.tableView.reloadData()
+        }
     }
 }
 
