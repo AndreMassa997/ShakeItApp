@@ -17,7 +17,7 @@ final class IngredientsViewModel {
     }
     
     func getIngredientViewModel(for index: Int) -> IngredientViewModel {
-        return IngredientViewModel(ingredient: getIngredientName(for: index), measure: getMeasureName(for: index))
+        IngredientViewModel(ingredient: getIngredientName(for: index), measure: getMeasureName(for: index))
     }
     
     func getIngredientName(for index: Int) -> String {
