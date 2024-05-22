@@ -50,7 +50,7 @@ final class MainViewController: UIViewController {
     
     private func setupNavigationBar() {
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.tintColor = .palette.secondaryColor
+        self.navigationController?.navigationBar.tintColor = .palette.secondaryLabelColor
         self.navigationController?.navigationBar.barTintColor = .palette.mainBackgroundColor
         self.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.palette.secondaryLabelColor]
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.palette.secondaryLabelColor]
