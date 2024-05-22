@@ -33,14 +33,34 @@ final class FilterCell: UITableViewCell, CellReusable {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        selectionStyle = .none
-        backgroundColor = .clear
+        setupUI()
         addSubviews()
         setupLayout()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    func configure(with viewModel: FilterCellViewModel) {
+        self.viewModel = viewModel
+        self.filterTitleLabel.text = viewModel.filterName
+        setupButton(viewModel.isSelected)
+    }
+    
+    private func setupButton(_ isSelected: Bool) {
+        let image = isSelected ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "circle")
+        UIView.transition(with: checkBoxView, duration: 0.3, options: .transitionFlipFromRight, animations: { [weak self] in
+            self?.checkBoxView.image = image
+        })
+    }
+}
+
+//MARK: - Layout and UI
+extension FilterCell {
+    private func setupUI() {
+        selectionStyle = .none
+        backgroundColor = .clear
     }
     
     private func addSubviews() {
@@ -67,19 +87,6 @@ final class FilterCell: UITableViewCell, CellReusable {
             filterTitleLabel.topAnchor.constraint(equalTo: viewContainer.topAnchor),
             filterTitleLabel.bottomAnchor.constraint(equalTo: viewContainer.bottomAnchor)
         ])
-    }
-    
-    func configure(with viewModel: FilterCellViewModel) {
-        self.viewModel = viewModel
-        self.filterTitleLabel.text = viewModel.filterName
-        setupButton(viewModel.isSelected)
-    }
-    
-    private func setupButton(_ isSelected: Bool) {
-        let image = isSelected ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "circle")
-        UIView.transition(with: checkBoxView, duration: 0.3, options: .transitionFlipFromRight, animations: { [weak self] in
-            self?.checkBoxView.image = image
-        })
     }
 }
 
