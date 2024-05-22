@@ -44,9 +44,9 @@ final class FiltersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "MAIN.SECTION.FILTER_BY".localized
         self.view.backgroundColor = .palette.mainBackgroundColor
         addSubviews()
-        setupNavigationBar(title: "MAIN.SECTION.FILTER_BY".localized)
         setupLayout()
         setupTableView()
         bindProperties()
@@ -66,15 +66,6 @@ final class FiltersViewController: UIViewController {
     private func addSubviews() {
         self.view.addSubview(tableView)
         self.view.addSubview(applyButton)
-    }
-    
-    private func setupNavigationBar(title: String) {
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.tintColor = .palette.secondaryColor
-        self.title = title
-        let backButtonItem = UIBarButtonItem()
-        backButtonItem.title = "BACK".localized
-        navigationController?.navigationBar.topItem?.backBarButtonItem = backButtonItem
     }
     
     private func setupLayout() {

@@ -34,8 +34,8 @@ final class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = viewModel.drink.name.capitalized
         self.view.backgroundColor = .palette.mainBackgroundColor
-        setupNavigationBar(title: viewModel.drink.name.capitalized)
         self.view.addSubview(tableView)
         setupTableView()
     }
@@ -44,15 +44,6 @@ final class DetailViewController: UIViewController {
         super.viewDidLayoutSubviews()
         let headerView = DetailHeaderView(viewModel: viewModel.headerViewModel, frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 230)))
         tableView.tableHeaderView = headerView
-    }
-    
-    private func setupNavigationBar(title: String) {
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.barTintColor = .palette.secondaryColor
-        self.title = title
-        let backButtonItem = UIBarButtonItem()
-        backButtonItem.title = "BACK".localized
-        navigationController?.navigationBar.topItem?.backBarButtonItem = backButtonItem
     }
     
     private func setupTableView() {
