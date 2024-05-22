@@ -68,7 +68,7 @@ final class MainViewController: UIViewController {
     
     private func bindProperties() {
         viewModel.$tableViewSections
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
             }
@@ -76,7 +76,7 @@ final class MainViewController: UIViewController {
         
         viewModel.loadingErrorSubject
             .eraseToAnyPublisher()
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] error in
                 self?.showErrorPopup(error: error)
             }
@@ -84,7 +84,7 @@ final class MainViewController: UIViewController {
         
         viewModel.tapOnDrink
             .eraseToAnyPublisher()
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] drinkTapped in
                 self?.goToDetailPage(drink: drinkTapped)
             }

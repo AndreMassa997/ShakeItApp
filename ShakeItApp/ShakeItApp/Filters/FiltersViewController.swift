@@ -51,7 +51,7 @@ final class FiltersViewController: UIViewController {
     func bindProperties() {
         viewModel.filteringEnabled
             .eraseToAnyPublisher()
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] isEnabled in
                 self?.applyButton.isEnabled = isEnabled
             }
