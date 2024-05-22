@@ -47,11 +47,11 @@ final class MainViewController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationController?.navigationBar.tintColor = .palette.secondaryColor
         self.navigationController?.navigationBar.barTintColor = .palette.mainBackgroundColor
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.palette.secondaryColor]
-        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.palette.secondaryColor]
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.palette.secondaryLabelColor]
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.palette.secondaryLabelColor]
 
         let btn = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
-        btn.tintColor = .palette.secondaryColor
+        btn.tintColor = .palette.secondaryLabelColor
         btn.setImage(UIImage(systemName: "gear"), for: .normal)
         btn.addTarget(self, action: #selector(self.showBottomSheetSettings), for: .touchUpInside)
         let rightBarButton = UIBarButtonItem(customView: btn)
