@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DetailViewController: MVVMTableViewController<DetailViewModel> {
+final class DetailViewController: TableViewController<DetailViewModel> {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()

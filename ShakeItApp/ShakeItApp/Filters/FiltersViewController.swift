@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class FiltersViewController: MVVMTableViewController<FiltersViewModel> {
+final class FiltersViewController: TableViewController<FiltersViewModel> {
     private let applyButton: RoundedButton = {
         let btn = RoundedButton(text: "FILTER.APPLY".localized)
         btn.translatesAutoresizingMaskIntoConstraints = false

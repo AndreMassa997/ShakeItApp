@@ -1,5 +1,5 @@
 //
-//  MVVMTableViewController.swift
+//  TableViewController.swift
 //  ShakeItApp
 //
 //  Created by Andrea Massari on 22/05/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MVVMTableViewController<ViewModel: BaseViewModel>: BaseViewController<ViewModel> {
+class TableViewController<ViewModel: BaseViewModel>: BaseViewController<ViewModel> {
     let tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
         tv.backgroundColor = .white

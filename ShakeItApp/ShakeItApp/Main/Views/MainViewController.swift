@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class MainViewController: MVVMTableViewController<MainViewModel> {
+final class MainViewController: TableViewController<MainViewModel> {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Shake it up"
