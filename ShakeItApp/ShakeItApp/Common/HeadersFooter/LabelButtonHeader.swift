@@ -72,6 +72,10 @@ final class LabelButtonHeader: UITableViewHeaderFooterView, CellReusable {
             rightButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             title.rightAnchor.constraint(lessThanOrEqualTo: rightButton.leftAnchor, constant: -15),
         ])
+        
+        self.title.textColor = .palette.secondaryLabelColor
+        self.rightButton.setTitleColor(.palette.secondaryLabelColor, for: .normal)
+        self.rightButton.tintColor = .palette.secondaryLabelColor
     }
     
     private func setupButtonImageToRight() {
