@@ -24,5 +24,9 @@ extension UIColor {
         
         self.init(red: red, green: green, blue: blue, alpha: alpha)
     }
+    
+    static var palette: Palette {
+        AppPreferences.shared.palette
+    }
 }
 
