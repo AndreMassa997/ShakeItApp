@@ -10,8 +10,7 @@ import Combine
 
 final class DrinkCell: UITableViewCell, CellReusable {
     private var viewModel: DrinkCellViewModel?
-    
-    private(set) var isSelectable: Bool = false
+    private var isSelectable: Bool = false
     
     private let viewContainer: UIView = {
         let view = UIView()
@@ -63,24 +62,78 @@ final class DrinkCell: UITableViewCell, CellReusable {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
         backgroundColor = .clear
-        self.addSubviews()
-        self.setupLayout()
+        addSubviews()
+        setupLayout()
+        setupUI()
         viewContainer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGesture)))
-    }
-    
-    private func addSubviews() {
-        labelsViewContainer.addArrangedSubview(titleLabel)
-        labelsViewContainer.addArrangedSubview(ingredientsLabel)
-        self.viewContainer.addSubview(alcoholicTypeImageView)
-        self.viewContainer.addSubview(labelsViewContainer)
-        self.viewContainer.addSubview(arrowImage)
-        self.contentView.addSubview(viewContainer)
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.alcoholicTypeImageView.image = UIImage(named: "placeholder")
-        self.disableSelection()
+        disableSelection()
+    }
+    
+    func configure(with viewModel: DrinkCellViewModel) {
+        self.viewModel = viewModel
+        viewContainer.backgroundColor = .palette.mainColor
+        titleLabel.text = viewModel.drink.name.capitalized
+        ingredientsLabel.text = viewModel.ingredientsString
+        
+        guard let imageData = viewModel.getImageDataAndAskIfNeeded() else {
+            //Add property listener to intercept data from API if no data are present
+            bindProperties()
+            return
+        }
+        enableSelection(with: imageData)
+    }
+    
+    private func bindProperties() {
+        guard let viewModel else { return }
+        viewModel.$drinkImageData
+            .receive(on: DispatchQueue.main)
+            .sink{ [weak self] data in
+                guard let data else { return }
+                self?.enableSelection(with: data)
+            }
+            .store(in: &viewModel.anyCancellables)
+    }
+    
+    private func enableSelection(with data: Data) {
+        isSelectable = true
+        UIView.transition(with: arrowImage, duration: 0.3,
+                          options: .transitionCrossDissolve,
+                          animations: { [weak self] in
+            self?.arrowImage.isHidden = false
+        })
+        
+        UIView.transition(with: alcoholicTypeImageView, duration: 0.3,
+                          options: .transitionCrossDissolve,
+                          animations: { [weak self] in
+            self?.alcoholicTypeImageView.image = UIImage(data: data)
+        })
+    }
+    
+    private func disableSelection() {
+        arrowImage.isHidden = true
+        alcoholicTypeImageView.image = UIImage(named: "placeholder")
+        isSelectable = false
+    }
+    
+    @objc private func tapGesture() {
+        guard isSelectable, let viewModel else { return }
+        viewModel.cellTapSubject.send(viewModel.drink)
+    }
+}
+
+//- MARK: Layout and UI
+extension DrinkCell {
+    private func addSubviews() {
+        labelsViewContainer.addArrangedSubview(titleLabel)
+        labelsViewContainer.addArrangedSubview(ingredientsLabel)
+        viewContainer.addSubview(alcoholicTypeImageView)
+        viewContainer.addSubview(labelsViewContainer)
+        viewContainer.addSubview(arrowImage)
+        contentView.addSubview(viewContainer)
     }
     
     private func setupLayout() {
@@ -106,66 +159,14 @@ final class DrinkCell: UITableViewCell, CellReusable {
             arrowImage.leftAnchor.constraint(equalTo: labelsViewContainer.rightAnchor, constant: 10),
             arrowImage.rightAnchor.constraint(equalTo: viewContainer.rightAnchor, constant: -15),
         ])
-        
+    }
+    
+    private func setupUI() {
         viewContainer.layer.cornerRadius = 20
         viewContainer.layer.masksToBounds = false
         viewContainer.layer.shadowColor = UIColor.black.cgColor
         viewContainer.layer.shadowOffset = CGSize(width: 0, height: 0)
         viewContainer.layer.shadowRadius = 3
         viewContainer.layer.shadowOpacity = 0.01
-    }
-    
-    func configure(with viewModel: DrinkCellViewModel) {
-        self.viewModel = viewModel
-        viewContainer.backgroundColor = .palette.mainColor
-        titleLabel.text = viewModel.drink.name.capitalized
-        ingredientsLabel.text = viewModel.ingredientsString
-        
-        guard let imageData = viewModel.getImageDataAndAskIfNeeded() else {
-            //Add property listener to intercept data from API
-            bindProperties()
-            return
-        }
-        
-        enableSelection(with: UIImage(data: imageData))
-    }
-    
-    private func bindProperties() {
-        guard let viewModel else { return }
-        viewModel.$drinkImageData
-            .receive(on: DispatchQueue.main)
-            .sink{ [weak self] data in
-                guard let data else {
-                    return
-                }
-                self?.enableSelection(with: UIImage(data: data))
-            }
-            .store(in: &viewModel.anyCancellables)
-    }
-    
-    private func enableSelection(with image: UIImage?) {
-        UIView.transition(with: arrowImage, duration: 0.3,
-                          options: .transitionCrossDissolve,
-                          animations: { [weak self] in
-            self?.arrowImage.isHidden = false
-        })
-        
-        UIView.transition(with: alcoholicTypeImageView, duration: 0.3,
-                          options: .transitionCrossDissolve,
-                          animations: { [weak self] in
-            self?.alcoholicTypeImageView.image = image
-        })
-        
-        isSelectable = true
-    }
-    
-    private func disableSelection() {
-        arrowImage.isHidden = true
-        isSelectable = false
-    }
-    
-    @objc private func tapGesture() {
-        guard isSelectable, let viewModel else { return }
-        viewModel.cellTapSubject.send(viewModel.drink)
     }
 }
