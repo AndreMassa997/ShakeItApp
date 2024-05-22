@@ -28,6 +28,7 @@ final class LabelButtonHeader: UITableViewHeaderFooterView, CellReusable {
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
+        contentView.backgroundColor = .palette.mainBackgroundColor
         addSubviews()
         setupLayout()
     }
