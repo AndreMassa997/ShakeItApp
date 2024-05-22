@@ -203,6 +203,10 @@ extension MainViewController {
             self?.showThemeBottomSheetSettings()
         }))
         
+        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.LANGUAGE".localized, style: .default, handler: { [weak self] _ in
+            self?.showLanguageBottomSheetSettings()
+        }))
+        
         bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.CANCEL".localized, style: .cancel))
         self.present(bottomSheet, animated: true)
     }
@@ -217,8 +221,26 @@ extension MainViewController {
             self?.setTheme(LightPalette())
         }))
         
-        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.THEME.AUTO".localized, style: .default, handler: { [weak self] _ in
+        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.AUTO".localized, style: .default, handler: { [weak self] _ in
             self?.setTheme(nil)
+        }))
+        
+        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.CANCEL".localized, style: .cancel))
+        self.present(bottomSheet, animated: true)
+    }
+    
+    private func showLanguageBottomSheetSettings() {
+        let bottomSheet = UIAlertController(title: "MAIN.SETTINGS.LANGUAGE".localized, message: nil, preferredStyle: .actionSheet)
+        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.LANGUAGE.ITA".localized, style: .default, handler: { [weak self] _ in
+            self?.setLanguage("it")
+        }))
+        
+        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.LANGUAGE.ENG".localized, style: .default, handler: { [weak self] _ in
+            self?.setLanguage("en")
+        }))
+        
+        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.AUTO".localized, style: .default, handler: { [weak self] _ in
+            self?.setLanguage(nil)
         }))
         
         bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.CANCEL".localized, style: .cancel))
