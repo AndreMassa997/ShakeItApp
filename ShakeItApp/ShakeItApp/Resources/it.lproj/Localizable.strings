@@ -28,3 +28,9 @@
 "DETAIL.INGREDIENTS" = "Ingredienti";
 "DETAIL.GLASS" = "Bicchiere";
 "DETAIL.INSTRUCTIONS" = "Istruzioni";
+"MAIN.SETTINGS" = "Impostazioni";
+"MAIN.SETTINGS.CANCEL" = "Annulla";
+"MAIN.SETTINGS.THEME" = "Imposta tema";
+"MAIN.SETTINGS.THEME.DARK" = "Scuro";
+"MAIN.SETTINGS.THEME.LIGHT" = "Chiaro";
+"MAIN.SETTINGS.THEME.AUTO" = "Auto";

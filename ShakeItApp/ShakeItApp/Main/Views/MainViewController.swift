@@ -182,3 +182,38 @@ extension MainViewController {
     }
 }
 
+//MARK: Settings
+extension MainViewController {
+    @objc private func showBottomSheetSettings(){
+        let bottomSheet = UIAlertController(title: "MAIN.SETTINGS".localized, message: nil, preferredStyle: .actionSheet)
+        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.THEME".localized, style: .default, handler: { [weak self] _ in
+            self?.showThemeBottomSheetSettings()
+        }))
+        
+        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.CANCEL".localized, style: .cancel))
+        self.present(bottomSheet, animated: true)
+    }
+    
+    private func showThemeBottomSheetSettings() {
+        let bottomSheet = UIAlertController(title: "MAIN.SETTINGS.THEME".localized, message: nil, preferredStyle: .actionSheet)
+        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.THEME.DARK".localized, style: .default, handler: { [weak self] _ in
+            self?.setTheme()
+        }))
+        
+        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.THEME.LIGHT".localized, style: .default, handler: { [weak self] _ in
+            self?.setTheme()
+        }))
+        
+        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.THEME.AUTO".localized, style: .default, handler: { [weak self] _ in
+            self?.setTheme()
+        }))
+        
+        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.CANCEL".localized, style: .cancel))
+        self.present(bottomSheet, animated: true)
+    }
+    
+    private func setTheme() {
+        
+    }
+}
+
