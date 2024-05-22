@@ -11,6 +11,7 @@ final class AppPreferences {
     private init() {}
     static let shared = AppPreferences()
     
+    //- MARK: Theme - Palette
     @UserDefault("palette") private(set) var storedPalette: String?
     private(set) var palette: Palette = LightPalette()
     
@@ -28,6 +29,14 @@ final class AppPreferences {
         }
         
         return oldPalette.paletteName != palette.paletteName
+    }
+    
+    //- MARK: Language
+    @UserDefault("language") private(set) var storedLanguage: String?
+    func setupLanguage(languageCode: String?) -> Bool {
+        let currentLanguage = storedLanguage ?? Locale.currentLanguage
+        storedLanguage = languageCode
+        return currentLanguage != storedLanguage
     }
 }
 
