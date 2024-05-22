@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 final class DrinkCellViewModel: ObservableObject {
-    let drink: Drink
+    private(set) var drink: Drink
     let imageProvider: ImageProvider
     
     @Published var drinkImageData: Data?
@@ -20,19 +20,25 @@ final class DrinkCellViewModel: ObservableObject {
     init(drink: Drink, imageProvider: ImageProvider) {
         self.drink = drink
         self.imageProvider = imageProvider
-        loadImage()
+        self.loadImage()
     }
     
-    func loadImage() {
-        Task {
-            let response = await imageProvider.fetchImage(from: drink.imageURL)
-            switch response {
-            case let .success(data):
-                self.drinkImageData = data
-            case .failure:
-                break
+    private func loadImage() {
+        guard let data = drink.imageData else {
+            //Request data from server if not present in model
+            Task {
+                let response = await imageProvider.fetchImage(from: drink.imageURL)
+                switch response {
+                case let .success(data):
+                    self.drinkImageData = data
+                    self.drink.imageData = data
+                case .failure:
+                    break
+                }
             }
+            return
         }
+        self.drinkImageData = data
     }
     
     let backgroundColor: String = "#fdf9e6"

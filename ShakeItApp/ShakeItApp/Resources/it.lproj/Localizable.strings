@@ -6,6 +6,7 @@
   
 */
 
+"APP.LANGUAGE" = "it";
 "MAIN.SECTION.FILTERS" = "Filtri";
 "MAIN.SECTION.DRINKS" = "Drinks";
 "MAIN.SECTION.FILTER_BY" = "Filtra per";
@@ -22,3 +23,8 @@
 "FILTERS.COUNTER" = "%@ di %@";
 "FILTERS.SELECT_ALL" = "Seleziona tutto";
 "FILTERS.DESELECT_ALL" = "Deseleziona tutto";
+"DETAIL.ALCOHOLIC" = "Alcolico";
+"DETAIL.CATEGORY" = "Categoria";
+"DETAIL.INGREDIENTS" = "Ingredienti";
+"DETAIL.GLASS" = "Bicchiere";
+"DETAIL.INSTRUCTIONS" = "Istruzioni";

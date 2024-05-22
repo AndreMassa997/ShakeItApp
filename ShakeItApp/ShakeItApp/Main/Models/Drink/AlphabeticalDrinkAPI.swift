@@ -18,13 +18,17 @@ final class AlphabeticalDrinkAPI: APIElement {
 }
 
 struct Drink: Decodable, Identifiable {
-    var id: String
-    var name: String
-    var category: String
-    var alcoholic: String
-    var glass: String
-    var ingredients: [String]
-    var imageURL: URL
+    let id: String
+    let name: String
+    let category: String
+    let alcoholic: String
+    let glass: String
+    let ingredients: [String]
+    let imageURL: URL
+    let instructions: [String: String]
+    let measures: [String]
+    
+    var imageData: Data?
     
     enum CodingKeys: String, CodingKey {
         case idDrink
@@ -38,6 +42,13 @@ struct Drink: Decodable, Identifiable {
         case strIngredient4
         case strIngredient5
         case strDrinkThumb
+        case strInstructions
+        case strInstructionsIT
+        case strMeasure1
+        case strMeasure2
+        case strMeasure3
+        case strMeasure4
+        case strMeasure5
     }
     
     init(from decoder: Decoder) throws {
@@ -52,6 +63,16 @@ struct Drink: Decodable, Identifiable {
                             try container.decodeIfPresent(String.self, forKey: .strIngredient3),
                             try container.decodeIfPresent(String.self, forKey: .strIngredient4),
                             try container.decodeIfPresent(String.self, forKey: .strIngredient5)].compactMap { $0 }
+        
+        self.measures = [try container.decodeIfPresent(String.self, forKey: .strMeasure1),
+                         try container.decodeIfPresent(String.self, forKey: .strMeasure2),
+                         try container.decodeIfPresent(String.self, forKey: .strMeasure3),
+                         try container.decodeIfPresent(String.self, forKey: .strMeasure4),
+                         try container.decodeIfPresent(String.self, forKey: .strMeasure5)].compactMap { $0 }
         self.imageURL = try container.decode(URL.self, forKey: .strDrinkThumb)
+        let instructionsEN = try container.decode(String.self, forKey: .strInstructions)
+        let instructionsIT = try container.decodeIfPresent(String.self, forKey: .strInstructionsIT)
+        self.instructions = [ "en" : instructionsEN,
+                              "it" : instructionsIT ?? instructionsEN]
     }
 }

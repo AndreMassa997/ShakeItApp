@@ -14,9 +14,9 @@ extension UIView {
         guard let view = bundle.loadNibNamed(String(describing: type(of: self)) , owner: self, options: nil)?[0] as? T else {
             return nil
         }
-        addSubview(view)
         view.frame = bounds
-        view.autoresizingMask = [UIView.AutoresizingMask.flexibleWidth, UIView.AutoresizingMask.flexibleHeight]
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        addSubview(view)
         return view
     }
 }
