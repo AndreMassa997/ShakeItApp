@@ -6,7 +6,7 @@
 //
 import UIKit
 
-protocol Palette{
+protocol Palette {
     var paletteName: String { get }
     var statusBarStyle: UIStatusBarStyle { get }
     var secondaryColor: UIColor { get }
@@ -14,6 +14,7 @@ protocol Palette{
     var mainColor: UIColor { get }
     var mainLabelColor: UIColor { get }
     var secondaryLabelColor: UIColor { get }
+    var blackLabelColor: UIColor { get }
 }
 
 //Common color for both palette
@@ -29,12 +30,14 @@ extension Palette {
     var mainLabelColor: UIColor {
         #colorLiteral(red: 1, green: 0.4352941176, blue: 0.4117647059, alpha: 1) //#FF6F69
     }
+    
+    var blackLabelColor: UIColor {
+        .black
+    }
 }
 
 struct LightPalette: Palette{
-    var paletteName: String {
-        "light"
-    }
+    let paletteName: String = "light"
     
     var statusBarStyle: UIStatusBarStyle {
         .darkContent
@@ -50,9 +53,7 @@ struct LightPalette: Palette{
 }
 
 struct DarkPalette: Palette{
-    var paletteName: String {
-        "dark"
-    }
+    let paletteName: String = "dark"
     
     var statusBarStyle: UIStatusBarStyle {
         .darkContent
