@@ -7,11 +7,12 @@
 
 import Foundation
 
-final class DetailViewModel {
+final class DetailViewModel: BaseViewModel {
     let drink: Drink
     
     init(drink: Drink) {
         self.drink = drink
+        super.init()
     }
     
     var instructionText: String? {
