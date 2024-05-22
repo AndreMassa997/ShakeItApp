@@ -6,7 +6,7 @@
   
 */
 "APP.LANGUAGE" = "en";
-"MAIN.SECTION.FILTERS" = "Filtri";
+"MAIN.SECTION.FILTERS" = "Filters";
 "MAIN.SECTION.DRINKS" = "Drinks";
 "MAIN.SECTION.FILTER_BY" = "Filter by";
 "MAIN.SECTION.FILTER_ALCOHOLIC" = "Alcoholic";
