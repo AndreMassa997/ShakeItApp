@@ -39,8 +39,7 @@ final class FiltersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "MAIN.SECTION.FILTER_BY".localized
-        self.view.backgroundColor = .palette.mainBackgroundColor
+        setupUI()
         addSubviews()
         setupLayout()
         setupTableView()
@@ -56,31 +55,6 @@ final class FiltersViewController: UIViewController {
                 self?.applyButton.isEnabled = isEnabled
             }
             .store(in: &viewModel.anyCancellables)
-    }
-    
-    private func addSubviews() {
-        self.view.addSubview(tableView)
-        self.view.addSubview(applyButton)
-    }
-    
-    private func setupLayout() {
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: applyButton.topAnchor, constant: -5),
-            applyButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            applyButton.widthAnchor.constraint(equalToConstant: 150),
-            applyButton.heightAnchor.constraint(equalToConstant: 50),
-            applyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-    }
-    
-    private func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(headerType: LabelButtonHeader.self)
-        tableView.register(cellType: FilterCell.self)
     }
     
     @objc private func applyTapped() {
@@ -123,5 +97,38 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
         
         let buttonConfigurations = viewModel.getFilterHeaderValue(for: indexPath.section)
         header.setupButtonTextAnimated(text: buttonConfigurations.text, buttonImageNamed: buttonConfigurations.imageName)
+    }
+}
+
+//MARK: - Layout and UI + Table view registrations
+extension FiltersViewController {
+    private func setupUI() {
+        title = "MAIN.SECTION.FILTER_BY".localized
+        view.backgroundColor = .palette.mainBackgroundColor
+    }
+    
+    private func addSubviews() {
+        view.addSubview(tableView)
+        view.addSubview(applyButton)
+    }
+    
+    private func setupLayout() {
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            tableView.bottomAnchor.constraint(equalTo: applyButton.topAnchor, constant: -5),
+            applyButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            applyButton.widthAnchor.constraint(equalToConstant: 150),
+            applyButton.heightAnchor.constraint(equalToConstant: 50),
+            applyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+    
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(headerType: LabelButtonHeader.self)
+        tableView.register(cellType: FilterCell.self)
     }
 }
