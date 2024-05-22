@@ -49,6 +49,7 @@ final class DetailViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(headerType: LabelHeader.self)
+        tableView.register(cellType: LabelCell.self)
     }
     
     private func setupLayout() {
@@ -71,7 +72,14 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        switch DetailViewSection.allCases[indexPath.section] {
+        case .instructions:
+            let cell = tableView.dequeueReusableCell(for: indexPath, cellType: LabelCell.self)
+            cell.configure(with: viewModel.instructionText)
+            return cell
+        case .ingredients:
+            return UITableViewCell()
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
