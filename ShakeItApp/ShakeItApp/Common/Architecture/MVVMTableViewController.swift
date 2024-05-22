@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MVVMTableViewController<ViewModel: BaseViewModel>: MVVMViewController<ViewModel> {
+class MVVMTableViewController<ViewModel: BaseViewModel>: BaseViewController<ViewModel> {
     let tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
         tv.backgroundColor = .white

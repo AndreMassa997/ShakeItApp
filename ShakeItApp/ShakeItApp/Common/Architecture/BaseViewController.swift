@@ -1,5 +1,5 @@
 //
-//  MVVMViewController.swift
+//  BaseViewController.swift
 //  ShakeItApp
 //
 //  Created by Andrea Massari on 22/05/24.
@@ -9,7 +9,7 @@ import Foundation
 
 import UIKit
 
-class MVVMViewController<ViewModel: BaseViewModel>: UIViewController{
+class BaseViewController<ViewModel: BaseViewModel>: UIViewController{
     let viewModel: ViewModel
     
     init(viewModel: ViewModel) {
