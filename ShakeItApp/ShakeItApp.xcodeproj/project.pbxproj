@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3E29B8F22BFE91BC003E545A /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E29B8F12BFE91BC003E545A /* BaseViewController.swift */; };
-		3E29B8F42BFE91C8003E545A /* MVVMViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E29B8F32BFE91C8003E545A /* MVVMViewModel.swift */; };
+		3E29B8F42BFE91C8003E545A /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E29B8F32BFE91C8003E545A /* ViewModel.swift */; };
 		3E29B8F62BFE9882003E545A /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E29B8F52BFE9882003E545A /* TableViewController.swift */; };
 		3E4124E32BFCAD2700734B6D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4124E22BFCAD2700734B6D /* DetailViewController.swift */; };
 		3E4124E52BFCAD4900734B6D /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4124E42BFCAD4900734B6D /* DetailViewModel.swift */; };
@@ -88,7 +88,7 @@
 
 /* Begin PBXFileReference section */
 		3E29B8F12BFE91BC003E545A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
-		3E29B8F32BFE91C8003E545A /* MVVMViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVVMViewModel.swift; sourceTree = "<group>"; };
+		3E29B8F32BFE91C8003E545A /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		3E29B8F52BFE9882003E545A /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		3E4124E22BFCAD2700734B6D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		3E4124E42BFCAD4900734B6D /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
@@ -183,7 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				3E29B8F12BFE91BC003E545A /* BaseViewController.swift */,
-				3E29B8F32BFE91C8003E545A /* MVVMViewModel.swift */,
+				3E29B8F32BFE91C8003E545A /* ViewModel.swift */,
 				3E29B8F52BFE9882003E545A /* TableViewController.swift */,
 			);
 			path = Architecture;
@@ -672,7 +672,7 @@
 				3E85E4822BFA2E7900C3AD98 /* ImageProvider.swift in Sources */,
 				3E85E4862BFA2FE700C3AD98 /* ErrorData.swift in Sources */,
 				3E85E4AB2BFB306400C3AD98 /* String+Ext.swift in Sources */,
-				3E29B8F42BFE91C8003E545A /* MVVMViewModel.swift in Sources */,
+				3E29B8F42BFE91C8003E545A /* ViewModel.swift in Sources */,
 				3E8642DF2BFE70EA00D5FF7D /* Locale+Ext.swift in Sources */,
 				3E8642D92BFE694400D5FF7D /* Drink.swift in Sources */,
 				3EA187C62BFB65260066D1BF /* Filter.swift in Sources */,
