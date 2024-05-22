@@ -23,7 +23,7 @@ struct NetworkManager: NetworkProvider {
             return .failure(.invalidURL)
         }
         
-        print("🔵 URL request: \(url.absoluteString) at timestamp: \(Date().timeIntervalSince1970 * 1000)")
+        print("🔵 URL request: \(url.absoluteString) at timestamp: \(Int(Date().timeIntervalSince1970 * 1000))")
         
         guard let dataResponse = try? await URLSession.shared.data(from: url) else {
             print("🔴 Invalid Data Response")
