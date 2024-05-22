@@ -8,6 +8,8 @@
 import UIKit
 
 final class FiltersCarouselView: UITableViewCell, CellReusable {
+    private var viewModel: FiltersCarouselViewModel!
+
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -17,13 +19,11 @@ final class FiltersCarouselView: UITableViewCell, CellReusable {
         cv.backgroundColor = .clear
         return cv
     }()
-    
-    private var viewModel: FiltersCarouselViewModel!
-    
+        
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .clear
-        self.contentView.addSubview(collectionView)
+        addSubviews()
         setupCollectionView()
         setupLayout()
     }
@@ -38,23 +38,13 @@ final class FiltersCarouselView: UITableViewCell, CellReusable {
         collectionView.register(cellType: FilterCarouselCell.self)
     }
     
-    private func updateView() {
-        collectionView.reloadData()
-    }
-    
-    private func setupLayout() {
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            collectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            collectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            collectionView.heightAnchor.constraint(equalToConstant: 140),
-            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
-    }
-    
     func configure(with viewModel: FiltersCarouselViewModel) {
         self.viewModel = viewModel
         updateView()
+    }
+    
+    private func updateView() {
+        collectionView.reloadData()
     }
 }
 
@@ -81,6 +71,23 @@ extension FiltersCarouselView: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         20
+    }
+}
+
+//- MARK: Layout and UI
+extension FiltersCarouselView {
+    private func addSubviews() {
+        self.contentView.addSubview(collectionView)
+    }
+    
+    private func setupLayout() {
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            collectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            collectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            collectionView.heightAnchor.constraint(equalToConstant: 140),
+            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
     }
 }
 
