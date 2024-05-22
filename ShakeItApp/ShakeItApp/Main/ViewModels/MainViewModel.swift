@@ -19,8 +19,16 @@ final class MainViewModel: ObservableObject {
     }
     //store all available filters that succeeded from API Calls, hide the others
     private var selectedFilters: [Filter] = []
+    
     //Data from server for drinks
-    private var allDrinks = [Drink]()
+    private var allDrinks = [Drink]() {
+        didSet {
+            //This method will be triggered if new data come from API or if an image is setted in an element of allDrinks
+            self.filteredDrinks = filterDrinksByCurrentFilters()
+        }
+    }
+    
+    //Store a copy of drinks to use as a data source for the view and to setup when all drinks value change or when a data into a single drink (like an imageData) is stored into an element into allDrinks array
     private(set) var filteredDrinks = [Drink]()
     
     //Published values for reloading
@@ -123,7 +131,6 @@ extension MainViewModel {
         case let .success(drinks):
             currentPage += 1
             allDrinks.append(contentsOf: drinks)
-            filteredDrinks = self.filterDrinksByCurrentFilters()
             setupTableViewSections()
             loadMoreIfFilteredDrinksIsEmpty()
         case let .failure(error):
@@ -135,6 +142,11 @@ extension MainViewModel {
         allDrinks.filter { drink in
             return selectedFilters.allSatisfy{ $0.isContained(in: drink) }
         }
+    }
+    
+    private func storeImageToDrink(with id: String, data: Data?) {
+        guard let index = allDrinks.firstIndex(where: { $0.id == id }), allDrinks[index].imageData == nil else { return }
+        allDrinks[index].imageData = data
     }
 }
 
@@ -177,7 +189,7 @@ extension MainViewModel {
         let filtersViewModel = FiltersViewModel(filters: self.selectedFilters)
         filtersViewModel.filtersSubject
             .eraseToAnyPublisher()
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] newFilters in
                 guard let self else { return }
                 self.setupNewFiltersAndAskNewDataIfNeeded(newFilters)
@@ -188,15 +200,23 @@ extension MainViewModel {
 
     
     func getDrinkViewModel(for index: Int) -> DrinkCellViewModel {
-        let drinkCellViewModel = DrinkCellViewModel(drink: filteredDrinks[index], imageProvider: imageProvider)
+        let drink = filteredDrinks[index]
+        let drinkCellViewModel = DrinkCellViewModel(drink: drink, imageProvider: imageProvider)
         drinkCellViewModel.cellTapSubject
             .eraseToAnyPublisher()
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] drinkTapped in
                 //Go to details
                 self?.tapOnDrink.send(drinkTapped)
             }
             .store(in: &anyCancellables)
+        
+        drinkCellViewModel.$drinkImageData
+            .sink { [weak self] imageData in
+                self?.storeImageToDrink(with: drink.id, data: imageData)
+            }
+            .store(in: &anyCancellables)
+        
         return drinkCellViewModel
     }
     
