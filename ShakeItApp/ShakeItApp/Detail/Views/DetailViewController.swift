@@ -10,35 +10,16 @@ import UIKit
 final class DetailViewController: UIViewController {
     private let viewModel: DetailViewModel
     
-    @IBOutlet weak var headerViewContainer: UIView! {
-        didSet {
-            headerViewContainer.backgroundColor = UIColor(hex: "#fdf9e6")
-            headerViewContainer.layer.cornerRadius = 20
-        }
-    }
-        
-    @IBOutlet weak var drinkImageView: CircleImageView!
-    
-    @IBOutlet weak var alcoholicTitle: UILabel!
-    @IBOutlet weak var alcoholicLabel: UILabel!
-    @IBOutlet weak var categoryTitle: UILabel!
-    @IBOutlet weak var categoryLabel: UILabel!
-    @IBOutlet weak var glassTitle: UILabel!
-    @IBOutlet weak var glassLabel: UILabel!
-    
-    @IBOutlet weak var instructionsTitle: UILabel!
-    @IBOutlet weak var instructionsLabel: UILabel!
-    @IBOutlet weak var ingredientsTitle: UILabel!
-
-    @IBOutlet weak var ingredientsCollectionView: UICollectionView! {
-        didSet {
-            ingredientsCollectionView.collectionViewLayout = TagsCollectionViewFlowLayout()
-        }
-    }
+    private let tableView: UITableView = {
+        let tv = UITableView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        return tv
+    }()
     
     init(viewModel: DetailViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        setupLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -49,8 +30,8 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         setupNavigationBar()
-        setupData()
-        setupIngredientsCV()
+        self.view.addSubview(tableView)
+        setupTableView()
     }
     
     private func setupNavigationBar() {
@@ -61,53 +42,68 @@ final class DetailViewController: UIViewController {
         navigationController?.navigationBar.topItem?.backBarButtonItem = backButtonItem
     }
     
-    private func setupIngredientsCV() {
-        ingredientsCollectionView.dataSource = self
-        ingredientsCollectionView.delegate = self
-        ingredientsCollectionView.register(cellType: IngredientCell.self)
+    private func setupTableView() {
+        let headerView = DetailHeaderView(viewModel: viewModel.getHeaderViewModel(), frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 230)))
+        tableView.tableHeaderView = headerView
     }
     
-    private func setupData() {
-        self.alcoholicTitle.text = "DETAIL.ALCOHOLIC".localized
-        self.alcoholicLabel.text = viewModel.drink.alcoholic.capitalized
+    private func setupLayout() {
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+    }
+}
 
-        self.categoryTitle.text = "DETAIL.CATEGORY".localized
-        self.categoryLabel.text = viewModel.drink.category.capitalized
-        
-        self.ingredientsTitle.text = "DETAIL.INGREDIENTS".localized
-        self.glassTitle.text = "DETAIL.GLASS".localized
-        self.glassLabel.text = viewModel.drink.glass.capitalized
-
-        self.instructionsTitle.text = "DETAIL.INSTRUCTIONS".localized
-        self.instructionsLabel.text = viewModel.instructionText
-        
-        if let data = viewModel.drink.imageData {
-            drinkImageView.image = UIImage(data: data)
-        } else {
-            drinkImageView.image = UIImage(named: "placeholder")
+extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        DetailViewSection.allCases.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        switch DetailViewSection.allCases[section]{
+        case .instructions:
+            break
+        case .ingredients:
+            break
         }
+        return nil
     }
 }
 
-extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.drink.ingredients.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(for: indexPath, cellType: IngredientCell.self)
-        cell.configure(with: viewModel.getIngredientViewModel(for: indexPath.row))
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let ingredientNameWidth = (viewModel.getIngredientName(for: indexPath.row) as NSString).size(withAttributes: [.font: IngredientCell.ingredientFont]).width
-        let measureNameWidth = (viewModel.getMeasureName(for: indexPath.row) as NSString).size(withAttributes: [.font: IngredientCell.measureFont]).width
-        return CGSize(width: max(ingredientNameWidth, measureNameWidth) + IngredientCell.marginLeft + IngredientCell.marginRight + 10, height: 50)
-    }
-}
+//extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        viewModel.drink.ingredients.count
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(for: indexPath, cellType: IngredientCell.self)
+//        cell.configure(with: viewModel.getIngredientViewModel(for: indexPath.row))
+//        return cell
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        let ingredientNameWidth = (viewModel.getIngredientName(for: indexPath.row) as NSString).size(withAttributes: [.font: IngredientCell.ingredientFont]).width
+//        let measureNameWidth = (viewModel.getMeasureName(for: indexPath.row) as NSString).size(withAttributes: [.font: IngredientCell.measureFont]).width
+//        return CGSize(width: max(ingredientNameWidth, measureNameWidth) + IngredientCell.marginLeft + IngredientCell.marginRight + 10, height: 50)
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//        
+//    }
+//}
 
-fileprivate class TagsCollectionViewFlowLayout: UICollectionViewFlowLayout {
+fileprivate class LeftAlignmentCollectionViewFlowLayout: UICollectionViewFlowLayout {
     private let cellSpacing: CGFloat = 10
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {

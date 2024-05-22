@@ -33,3 +33,14 @@ final class DetailViewModel {
         return "-"
     }
 }
+
+//MARK: ViewModel provider
+extension DetailViewModel {
+    func getHeaderViewModel() -> DetailHeaderViewModel {
+        DetailHeaderViewModel(alcoholic: drink.alcoholic, category: drink.category, glass: drink.glass, imageData: drink.imageData)
+    }
+}
+
+enum DetailViewSection: Int, CaseIterable {
+    case instructions, ingredients
+}
