@@ -367,12 +367,7 @@
 		3E85E4652BF8F92800C3AD98 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				3E85E4662BF8F93F00C3AD98 /* CellReusable.swift */,
-				3E85E46A2BF8FC1100C3AD98 /* UICollectionView+Ext.swift */,
-				3E85E46C2BF9027300C3AD98 /* UIColor+Ext.swift */,
-				3E85E4702BF9DCE800C3AD98 /* UITableView+Ext.swift */,
-				3E85E4792BFA123400C3AD98 /* CircleImageView.swift */,
-				3E85E49D2BFA714000C3AD98 /* UIView+Ext.swift */,
+				3E8642DB2BFE6F0D00D5FF7D /* UI */,
 				3E85E4AA2BFB306400C3AD98 /* String+Ext.swift */,
 			);
 			path = Utils;
@@ -419,6 +414,7 @@
 		3E85E4B12BFB43B400C3AD98 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				3E8642DA2BFE6EEC00D5FF7D /* UI */,
 				3EA187C42BFB651C0066D1BF /* Models */,
 				3E85E4742BFA0D3B00C3AD98 /* HeadersFooter */,
 				3E8642D22BFDF78600D5FF7D /* AppPreferences.swift */,
@@ -431,7 +427,6 @@
 			isa = PBXGroup;
 			children = (
 				3E85E4B32BFB448400C3AD98 /* Cells */,
-				3E8642D62BFE4C1B00D5FF7D /* RoundedButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -461,6 +456,27 @@
 				3E8642CA2BFDD0BB00D5FF7D /* LabelHeader.swift */,
 			);
 			path = Headers;
+			sourceTree = "<group>";
+		};
+		3E8642DA2BFE6EEC00D5FF7D /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				3E85E4792BFA123400C3AD98 /* CircleImageView.swift */,
+				3E8642D62BFE4C1B00D5FF7D /* RoundedButton.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		3E8642DB2BFE6F0D00D5FF7D /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				3E85E4662BF8F93F00C3AD98 /* CellReusable.swift */,
+				3E85E46A2BF8FC1100C3AD98 /* UICollectionView+Ext.swift */,
+				3E85E46C2BF9027300C3AD98 /* UIColor+Ext.swift */,
+				3E85E4702BF9DCE800C3AD98 /* UITableView+Ext.swift */,
+				3E85E49D2BFA714000C3AD98 /* UIView+Ext.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		3EA187C42BFB651C0066D1BF /* Models */ = {
