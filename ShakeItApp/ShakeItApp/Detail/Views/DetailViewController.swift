@@ -39,6 +39,12 @@ final class DetailViewController: UIViewController {
         setupTableView()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let headerView = DetailHeaderView(viewModel: viewModel.headerViewModel, frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 230)))
+        tableView.tableHeaderView = headerView
+    }
+    
     private func setupNavigationBar() {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.title = viewModel.drink.name.capitalized
@@ -48,8 +54,6 @@ final class DetailViewController: UIViewController {
     }
     
     private func setupTableView() {
-        let headerView = DetailHeaderView(viewModel: viewModel.headerViewModel, frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 230)))
-        tableView.tableHeaderView = headerView
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(headerType: LabelHeader.self)
@@ -64,6 +68,10 @@ final class DetailViewController: UIViewController {
             tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
+    }
+    
+    deinit {
+        print("Deinit detail view controller")
     }
 }
 
