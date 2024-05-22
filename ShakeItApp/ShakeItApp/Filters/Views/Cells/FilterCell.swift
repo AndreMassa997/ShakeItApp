@@ -19,6 +19,7 @@ final class FilterCell: UITableViewCell, CellReusable {
     private let checkBoxView: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.tintColor = .palette.secondaryColor
         return iv
     }()
     
@@ -26,12 +27,14 @@ final class FilterCell: UITableViewCell, CellReusable {
         let lbl = UILabel()
         lbl.font = UIFont.systemFont(ofSize: 13, weight: .thin)
         lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.textColor = .palette.secondaryLabelColor
         return lbl
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
+        backgroundColor = .clear
         addSubviews()
         setupLayout()
     }
