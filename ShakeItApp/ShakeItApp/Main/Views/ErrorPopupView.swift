@@ -20,14 +20,14 @@ final class ErrorPopupView: UIView {
         }
     }
     
-    @IBOutlet weak var viewContainer: UIView! {
+    @IBOutlet weak private var viewContainer: UIView! {
         didSet {
             viewContainer.layer.cornerRadius = 20
         }
     }
     
-    @IBOutlet weak var textLabel: UILabel!
-    @IBOutlet weak var retryButton: UIButton!
+    @IBOutlet weak private var textLabel: UILabel!
+    @IBOutlet weak private var retryButton: UIButton!
     
     private var onButtonTapped: (() -> Void)?
     
