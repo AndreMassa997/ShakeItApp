@@ -19,6 +19,7 @@ final class LabelHeader: UITableViewHeaderFooterView, CellReusable {
         super.init(reuseIdentifier: reuseIdentifier)
         self.contentView.addSubview(title)
         setupLayout()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
@@ -36,7 +37,9 @@ final class LabelHeader: UITableViewHeaderFooterView, CellReusable {
             title.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15),
             contentView.bottomAnchor.constraint(equalTo: title.bottomAnchor, constant: 10),
         ])
-        
+    }
+    
+    private func setupUI() {
         title.textColor = .palette.secondaryLabelColor
     }
     

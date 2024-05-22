@@ -34,33 +34,16 @@ final class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = viewModel.drink.name.capitalized
-        self.view.backgroundColor = .palette.mainBackgroundColor
-        self.view.addSubview(tableView)
+        addSubviews()
+        setupUI()
         setupTableView()
     }
     
+    //Need to recalculate table view header when refreshing UI (orientation changed)
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let headerView = DetailHeaderView(viewModel: viewModel.headerViewModel, frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 230)))
         tableView.tableHeaderView = headerView
-    }
-    
-    private func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(headerType: LabelHeader.self)
-        tableView.register(cellType: LabelCell.self)
-        tableView.register(cellType: IngredientsCell.self)
-    }
-    
-    private func setupLayout() {
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-        ])
     }
     
     deinit {
@@ -94,5 +77,34 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         let header = tableView.dequeueReusableHeader(headerType: LabelHeader.self)
         header.configure(with: DetailViewSection.allCases[section].headerName)
         return header
+    }
+}
+
+//MARK: - Layout + UI + Table view registrations
+extension DetailViewController {
+    private func setupLayout() {
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+    }
+    
+    private func setupUI() {
+        self.title = viewModel.drink.name.capitalized
+        self.view.backgroundColor = .palette.mainBackgroundColor
+    }
+    
+    private func addSubviews() {
+        self.view.addSubview(tableView)
+    }
+    
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(headerType: LabelHeader.self)
+        tableView.register(cellType: LabelCell.self)
+        tableView.register(cellType: IngredientsCell.self)
     }
 }

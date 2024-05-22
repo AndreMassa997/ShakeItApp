@@ -8,7 +8,6 @@
 import UIKit
 
 class IngredientCell: UICollectionViewCell, CellReusable {
-    
     static let ingredientFont = UIFont.systemFont(ofSize: 14, weight: .light)
     static let measureFont = UIFont.systemFont(ofSize: 10, weight: .thin)
     static let marginRight: CGFloat = 10
@@ -53,6 +52,12 @@ class IngredientCell: UICollectionViewCell, CellReusable {
         self.setupLayout()
     }
     
+    func configure(with viewModel: IngredientViewModel) {
+        self.viewContainer.backgroundColor = .palette.mainColor
+        self.ingredientLabel.text = viewModel.ingredient
+        self.measureLabel.text = viewModel.measure
+    }
+    
     private func addSubviews() {
         labelsStackView.addArrangedSubview(ingredientLabel)
         labelsStackView.addArrangedSubview(measureLabel)
@@ -75,11 +80,4 @@ class IngredientCell: UICollectionViewCell, CellReusable {
         
         viewContainer.layer.cornerRadius = 20
     }
-    
-    func configure(with viewModel: IngredientViewModel) {
-        self.viewContainer.backgroundColor = .palette.mainColor
-        self.ingredientLabel.text = viewModel.ingredient
-        self.measureLabel.text = viewModel.measure
-    }
-    
 }

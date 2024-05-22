@@ -61,6 +61,4 @@ final class DetailHeaderView: UIView {
         self.glassTitle.textColor = .palette.blackLabelColor
         self.glassLabel.textColor = .palette.blackLabelColor
     }
-    
-    
 }

@@ -22,26 +22,10 @@ final class IngredientsCell: UITableViewCell, CellReusable {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .clear
-        contentView.autoresizingMask = .flexibleHeight
-        self.contentView.addSubview(collectionView)
+        setupUI()
+        addSubviews()
         setupLayout()
         setupCollectionView()
-    }
-    
-    private func setupLayout() {
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            collectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
-            collectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15),
-            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
-    }
-    
-    private func setupCollectionView() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(cellType: IngredientCell.self)
     }
     
     required init?(coder: NSCoder) {
@@ -52,6 +36,7 @@ final class IngredientsCell: UITableViewCell, CellReusable {
         self.viewModel = viewModel
     }
     
+    //Dynamic cell height when updates collection view height
     override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
         collectionView.frame = CGRect(x: collectionView.frame.origin.x, y: collectionView.frame.origin.y, width: collectionView.frame.width, height: 100)
         
@@ -63,6 +48,7 @@ final class IngredientsCell: UITableViewCell, CellReusable {
     }
 }
 
+//MARK: - Collection view delegates and datasource
 extension IngredientsCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.ingredients.count
@@ -81,6 +67,34 @@ extension IngredientsCell: UICollectionViewDataSource, UICollectionViewDelegateF
     }
 }
 
+//MARK: - Layout and UI + Collection view registrations
+extension IngredientsCell {
+    private func setupLayout() {
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            collectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
+            collectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15),
+            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+    }
+    
+    private func setupUI() {
+        backgroundColor = .clear
+    }
+    
+    private func addSubviews() {
+        self.contentView.addSubview(collectionView)
+    }
+    
+    private func setupCollectionView() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(cellType: IngredientCell.self)
+    }
+}
+
+//MARK: Collection view custom flow layout
+///Flow layout to align elements to the left and go to new line when needed
 fileprivate class LeftAlignmentCollectionViewFlowLayout: UICollectionViewFlowLayout {
     private let cellSpacing: CGFloat = 10
     
