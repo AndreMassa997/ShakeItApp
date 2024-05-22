@@ -234,6 +234,15 @@ extension MainViewController {
             hasChanged = AppPreferences.shared.setupUserPalette(newPalette: mode, deleteStoredValue: true)
         }
         
+        reloadViewsIfNeeded(hasChanged)
+    }
+    
+    private func setLanguage(_ newLanguage: String?) {
+        reloadViewsIfNeeded( AppPreferences.shared.setupLanguage(languageCode: newLanguage)
+        )
+    }
+    
+    private func reloadViewsIfNeeded(_ hasChanged: Bool) {
         if hasChanged {
             setupUI()
             self.tableView.reloadData()
