@@ -18,6 +18,7 @@ final class LabelCell: UITableViewCell, CellReusable {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .clear
         self.contentView.addSubview(title)
         setupLayout()
     }

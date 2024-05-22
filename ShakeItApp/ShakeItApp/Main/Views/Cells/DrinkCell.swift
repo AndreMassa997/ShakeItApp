@@ -60,6 +60,7 @@ final class DrinkCell: UITableViewCell, CellReusable {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
+        backgroundColor = .clear
         self.addSubviews()
         self.setupLayout()
         viewContainer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGesture)))

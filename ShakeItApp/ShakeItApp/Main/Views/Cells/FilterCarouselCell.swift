@@ -44,6 +44,7 @@ final class FilterCarouselCell: UICollectionViewCell, CellReusable {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .clear
         self.addSubviews()
         self.setupLayout()
     }

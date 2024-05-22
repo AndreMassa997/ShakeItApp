@@ -14,6 +14,7 @@ final class FiltersCarouselView: UITableViewCell, CellReusable {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.showsHorizontalScrollIndicator = false
+        cv.backgroundColor = .clear
         return cv
     }()
     
@@ -21,6 +22,7 @@ final class FiltersCarouselView: UITableViewCell, CellReusable {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .clear
         self.contentView.addSubview(collectionView)
         setupCollectionView()
         setupLayout()
