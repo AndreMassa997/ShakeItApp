@@ -22,11 +22,15 @@ final class DrinkCellViewModel: ObservableObject {
         self.imageProvider = imageProvider
     }
     
-    func getImageData() -> Data? {
-        return drink.imageData
+    func getImageDataAndAskIfNeeded() -> Data? {
+        guard let imageData = drink.imageData else {
+            fetchImageData()
+            return nil
+        }
+        return imageData
     }
     
-    func fetchImageData() {
+    private func fetchImageData() {
         Task(priority: .background, operation: {
             let response = await imageProvider.fetchImage(from: drink.imageURL)
             switch response {

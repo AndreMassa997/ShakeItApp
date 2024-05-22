@@ -121,21 +121,26 @@ final class DrinkCell: UITableViewCell, CellReusable {
         titleLabel.text = viewModel.drink.name.capitalized
         ingredientsLabel.text = viewModel.ingredientsString
         
-        guard let imageData = viewModel.getImageData() else {
-            viewModel.fetchImageData()
-            viewModel.$drinkImageData
-                .receive(on: DispatchQueue.main)
-                .sink{ [weak self] data in
-                    guard let data else {
-                        return
-                    }
-                    self?.enableSelection(with: UIImage(data: data))
-                }
-                .store(in: &viewModel.anyCancellables)
+        guard let imageData = viewModel.getImageDataAndAskIfNeeded() else {
+            //Add property listener to intercept data from API
+            bindProperties()
             return
         }
         
         enableSelection(with: UIImage(data: imageData))
+    }
+    
+    private func bindProperties() {
+        guard let viewModel else { return }
+        viewModel.$drinkImageData
+            .receive(on: DispatchQueue.main)
+            .sink{ [weak self] data in
+                guard let data else {
+                    return
+                }
+                self?.enableSelection(with: UIImage(data: data))
+            }
+            .store(in: &viewModel.anyCancellables)
     }
     
     private func enableSelection(with image: UIImage?) {
