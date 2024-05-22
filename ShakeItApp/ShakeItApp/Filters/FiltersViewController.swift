@@ -22,14 +22,9 @@ final class FiltersViewController: UIViewController {
         return tv
     }()
     
-    private let applyButton: UIButton = {
-        let btn = UIButton(type: .system)
+    private let applyButton: RoundedButton = {
+        let btn = RoundedButton(text: "FILTER.APPLY".localized)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setTitle("FILTER.APPLY".localized, for: .normal)
-        btn.setTitleColor(.black.withAlphaComponent(0.7), for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .light)
-        btn.backgroundColor = .palette.secondaryColor
-        btn.layer.cornerRadius = 20
         return btn
     }()
     
