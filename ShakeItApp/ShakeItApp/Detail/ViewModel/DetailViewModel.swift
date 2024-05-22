@@ -17,27 +17,16 @@ final class DetailViewModel {
     var instructionText: String? {
         drink.instructions["APP.LANGUAGE".localized]
     }
-    
-    func getIngredientViewModel(for index: Int) -> IngredientViewModel {
-        return IngredientViewModel(ingredient: getIngredientName(for: index), measure: getMeasureName(for: index))
-    }
-    
-    func getIngredientName(for index: Int) -> String {
-        drink.ingredients[index]
-    }
-    
-    func getMeasureName(for index: Int) -> String {
-        if drink.measures.count == drink.ingredients.count {
-            return drink.measures[index]
-        }
-        return "-"
-    }
 }
 
 //MARK: ViewModel provider
 extension DetailViewModel {
-    func getHeaderViewModel() -> DetailHeaderViewModel {
+    var headerViewModel: DetailHeaderViewModel {
         DetailHeaderViewModel(alcoholic: drink.alcoholic, category: drink.category, glass: drink.glass, imageData: drink.imageData)
+    }
+    
+    var ingredientsViewModel: IngredientsViewModel {
+        IngredientsViewModel(ingredients: drink.ingredients, measures: drink.measures)
     }
 }
 

@@ -31,10 +31,10 @@ final class LabelHeader: UITableViewHeaderFooterView, CellReusable {
     
     private func setupLayout(){
         NSLayoutConstraint.activate([
-            title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             title.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
             title.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15),
-            contentView.bottomAnchor.constraint(equalTo: title.bottomAnchor, constant: 5),
+            contentView.bottomAnchor.constraint(equalTo: title.bottomAnchor, constant: 10),
         ])
     }
     
