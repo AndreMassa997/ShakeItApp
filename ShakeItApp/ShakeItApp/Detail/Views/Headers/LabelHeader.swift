@@ -36,6 +36,8 @@ final class LabelHeader: UITableViewHeaderFooterView, CellReusable {
             title.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15),
             contentView.bottomAnchor.constraint(equalTo: title.bottomAnchor, constant: 10),
         ])
+        
+        title.textColor = .palette.secondaryLabelColor
     }
     
 }
