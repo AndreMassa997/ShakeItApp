@@ -8,13 +8,12 @@
 import Foundation
 import Combine
 
-final class FiltersViewModel {
+final class FiltersViewModel: BaseViewModel {
     private(set) var filters: [Filter] {
         didSet {
             enableDisableFiltering()
         }
     }
-    var anyCancellables: Set<AnyCancellable> = Set()
     
     let filtersSubject = PassthroughSubject<[Filter], Never>()
     let filteringEnabled = PassthroughSubject<Bool, Never>()
