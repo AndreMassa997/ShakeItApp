@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3E29B8F22BFE91BC003E545A /* MVVMViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E29B8F12BFE91BC003E545A /* MVVMViewController.swift */; };
 		3E29B8F42BFE91C8003E545A /* MVVMViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E29B8F32BFE91C8003E545A /* MVVMViewModel.swift */; };
+		3E29B8F62BFE9882003E545A /* MVVMTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E29B8F52BFE9882003E545A /* MVVMTableViewController.swift */; };
 		3E4124E32BFCAD2700734B6D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4124E22BFCAD2700734B6D /* DetailViewController.swift */; };
 		3E4124E52BFCAD4900734B6D /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4124E42BFCAD4900734B6D /* DetailViewModel.swift */; };
 		3E4124EC2BFCEB5700734B6D /* IngredientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4124EB2BFCEB5700734B6D /* IngredientCell.swift */; };
@@ -88,6 +89,7 @@
 /* Begin PBXFileReference section */
 		3E29B8F12BFE91BC003E545A /* MVVMViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVVMViewController.swift; sourceTree = "<group>"; };
 		3E29B8F32BFE91C8003E545A /* MVVMViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVVMViewModel.swift; sourceTree = "<group>"; };
+		3E29B8F52BFE9882003E545A /* MVVMTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVVMTableViewController.swift; sourceTree = "<group>"; };
 		3E4124E22BFCAD2700734B6D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		3E4124E42BFCAD4900734B6D /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		3E4124EB2BFCEB5700734B6D /* IngredientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientCell.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 			children = (
 				3E29B8F12BFE91BC003E545A /* MVVMViewController.swift */,
 				3E29B8F32BFE91C8003E545A /* MVVMViewModel.swift */,
+				3E29B8F52BFE9882003E545A /* MVVMTableViewController.swift */,
 			);
 			path = Architecture;
 			sourceTree = "<group>";
@@ -665,6 +668,7 @@
 				3E85E47C2BFA152F00C3AD98 /* DrinkCellViewModel.swift in Sources */,
 				3E85E48B2BFA449900C3AD98 /* MainViewLoaderCell.swift in Sources */,
 				3E85E4512BF8A8EC00C3AD98 /* NetworkProvider.swift in Sources */,
+				3E29B8F62BFE9882003E545A /* MVVMTableViewController.swift in Sources */,
 				3E85E4822BFA2E7900C3AD98 /* ImageProvider.swift in Sources */,
 				3E85E4862BFA2FE700C3AD98 /* ErrorData.swift in Sources */,
 				3E85E4AB2BFB306400C3AD98 /* String+Ext.swift in Sources */,
