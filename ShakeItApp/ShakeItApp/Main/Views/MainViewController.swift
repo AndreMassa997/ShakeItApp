@@ -17,6 +17,7 @@ final class MainViewController: UIViewController {
         tv.separatorStyle = .none
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.showsVerticalScrollIndicator = false
+        tv.backgroundColor = .clear
         if #available(iOS 15.0, *) {
             tv.sectionHeaderTopPadding = 0
         }
@@ -34,17 +35,22 @@ final class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .palette.mainBackgroundColor
         bindProperties()
-        setupNavigationBar()
+        setupNavigationBar(title: "Shake It App")
         viewModel.firstLoad()
         setupTableView()
         setupLayout()
     }
     
-    private func setupNavigationBar() {
+    private func setupNavigationBar(title: String) {
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.title = "Shake It App"
+        self.navigationController?.navigationBar.tintColor = .palette.secondaryColor
+        self.navigationController?.navigationBar.barTintColor = .palette.mainBackgroundColor
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.palette.secondaryColor]
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.palette.secondaryColor]
+
+        self.title = title
     }
     
     private func bindProperties() {
