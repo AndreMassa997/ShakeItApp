@@ -9,17 +9,20 @@ import Foundation
 import Combine
 
 final class DrinkCellViewModel: ObservableObject {
-    private(set) var drink: Drink
+    let drink: Drink
     let imageProvider: ImageProvider
+    var anyCancellables: Set<AnyCancellable> = Set()
+    let cellTapSubject = PassthroughSubject<Drink, Never>()
     
     @Published var drinkImageData: Data?
-    var anyCancellables: Set<AnyCancellable> = Set()
-    
-    let cellTapSubject = PassthroughSubject<Drink, Never>()
     
     init(drink: Drink, imageProvider: ImageProvider) {
         self.drink = drink
         self.imageProvider = imageProvider
+    }
+    
+    var ingredientsString: String {
+        drink.ingredients.joined(separator: ", ").capitalized
     }
     
     func getImageDataAndAskIfNeeded() -> Data? {
@@ -40,10 +43,6 @@ final class DrinkCellViewModel: ObservableObject {
                 break
             }
         })
-    }
-        
-    var ingredientsString: String {
-        drink.ingredients.joined(separator: ", ").capitalized
     }
     
     deinit {
