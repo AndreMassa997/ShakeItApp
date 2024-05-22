@@ -26,7 +26,7 @@ final class LabelButtonHeader: UITableViewHeaderFooterView, CellReusable {
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = .palette.mainBackgroundColor
+        setupUI()
         addSubviews()
         setupLayout()
     }
@@ -38,12 +38,6 @@ final class LabelButtonHeader: UITableViewHeaderFooterView, CellReusable {
     override func layoutSubviews() {
         super.layoutSubviews()
         setupButtonImageToRight()
-    }
-    
-    private func addSubviews() {
-        self.contentView.addSubview(title)
-        self.contentView.addSubview(rightButton)
-        self.rightButton.addTarget(self, action: #selector(self.rightButtonTapped), for: .touchUpInside)
     }
     
     func configure(text: String, buttonText: String, buttonImageNamed: String, onButtonTapped: @escaping (() -> Void)) {
@@ -61,6 +55,13 @@ final class LabelButtonHeader: UITableViewHeaderFooterView, CellReusable {
         })
     }
     
+    @objc private func rightButtonTapped() {
+        onButtonTapped?()
+    }
+}
+
+//MARK: Layout + UI
+extension LabelButtonHeader {
     private func setupLayout(){
         NSLayoutConstraint.activate([
             title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
@@ -81,14 +82,16 @@ final class LabelButtonHeader: UITableViewHeaderFooterView, CellReusable {
         self.rightButton.tintColor = .palette.secondaryLabelColor
     }
     
+    private func addSubviews() {
+        self.contentView.addSubview(title)
+        self.contentView.addSubview(rightButton)
+        self.rightButton.addTarget(self, action: #selector(self.rightButtonTapped), for: .touchUpInside)
+    }
+    
     private func setupButtonImageToRight() {
         rightButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         rightButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         rightButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         rightButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
-    }
-    
-    @objc private func rightButtonTapped() {
-        onButtonTapped?()
     }
 }
