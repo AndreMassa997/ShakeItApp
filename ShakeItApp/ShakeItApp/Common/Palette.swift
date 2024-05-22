@@ -18,12 +18,12 @@ protocol Palette{
 
 //Common color for both palette
 extension Palette {
-    var secondaryColor: UIColor {
-        #colorLiteral(red: 1, green: 0.8317337036, blue: 0.4332731962, alpha: 1) //#FFCC5C
+    var mainColor: UIColor {
+        #colorLiteral(red: 0.9921568627, green: 0.9764705882, blue: 0.9019607843, alpha: 1) //#FDF9E6
     }
     
-    var mainColor: UIColor {
-        #colorLiteral(red: 1, green: 0.9419094324, blue: 0.732694149, alpha: 1) //#FFEEAD
+    var secondaryColor: UIColor {
+        #colorLiteral(red: 1, green: 0.8, blue: 0.3607843137, alpha: 1) //#FFCC5C
     }
     
     var mainLabelColor: UIColor {
@@ -58,7 +58,6 @@ struct DarkPalette: Palette{
         .darkContent
     }
     
-  
     var mainBackgroundColor: UIColor {
         .black
     }
