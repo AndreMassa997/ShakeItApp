@@ -36,34 +36,12 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Shake it up"
+        addSubviews()
         setupUI()
         bindProperties()
-        viewModel.firstLoad()
         setupTableView()
         setupLayout()
-    }
-    
-    private func setupUI() {
-        self.view.backgroundColor = .palette.mainBackgroundColor
-        setupNavigationBar()
-    }
-    
-    private func setupNavigationBar() {
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.tintColor = .palette.secondaryLabelColor
-        self.navigationController?.navigationBar.barTintColor = .palette.mainBackgroundColor
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.palette.secondaryLabelColor]
-        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.palette.secondaryLabelColor]
-        
-        let backButtonItem = UIBarButtonItem(title: "BACK".localized, style: .plain, target: nil, action: nil)
-        navigationController?.navigationBar.topItem?.backBarButtonItem = backButtonItem
-
-        let btn = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
-        btn.tintColor = .palette.secondaryLabelColor
-        btn.setImage(UIImage(systemName: "gear"), for: .normal)
-        btn.addTarget(self, action: #selector(self.showBottomSheetSettings), for: .touchUpInside)
-        let rightBarButton = UIBarButtonItem(customView: btn)
-        navigationItem.rightBarButtonItems = [rightBarButton]        
+        viewModel.firstLoad()
     }
     
     private func bindProperties() {
@@ -91,26 +69,6 @@ final class MainViewController: UIViewController {
             .store(in: &viewModel.anyCancellables)
     }
     
-    private func setupTableView() {
-        self.view.addSubview(tableView)
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(cellType: FiltersCarouselView.self)
-        tableView.register(headerType: LabelButtonHeader.self)
-        tableView.register(cellType: DrinkCell.self)
-        tableView.register(cellType: MainViewLoaderCell.self)
-        tableView.register(cellType: NoItemsCell.self)
-    }
-    
-    private func setupLayout() {
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-    }
-    
     private func showErrorPopup(error: String?) {
         guard let error else { return }
         let popupView = ErrorPopupView(frame: self.view.frame)
@@ -122,6 +80,7 @@ final class MainViewController: UIViewController {
     }
 }
 
+//- MARK: TableView delegates and datasource
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         viewModel.tableViewSections.count
@@ -179,7 +138,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-//MARK: Filters
+//- MARK: Filters
 extension MainViewController {
     private func goToFiltersPage() {
         let filtersViewController = FiltersViewController(viewModel: viewModel.filtersViewModel)
@@ -187,7 +146,7 @@ extension MainViewController {
     }
 }
 
-//MARK: Detail
+//- MARK: Detail
 extension MainViewController {
     private func goToDetailPage(drink: Drink) {
         let detailViewController = DetailViewController(viewModel: viewModel.getDetailViewModel(for: drink))
@@ -195,7 +154,7 @@ extension MainViewController {
     }
 }
 
-//MARK: Settings
+//- MARK: Settings
 extension MainViewController {
     @objc private func showBottomSheetSettings(){
         self.showBottomSheet(with: "MAIN.SETTINGS".localized, and: [
@@ -263,6 +222,55 @@ extension MainViewController {
             setupUI()
             self.tableView.reloadData()
         }
+    }
+}
+
+//- MARK: Layout and UI + Table view registrations
+extension MainViewController {
+    private func addSubviews() {
+        self.view.addSubview(tableView)
+    }
+    
+    private func setupUI() {
+        self.view.backgroundColor = .palette.mainBackgroundColor
+        setupNavigationBar()
+    }
+    
+    private func setupNavigationBar() {
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.tintColor = .palette.secondaryLabelColor
+        self.navigationController?.navigationBar.barTintColor = .palette.mainBackgroundColor
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.palette.secondaryLabelColor]
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.palette.secondaryLabelColor]
+        
+        let backButtonItem = UIBarButtonItem(title: "BACK".localized, style: .plain, target: nil, action: nil)
+        navigationController?.navigationBar.topItem?.backBarButtonItem = backButtonItem
+
+        let btn = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
+        btn.tintColor = .palette.secondaryLabelColor
+        btn.setImage(UIImage(systemName: "gear"), for: .normal)
+        btn.addTarget(self, action: #selector(self.showBottomSheetSettings), for: .touchUpInside)
+        let rightBarButton = UIBarButtonItem(customView: btn)
+        navigationItem.rightBarButtonItems = [rightBarButton]
+    }
+    
+    private func setupLayout() {
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(cellType: FiltersCarouselView.self)
+        tableView.register(headerType: LabelButtonHeader.self)
+        tableView.register(cellType: DrinkCell.self)
+        tableView.register(cellType: MainViewLoaderCell.self)
+        tableView.register(cellType: NoItemsCell.self)
     }
 }
 
