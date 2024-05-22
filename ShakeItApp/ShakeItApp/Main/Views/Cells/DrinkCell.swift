@@ -125,7 +125,7 @@ final class DrinkCell: UITableViewCell, CellReusable {
     }
 }
 
-//- MARK: Layout and UI
+//MARK: - Layout and UI
 extension DrinkCell {
     private func addSubviews() {
         labelsViewContainer.addArrangedSubview(titleLabel)

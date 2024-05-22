@@ -80,7 +80,7 @@ final class MainViewController: UIViewController {
     }
 }
 
-//- MARK: TableView delegates and datasource
+//MARK: - TableView delegates and datasource
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         viewModel.tableViewSections.count
@@ -138,7 +138,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-//- MARK: Filters
+//MARK: - Filters
 extension MainViewController {
     private func goToFiltersPage() {
         let filtersViewController = FiltersViewController(viewModel: viewModel.filtersViewModel)
@@ -146,7 +146,7 @@ extension MainViewController {
     }
 }
 
-//- MARK: Detail
+//MARK: - Detail
 extension MainViewController {
     private func goToDetailPage(drink: Drink) {
         let detailViewController = DetailViewController(viewModel: viewModel.getDetailViewModel(for: drink))
@@ -154,7 +154,7 @@ extension MainViewController {
     }
 }
 
-//- MARK: Settings
+//MARK: - Settings
 extension MainViewController {
     @objc private func showBottomSheetSettings(){
         self.showBottomSheet(with: "MAIN.SETTINGS".localized, and: [
@@ -225,7 +225,7 @@ extension MainViewController {
     }
 }
 
-//- MARK: Layout and UI + Table view registrations
+//MARK: - Layout and UI + Table view registrations
 extension MainViewController {
     private func addSubviews() {
         self.view.addSubview(tableView)

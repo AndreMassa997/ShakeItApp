@@ -48,7 +48,7 @@ final class FiltersCarouselView: UITableViewCell, CellReusable {
     }
 }
 
-//MARK: Filters Collection View Delegates
+//MARK: - Filters Collection View Delegates
 extension FiltersCarouselView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.filters.count
@@ -74,7 +74,7 @@ extension FiltersCarouselView: UICollectionViewDelegate, UICollectionViewDataSou
     }
 }
 
-//- MARK: Layout and UI
+//MARK: - Layout and UI
 extension FiltersCarouselView {
     private func addSubviews() {
         self.contentView.addSubview(collectionView)

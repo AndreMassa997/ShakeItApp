@@ -179,7 +179,7 @@ extension MainViewModel {
     }
 }
 
-//MARK: ViewModels Provider
+//MARK: - ViewModels Provider
 extension MainViewModel {
     var filterCarouselViewModel: FiltersCarouselViewModel {
         FiltersCarouselViewModel(filters: self.selectedFilters)

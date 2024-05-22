@@ -409,6 +409,7 @@
 		3E85E4AC2BFB3BB900C3AD98 /* Filters */ = {
 			isa = PBXGroup;
 			children = (
+				3E85E4B62BFB469000C3AD98 /* ViewModels */,
 				3E85E4B22BFB447900C3AD98 /* Views */,
 				3E85E4AD2BFB3BD200C3AD98 /* FiltersViewController.swift */,
 			);
@@ -429,7 +430,6 @@
 		3E85E4B22BFB447900C3AD98 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				3E85E4B62BFB469000C3AD98 /* ViewModels */,
 				3E85E4B32BFB448400C3AD98 /* Cells */,
 				3E8642D62BFE4C1B00D5FF7D /* RoundedButton.swift */,
 			);

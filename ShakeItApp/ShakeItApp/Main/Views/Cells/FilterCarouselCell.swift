@@ -58,7 +58,7 @@ final class FilterCarouselCell: UICollectionViewCell, CellReusable {
     }
 }
 
-//- MARK: Layout and UI
+//MARK: - Layout and UI
 extension FilterCarouselCell {
     private func addSubviews() {
         viewContainer.addArrangedSubview(filterNameLabel)
