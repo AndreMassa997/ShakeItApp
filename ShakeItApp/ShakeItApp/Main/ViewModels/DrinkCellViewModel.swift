@@ -20,25 +20,22 @@ final class DrinkCellViewModel: ObservableObject {
     init(drink: Drink, imageProvider: ImageProvider) {
         self.drink = drink
         self.imageProvider = imageProvider
-        self.loadImage()
     }
     
-    private func loadImage() {
-        guard let data = drink.imageData else {
-            //Request data from server if not present in model
-            Task {
-                let response = await imageProvider.fetchImage(from: drink.imageURL)
-                switch response {
-                case let .success(data):
-                    self.drinkImageData = data
-                    self.drink.imageData = data
-                case .failure:
-                    break
-                }
+    func getImageData() -> Data? {
+        return drink.imageData
+    }
+    
+    func fetchImageData() {
+        Task(priority: .background, operation: {
+            let response = await imageProvider.fetchImage(from: drink.imageURL)
+            switch response {
+            case let .success(data):
+                self.drinkImageData = data
+            case .failure:
+                break
             }
-            return
-        }
-        self.drinkImageData = data
+        })
     }
         
     var ingredientsString: String {

@@ -120,15 +120,22 @@ final class DrinkCell: UITableViewCell, CellReusable {
         viewContainer.backgroundColor = .palette.mainColor
         titleLabel.text = viewModel.drink.name.capitalized
         ingredientsLabel.text = viewModel.ingredientsString
-        viewModel.$drinkImageData
-            .receive(on: RunLoop.main)
-            .sink{ [weak self] data in
-                guard let data else {
-                    return
+        
+        guard let imageData = viewModel.getImageData() else {
+            viewModel.fetchImageData()
+            viewModel.$drinkImageData
+                .receive(on: DispatchQueue.main)
+                .sink{ [weak self] data in
+                    guard let data else {
+                        return
+                    }
+                    self?.enableSelection(with: UIImage(data: data))
                 }
-                self?.enableSelection(with: UIImage(data: data))
-            }
-            .store(in: &viewModel.anyCancellables)
+                .store(in: &viewModel.anyCancellables)
+            return
+        }
+        
+        enableSelection(with: UIImage(data: imageData))
     }
     
     private func enableSelection(with image: UIImage?) {
