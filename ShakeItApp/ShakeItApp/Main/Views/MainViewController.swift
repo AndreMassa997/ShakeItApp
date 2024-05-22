@@ -54,6 +54,9 @@ final class MainViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = .palette.mainBackgroundColor
         self.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.palette.secondaryLabelColor]
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.palette.secondaryLabelColor]
+        
+        let backButtonItem = UIBarButtonItem(title: "BACK".localized, style: .plain, target: nil, action: nil)
+        navigationController?.navigationBar.topItem?.backBarButtonItem = backButtonItem
 
         let btn = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
         btn.tintColor = .palette.secondaryLabelColor
