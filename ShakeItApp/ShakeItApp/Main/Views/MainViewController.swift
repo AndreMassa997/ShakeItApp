@@ -198,70 +198,64 @@ extension MainViewController {
 //MARK: Settings
 extension MainViewController {
     @objc private func showBottomSheetSettings(){
-        let bottomSheet = UIAlertController(title: "MAIN.SETTINGS".localized, message: nil, preferredStyle: .actionSheet)
-        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.THEME".localized, style: .default, handler: { [weak self] _ in
-            self?.showThemeBottomSheetSettings()
-        }))
-        
-        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.LANGUAGE".localized, style: .default, handler: { [weak self] _ in
-            self?.showLanguageBottomSheetSettings()
-        }))
-        
-        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.CANCEL".localized, style: .cancel))
-        self.present(bottomSheet, animated: true)
+        self.showBottomSheet(with: "MAIN.SETTINGS".localized, and: [
+            ("MAIN.SETTINGS.THEME".localized, self.showThemeBottomSheetSettings()),
+            ("MAIN.SETTINGS.LANGUAGE".localized, self.showLanguageBottomSheetSettings())
+        ])
     }
     
-    private func showThemeBottomSheetSettings() {
-        let bottomSheet = UIAlertController(title: "MAIN.SETTINGS.THEME".localized, message: nil, preferredStyle: .actionSheet)
-        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.THEME.DARK".localized, style: .default, handler: { [weak self] _ in
-            self?.setTheme(DarkPalette())
-        }))
-        
-        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.THEME.LIGHT".localized, style: .default, handler: { [weak self] _ in
-            self?.setTheme(LightPalette())
-        }))
-        
-        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.AUTO".localized, style: .default, handler: { [weak self] _ in
-            self?.setTheme(nil)
-        }))
-        
-        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.CANCEL".localized, style: .cancel))
-        self.present(bottomSheet, animated: true)
+    private func showThemeBottomSheetSettings() -> () -> Void {
+        return { [weak self] in
+            guard let self else { return }
+            self.showBottomSheet(with: "MAIN.SETTINGS.THEME".localized, and: [
+                ("MAIN.SETTINGS.THEME.DARK".localized, self.setupTheme(DarkPalette())),
+                ("MAIN.SETTINGS.THEME.LIGHT".localized, self.setupTheme(LightPalette())),
+                ("MAIN.SETTINGS.AUTO".localized, self.setupTheme(nil))
+            ])
+        }
     }
     
-    private func showLanguageBottomSheetSettings() {
-        let bottomSheet = UIAlertController(title: "MAIN.SETTINGS.LANGUAGE".localized, message: nil, preferredStyle: .actionSheet)
-        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.LANGUAGE.ITA".localized, style: .default, handler: { [weak self] _ in
-            self?.setLanguage("it")
-        }))
-        
-        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.LANGUAGE.ENG".localized, style: .default, handler: { [weak self] _ in
-            self?.setLanguage("en")
-        }))
-        
-        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.AUTO".localized, style: .default, handler: { [weak self] _ in
-            self?.setLanguage(nil)
-        }))
-        
-        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.CANCEL".localized, style: .cancel))
-        self.present(bottomSheet, animated: true)
+    private func showLanguageBottomSheetSettings() -> () -> Void {
+        return { [weak self] in
+            guard let self else { return }
+            self.showBottomSheet(with: "MAIN.SETTINGS.LANGUAGE".localized, and: [
+                ("MAIN.SETTINGS.LANGUAGE.ITA".localized, self.setupLanguage("it")),
+                ("MAIN.SETTINGS.LANGUAGE.ENG".localized, self.setupLanguage("en")),
+                ("MAIN.SETTINGS.AUTO".localized, self.setupLanguage(nil))
+            ])
+        }
     }
     
-    private func setTheme(_ palette: Palette?) {
-        let hasChanged: Bool
-        if let palette {
-            hasChanged = AppPreferences.shared.setupUserPalette(newPalette: palette, storeNewPalette: true)
-        } else {
-            let mode: Palette = traitCollection.userInterfaceStyle == .dark ? DarkPalette() : LightPalette()
-            hasChanged = AppPreferences.shared.setupUserPalette(newPalette: mode, deleteStoredValue: true)
+    private func showBottomSheet(with title: String, and elements: [(title: String, action: () -> Void)]) {
+        let bottomSheet = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
+
+        elements.forEach { element in
+            bottomSheet.addAction(UIAlertAction(title: element.title, style: .default, handler: { _ in
+                element.action()
+            }))
         }
         
-        reloadViewsIfNeeded(hasChanged)
+        bottomSheet.addAction(UIAlertAction(title: "MAIN.SETTINGS.CANCEL".localized, style: .cancel))
+        self.present(bottomSheet, animated: true)
     }
     
-    private func setLanguage(_ newLanguage: String?) {
-        reloadViewsIfNeeded( AppPreferences.shared.setupLanguage(languageCode: newLanguage)
-        )
+    private func setupTheme(_ palette: Palette?) -> () -> Void {
+        return { [weak self] in
+            let hasChanged: Bool
+            if let palette {
+                hasChanged = AppPreferences.shared.setupUserPalette(newPalette: palette, storeNewPalette: true)
+            } else {
+                let mode: Palette = self?.traitCollection.userInterfaceStyle == .dark ? DarkPalette() : LightPalette()
+                hasChanged = AppPreferences.shared.setupUserPalette(newPalette: mode, deleteStoredValue: true)
+            }
+            self?.reloadViewsIfNeeded(hasChanged)
+        }
+    }
+    
+    private func setupLanguage(_ code: String?) -> () -> Void {
+        return { [weak self] in
+            self?.reloadViewsIfNeeded(AppPreferences.shared.setupLanguage(languageCode: code))
+        }
     }
     
     private func reloadViewsIfNeeded(_ hasChanged: Bool) {
