@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class LabelButtonHeader: UITableViewHeaderFooterView, CellReusable {
+final class LabelButtonHeader: BaseHeaderView<LabelButtonHeaderViewModel> {
     private let title: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
@@ -22,47 +22,21 @@ final class LabelButtonHeader: UITableViewHeaderFooterView, CellReusable {
         return btn
     }()
     
-    private var onButtonTapped: (() -> Void)?
-
-    override init(reuseIdentifier: String?) {
-        super.init(reuseIdentifier: reuseIdentifier)
-        setupUI()
-        addSubviews()
-        setupLayout()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         setupButtonImageToRight()
     }
     
-    func configure(text: String, buttonText: String, buttonImageNamed: String, onButtonTapped: @escaping (() -> Void)) {
-        self.title.text = text
-        self.rightButton.setTitle(buttonText, for: .normal)
-        self.rightButton.setImage(UIImage(systemName: buttonImageNamed), for: .normal)
-        self.onButtonTapped = onButtonTapped
+    override func configure(with viewModel: LabelButtonHeaderViewModel) {
+        super.configure(with: viewModel)
+        self.title.text = viewModel.titleText
+        self.rightButton.setTitle(viewModel.buttonText, for: .normal)
+        self.rightButton.setImage(UIImage(systemName: viewModel.imageName), for: .normal)
         setupUI()
     }
     
-    func setupButtonTextAnimated(text: String, buttonImageNamed: String) {
-        UIView.transition(with: self.rightButton, duration: 0.3, options: .transitionCrossDissolve, animations: { [weak self] in
-            self?.rightButton.setTitle(text, for: .normal)
-            self?.rightButton.setImage(UIImage(systemName: buttonImageNamed), for: .normal)
-        })
-    }
-    
-    @objc private func rightButtonTapped() {
-        onButtonTapped?()
-    }
-}
-
-//MARK: Layout + UI
-extension LabelButtonHeader {
-    private func setupLayout(){
+    //MARK: Layout + UI
+    override func setupLayout(){
         NSLayoutConstraint.activate([
             title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             title.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
@@ -75,14 +49,14 @@ extension LabelButtonHeader {
         ])
     }
     
-    private func setupUI() {
+    override func setupUI() {
         contentView.backgroundColor = .palette.mainBackgroundColor
-        self.title.textColor = .palette.secondaryLabelColor
-        self.rightButton.setTitleColor(.palette.secondaryLabelColor, for: .normal)
-        self.rightButton.tintColor = .palette.secondaryLabelColor
+        title.textColor = .palette.secondaryLabelColor
+        rightButton.setTitleColor(.palette.secondaryLabelColor, for: .normal)
+        rightButton.tintColor = .palette.secondaryLabelColor
     }
     
-    private func addSubviews() {
+    override func addSubviews() {
         self.contentView.addSubview(title)
         self.contentView.addSubview(rightButton)
         self.rightButton.addTarget(self, action: #selector(self.rightButtonTapped), for: .touchUpInside)
@@ -94,4 +68,17 @@ extension LabelButtonHeader {
         rightButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         rightButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
     }
+    
+    func setupButtonTextAnimated(text: String, buttonImageNamed: String) {
+        UIView.transition(with: self.rightButton, duration: 0.3, options: .transitionCrossDissolve, animations: { [weak self] in
+            self?.rightButton.setTitle(text, for: .normal)
+            self?.rightButton.setImage(UIImage(systemName: buttonImageNamed), for: .normal)
+        })
+    }
+    
+    @objc private func rightButtonTapped() {
+        viewModel.buttonTappedSubject.send()
+    }
 }
+
+
