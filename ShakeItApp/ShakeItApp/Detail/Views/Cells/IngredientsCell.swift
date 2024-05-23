@@ -7,9 +7,7 @@
 
 import UIKit
 
-final class IngredientsCell: UITableViewCell, CellReusable {
-    var viewModel: IngredientsViewModel!
-    
+final class IngredientsCell: BaseTableViewCell<IngredientsViewModel> {
     private let collectionView: UICollectionView = {
         let layout = LeftAlignmentCollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -20,20 +18,29 @@ final class IngredientsCell: UITableViewCell, CellReusable {
         return cv
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupUI()
-        addSubviews()
-        setupLayout()
+    override func configure(with viewModel: IngredientsViewModel) {
+        super.configure(with: viewModel)
         setupCollectionView()
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    //MARK: - Layout and UI + Collection view registrations
+    override func setupLayout() {
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            collectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
+            collectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15),
+            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
     }
-    
-    func configure(with viewModel: IngredientsViewModel) {
-        self.viewModel = viewModel
+
+    override func addSubviews() {
+        self.contentView.addSubview(collectionView)
+    }
+
+    private func setupCollectionView() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(cellType: IngredientCell.self)
     }
     
     //Dynamic cell height when updates collection view height
@@ -66,33 +73,6 @@ extension IngredientsCell: UICollectionViewDataSource, UICollectionViewDelegateF
         return CGSize(width: max(ingredientNameWidth, measureNameWidth) + IngredientCell.marginLeft + IngredientCell.marginRight + 10, height: 50)
     }
 }
-
-//MARK: - Layout and UI + Collection view registrations
-extension IngredientsCell {
-    private func setupLayout() {
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            collectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
-            collectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15),
-            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
-    }
-    
-    private func setupUI() {
-        backgroundColor = .clear
-    }
-    
-    private func addSubviews() {
-        self.contentView.addSubview(collectionView)
-    }
-    
-    private func setupCollectionView() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(cellType: IngredientCell.self)
-    }
-}
-
 //MARK: Collection view custom flow layout
 ///Flow layout to align elements to the left and go to new line when needed
 fileprivate class LeftAlignmentCollectionViewFlowLayout: UICollectionViewFlowLayout {
