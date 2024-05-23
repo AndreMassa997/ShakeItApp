@@ -8,7 +8,25 @@
 import Foundation
 import Combine
 
-class NetworkViewModel: BaseViewModel {
+typealias FullProviderConformance = ImageProviderConformance & NetworkProviderConformance
+
+protocol ImageProviderConformance {
+    var imageProvider: ImageProvider { get }
+}
+
+protocol NetworkProviderConformance {
+    var networkProvider: NetworkProvider { get }
+}
+
+class ImageViewModel: BaseViewModel, ImageProviderConformance {
+    let imageProvider: ImageProvider
+    
+    init(imageProvider: ImageProvider){
+        self.imageProvider = imageProvider
+    }
+}
+
+class FullViewModel: BaseViewModel, FullProviderConformance {
     let networkProvider: NetworkProvider
     let imageProvider: ImageProvider
     
