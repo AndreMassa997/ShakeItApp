@@ -31,8 +31,13 @@ When the user taps on "Filter by" button, the app shows all filters available an
 It's mandatory to select at least one filter for each type, to continue the filtering.
 
 ## Additional features
-- The app supports both light and dark mode and you can choose automatic mode (the system one) or your favourite from the gear icon on top-right of the home page
-- The app supports english and italian language. You can choose the automatic mode (the system language) or your favourite language from the gear icon on top-right in the home page.
+- <b>Settings</b>
+    - The app supports both light and dark mode and you can choose automatic mode (the system one) or your favourite from the gear icon on top-right of the home page
+    
+    - The app supports english and italian language. You can choose the automatic mode (the system language) or your favourite language from the gear icon on top-right in the home page.
+    
+Both the settings will be stored in the User Defaults if not set to the system settings (I created a property wrapper to easy store and get data from User Defaults)
+
 - Popups and loaders improve the user's experience thanks to Lottie animations:
     - A Loader will be shown on the bottom of the cocktails list when data are loading from API
     - A popup will be shown if some errors occurred while loading data from API
@@ -50,6 +55,9 @@ I used only native classes and libraries, such as UIKit, URLCache to store datas
 
 ## Unit tests
 I wrote some unit test to test some part of MainViewModel behavior
+
+## Future implementations
+I like to create a simple SwiftUI view to search cocktails by name, using the search API of the "TheCocktailDB". I started in the branch (feature/search_swift_ui)
 
 ## App screenshots
 
