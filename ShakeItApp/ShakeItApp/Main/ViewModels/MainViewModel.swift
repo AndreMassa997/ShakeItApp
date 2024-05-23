@@ -196,7 +196,6 @@ extension MainViewModel {
         let drinkCellViewModel = DrinkCellViewModel(drink: drink, imageProvider: imageProvider)
         drinkCellViewModel.cellTapSubject
             .eraseToAnyPublisher()
-            .receive(on: DispatchQueue.global())
             .sink { [weak self] drinkTapped in
                 //Go to details
                 self?.tapOnDrink.send(drinkTapped)
@@ -205,7 +204,7 @@ extension MainViewModel {
         
 
         drinkCellViewModel.$drinkImageData
-            .receive(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] imageData in
                 self?.storeImageToDrink(with: drink.id, data: imageData)
             }
