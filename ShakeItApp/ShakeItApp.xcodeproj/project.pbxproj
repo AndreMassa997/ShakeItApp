@@ -23,6 +23,8 @@
 		3E4325E72BFF3F2500DEB926 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4325E62BFF3F2500DEB926 /* BaseView.swift */; };
 		3E4325E92BFF413600DEB926 /* ErrorPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4325E82BFF413600DEB926 /* ErrorPopupViewModel.swift */; };
 		3E4325EC2BFF4CDF00DEB926 /* MainViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4325EB2BFF4CDF00DEB926 /* MainViewModelTests.swift */; };
+		3E4325F12BFFE27300DEB926 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4325F02BFFE27300DEB926 /* SearchView.swift */; };
+		3E4325F32BFFE2D100DEB926 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4325F22BFFE2D100DEB926 /* SearchViewModel.swift */; };
 		3E85E4002BF7B30B00C3AD98 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E3FF2BF7B30B00C3AD98 /* AppDelegate.swift */; };
 		3E85E4022BF7B30B00C3AD98 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4012BF7B30B00C3AD98 /* SceneDelegate.swift */; };
 		3E85E4042BF7B30B00C3AD98 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4032BF7B30B00C3AD98 /* MainViewController.swift */; };
@@ -111,6 +113,8 @@
 		3E4325E62BFF3F2500DEB926 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		3E4325E82BFF413600DEB926 /* ErrorPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPopupViewModel.swift; sourceTree = "<group>"; };
 		3E4325EB2BFF4CDF00DEB926 /* MainViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModelTests.swift; sourceTree = "<group>"; };
+		3E4325F02BFFE27300DEB926 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		3E4325F22BFFE2D100DEB926 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		3E85E3FC2BF7B30B00C3AD98 /* ShakeItApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShakeItApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E85E3FF2BF7B30B00C3AD98 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3E85E4012BF7B30B00C3AD98 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -258,6 +262,15 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
+		3E4325EF2BFFE26500DEB926 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				3E4325F02BFFE27300DEB926 /* SearchView.swift */,
+				3E4325F22BFFE2D100DEB926 /* SearchViewModel.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		3E85E3F32BF7B30B00C3AD98 = {
 			isa = PBXGroup;
 			children = (
@@ -285,6 +298,7 @@
 				3E85E43E2BF8A31100C3AD98 /* Main */,
 				3E85E4AC2BFB3BB900C3AD98 /* Filters */,
 				3E4124DF2BFCAABC00734B6D /* Detail */,
+				3E4325EF2BFFE26500DEB926 /* Search */,
 				3E85E4652BF8F92800C3AD98 /* Utils */,
 				3E85E3FF2BF7B30B00C3AD98 /* AppDelegate.swift */,
 				3E85E4012BF7B30B00C3AD98 /* SceneDelegate.swift */,
@@ -661,9 +675,11 @@
 				3E4124EE2BFCEC3D00734B6D /* IngredientViewModel.swift in Sources */,
 				3E85E4782BFA11D500C3AD98 /* DrinkCell.swift in Sources */,
 				3E85E4842BFA2ED700C3AD98 /* ImagesManager.swift in Sources */,
+				3E4325F32BFFE2D100DEB926 /* SearchViewModel.swift in Sources */,
 				3E29B8F22BFE91BC003E545A /* BaseViewController.swift in Sources */,
 				3E4325E32BFF227600DEB926 /* LabelHeaderViewModel.swift in Sources */,
 				3E8642C92BFDCA3D00D5FF7D /* DetailHeaderViewModel.swift in Sources */,
+				3E4325F12BFFE27300DEB926 /* SearchView.swift in Sources */,
 				3E4124EC2BFCEB5700734B6D /* IngredientCell.swift in Sources */,
 				3E85E4672BF8F93F00C3AD98 /* CellReusable.swift in Sources */,
 				3E8642D32BFDF78600D5FF7D /* AppPreferences.swift in Sources */,
@@ -895,7 +911,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -922,7 +938,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -945,7 +961,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TTYQD3WFJX;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = andreamassari.ShakeItAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -965,7 +981,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TTYQD3WFJX;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = andreamassari.ShakeItAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import SwiftUI
 
 final class MainViewController: TableViewController<MainViewModel> {
     override func viewDidLoad() {
@@ -67,8 +68,13 @@ final class MainViewController: TableViewController<MainViewModel> {
         btn.tintColor = .palette.secondaryLabelColor
         btn.setImage(UIImage(systemName: "gear"), for: .normal)
         btn.addTarget(self, action: #selector(self.showBottomSheetSettings), for: .touchUpInside)
-        let rightBarButton = UIBarButtonItem(customView: btn)
-        navigationItem.rightBarButtonItems = [rightBarButton]
+        
+        let searchBtn = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
+        searchBtn.tintColor = .palette.secondaryLabelColor
+        searchBtn.setImage(UIImage(systemName: "magnifyingglass.circle"), for: .normal)
+        searchBtn.addTarget(self, action: #selector(self.showSearchView), for: .touchUpInside)
+        
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: btn), UIBarButtonItem(customView: searchBtn)]
     }
     
 //MARK: Error popup
@@ -175,7 +181,7 @@ extension MainViewController {
 
 //MARK: - Settings
 extension MainViewController {
-    @objc private func showBottomSheetSettings(){
+    @objc private func showBottomSheetSettings() {
         self.showBottomSheet(with: "MAIN.SETTINGS".localized, and: [
             ("MAIN.SETTINGS.THEME".localized, self.showThemeBottomSheetSettings()),
             ("MAIN.SETTINGS.LANGUAGE".localized, self.showLanguageBottomSheetSettings())
@@ -246,6 +252,16 @@ extension MainViewController {
     
     private func getCurrentString(title: String, value: String) -> String {
         title + " - " + "MAIN.SETTINGS.CURRENT".localized + ": " + value
+    }
+}
+
+
+//MARK: - SEARCH
+extension MainViewController {
+    @objc private func showSearchView() {
+        let searchView = SearchView(viewModel: viewModel.searchViewModel)
+        let searchViewController = UIHostingController(rootView: searchView)
+        navigationController?.pushViewController(searchViewController, animated: true)
     }
 }
 

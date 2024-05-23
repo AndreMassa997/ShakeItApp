@@ -39,3 +39,4 @@
 "MAIN.SETTINGS.LANGUAGE.ENG" = "Inglese";
 "MAIN.SETTINGS.CURRENT" = "Corrente";
 "MAIN.FILTERS.ERROR" = "Uno o più filtri non sono disponibili.\Puoi continuare a consultare i tuoi drink preferiti con i filtri rimanenti";
+"SEARCH.PLACEHOLDER" = "Inserisci un nome";

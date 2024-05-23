@@ -234,6 +234,12 @@ extension MainViewModel {
         
         return viewModel
     }
+    
+    var searchViewModel: SearchViewModel {
+        let sv = SearchViewModel(networkProvider: networkProvider, imageProvider: imageProvider)
+        sv.searchedDrinks = filteredDrinks
+        return sv
+    }
 }
 
 fileprivate struct FilterResponses {

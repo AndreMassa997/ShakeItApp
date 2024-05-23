@@ -38,3 +38,4 @@
 "MAIN.SETTINGS.LANGUAGE.ENG" = "English";
 "MAIN.SETTINGS.CURRENT" = "Current";
 "MAIN.FILTERS.ERROR" = "One (or more) filter is not available.\nYou can continue to look at your favourite drinks with the remaining filters";
+"SEARCH.PLACEHOLDER" = "Insert a name";

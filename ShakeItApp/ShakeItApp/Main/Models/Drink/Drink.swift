@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Drink: Decodable, Identifiable {
+struct Drink: Decodable, Identifiable, Hashable {
     let id: String
     let name: String
     let category: String
