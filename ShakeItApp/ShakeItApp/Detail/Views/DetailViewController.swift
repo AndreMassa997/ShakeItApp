@@ -39,7 +39,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         switch DetailViewSection.allCases[indexPath.section] {
         case .instructions:
             let cell = tableView.dequeueReusableCell(for: indexPath, cellType: LabelCell.self)
-            cell.configure(with: viewModel.instructionText)
+            cell.configure(with: viewModel.labelCellViewModel)
             return cell
         case .ingredients:
             let cell = tableView.dequeueReusableCell(for: indexPath, cellType: IngredientsCell.self)

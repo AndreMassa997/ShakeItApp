@@ -14,10 +14,6 @@ final class DetailViewModel: BaseViewModel {
         self.drink = drink
         super.init()
     }
-    
-    var instructionText: String? {
-        drink.instructions["APP.LANGUAGE".localized]
-    }
 }
 
 //MARK: ViewModel provider
@@ -28,6 +24,11 @@ extension DetailViewModel {
     
     var ingredientsViewModel: IngredientsViewModel {
         IngredientsViewModel(ingredients: drink.ingredients, measures: drink.measures)
+    }
+    
+    var labelCellViewModel: LabelCellViewModel {
+        let instructionText = drink.instructions["APP.LANGUAGE".localized] ?? "-"
+        return LabelCellViewModel(text: instructionText)
     }
 }
 
