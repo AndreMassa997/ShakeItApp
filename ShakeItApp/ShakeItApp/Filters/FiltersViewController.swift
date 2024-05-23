@@ -16,13 +16,9 @@ final class FiltersViewController: TableViewController<FiltersViewModel> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "MAIN.SECTION.FILTER_BY".localized
         setupTableView()
         applyButton.addTarget(self, action: #selector(applyTapped), for: .touchUpInside)
-    }
-    
-    override func setupUI() {
-        super.setupUI()
-        title = "MAIN.SECTION.FILTER_BY".localized
     }
     
     override func addSubviews() {

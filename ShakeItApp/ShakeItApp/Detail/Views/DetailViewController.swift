@@ -10,11 +10,8 @@ import UIKit
 final class DetailViewController: TableViewController<DetailViewModel> {
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTableView()
-    }
-    
-    override func setupUI() {
         self.title = viewModel.drink.name.capitalized
+        setupTableView()
     }
     
     //Need to recalculate table view header when refreshing UI (orientation changed)
