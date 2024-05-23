@@ -80,6 +80,13 @@ final class MainViewModel: FullViewModel {
         }
     }
     
+    private func loadMoreDrinks() {
+        Task {
+            let drinkResponse = await loadDataSourceFromServer()
+            validateDrinkResponse(response: drinkResponse)
+        }
+    }
+    
     private func setupNewFiltersAndAskNewDataIfNeeded(_ filters: [Filter]) {
         self.selectedFilters = filters
         self.filteredDrinks = self.filterDrinksByCurrentFilters()
