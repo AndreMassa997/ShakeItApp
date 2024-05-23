@@ -50,7 +50,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeader(headerType: LabelHeader.self)
-        header.configure(with: DetailViewSection.allCases[section].headerName)
+        header.configure(with: viewModel.getLabelHeaderViewModel(at: section))
         return header
     }
 }

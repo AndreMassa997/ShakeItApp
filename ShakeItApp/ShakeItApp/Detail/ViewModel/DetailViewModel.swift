@@ -30,6 +30,10 @@ extension DetailViewModel {
         let instructionText = drink.instructions["APP.LANGUAGE".localized] ?? "-"
         return LabelCellViewModel(text: instructionText)
     }
+    
+    func getLabelHeaderViewModel(at index: Int) -> LabelHeaderViewModel {
+        LabelHeaderViewModel(text: DetailViewSection.allCases[index].headerName)
+    }
 }
 
 enum DetailViewSection: String, CaseIterable {
