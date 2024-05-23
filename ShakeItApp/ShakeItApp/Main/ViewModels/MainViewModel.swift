@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class MainViewModel: NetworkViewModel {
+final class MainViewModel: FullViewModel {
     //store all available filters that succeeded from API Calls, hide the others
     private var selectedFilters: [Filter] = []
     

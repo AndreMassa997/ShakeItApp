@@ -8,16 +8,15 @@
 import Foundation
 import Combine
 
-final class DrinkCellViewModel: BaseViewModel {
+final class DrinkCellViewModel: ImageViewModel {
     let drink: Drink
-    let imageProvider: ImageProvider
     let cellTapSubject = PassthroughSubject<Drink, Never>()
     
     @Published var drinkImageData: Data?
     
     init(drink: Drink, imageProvider: ImageProvider) {
         self.drink = drink
-        self.imageProvider = imageProvider
+        super.init(imageProvider: imageProvider)
     }
     
     var ingredientsString: String {
