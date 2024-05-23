@@ -21,6 +21,7 @@ If the app is not able to load cocktail items, a popup will be shown, in this ca
 If all alphabetical data are retrieved (basically all letters and numbers was requested), the app hide the bottom loader and stops trying to load other elements.
 
 When the user taps on an element from the list, a detail page is showed.
+
 <b>The detail page is ready to view only when the image of the cocktail is retrieved from the TheCocktailDB server</b> (by using the image url in the model). In this case the image and the right arrow will be show to the user.
 
 In the detail page the user can see the instructions, the ingredients and the measures of the cocktails.
@@ -37,8 +38,8 @@ It's mandatory to select at least one filter for each type, to continue the filt
     - A popup will be shown if some errors occurred while loading data from API
 
 ## Architecture
-The app is written in the MVVM architecture using async-await and combine to observe values changing.
-There are some base classes (BaseView, BaseViewController, BaseViewModel, ecc..) to inherit that simplify the syntax.
+The app is written with the MVVM architecture using async-await and combine to observe value changes.
+There are some base classes (BaseView, BaseViewController, BaseViewModel, ecc..) to inherit from to simplify the syntax.
 
 I created also a branch, called "feature/dispatch_queue", in which I removed all async-await and replacing them with closures and Dispatchers (DispatchGroups), to prove the Combine flexibility, without touching any of View implementations.
 
@@ -53,8 +54,8 @@ I wrote some unit test to test some part of MainViewModel behavior
 ## App screenshots
 
 <p>
-<img src="./screenshots/main_light_portrait.png?raw=true" width="200">
-<img src="./screenshots/main_dark_portrait.png?raw=true" width="200">
+<img src="./screenshots/main_light.png?raw=true" width="200">
+<img src="./screenshots/main_dark.png?raw=true" width="200">
 </p>
 <p>
 <img src="./screenshots/filters_light.png?raw=true" width="200">
@@ -67,6 +68,10 @@ I wrote some unit test to test some part of MainViewModel behavior
 <p>
 <img src="./screenshots/no_elements_light.png?raw=true" width="250">
 <img src="./screenshots/no_elements_dark.png?raw=true" width="250">
+</p>
+<p>
+<img src="./screenshots/loading_light.png?raw=true" width="250">
+<img src="./screenshots/loading_dark.png?raw=true" width="250">
 </p>
 
 
