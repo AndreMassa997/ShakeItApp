@@ -19,6 +19,7 @@
 		3E4325DF2BFF1E5300DEB926 /* LabelCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4325DE2BFF1E5300DEB926 /* LabelCellViewModel.swift */; };
 		3E4325E12BFF211600DEB926 /* BaseHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4325E02BFF211600DEB926 /* BaseHeaderView.swift */; };
 		3E4325E32BFF227600DEB926 /* LabelHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4325E22BFF227600DEB926 /* LabelHeaderViewModel.swift */; };
+		3E4325E52BFF23A900DEB926 /* LabelButtonHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4325E42BFF23A900DEB926 /* LabelButtonHeaderViewModel.swift */; };
 		3E85E4002BF7B30B00C3AD98 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E3FF2BF7B30B00C3AD98 /* AppDelegate.swift */; };
 		3E85E4022BF7B30B00C3AD98 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4012BF7B30B00C3AD98 /* SceneDelegate.swift */; };
 		3E85E4042BF7B30B00C3AD98 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85E4032BF7B30B00C3AD98 /* MainViewController.swift */; };
@@ -104,6 +105,7 @@
 		3E4325DE2BFF1E5300DEB926 /* LabelCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCellViewModel.swift; sourceTree = "<group>"; };
 		3E4325E02BFF211600DEB926 /* BaseHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseHeaderView.swift; sourceTree = "<group>"; };
 		3E4325E22BFF227600DEB926 /* LabelHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelHeaderViewModel.swift; sourceTree = "<group>"; };
+		3E4325E42BFF23A900DEB926 /* LabelButtonHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelButtonHeaderViewModel.swift; sourceTree = "<group>"; };
 		3E85E3FC2BF7B30B00C3AD98 /* ShakeItApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShakeItApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E85E3FF2BF7B30B00C3AD98 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3E85E4012BF7B30B00C3AD98 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 			isa = PBXGroup;
 			children = (
 				3E85E4752BFA0D5F00C3AD98 /* LabelButtonHeader.swift */,
+				3E4325E42BFF23A900DEB926 /* LabelButtonHeaderViewModel.swift */,
 			);
 			path = HeadersFooter;
 			sourceTree = "<group>";
@@ -687,6 +690,7 @@
 				3E4325E12BFF211600DEB926 /* BaseHeaderView.swift in Sources */,
 				3E85E47C2BFA152F00C3AD98 /* DrinkCellViewModel.swift in Sources */,
 				3E85E48B2BFA449900C3AD98 /* MainViewLoaderCell.swift in Sources */,
+				3E4325E52BFF23A900DEB926 /* LabelButtonHeaderViewModel.swift in Sources */,
 				3E85E4512BF8A8EC00C3AD98 /* NetworkProvider.swift in Sources */,
 				3E29B8F62BFE9882003E545A /* TableViewController.swift in Sources */,
 				3E85E4822BFA2E7900C3AD98 /* ImageProvider.swift in Sources */,
