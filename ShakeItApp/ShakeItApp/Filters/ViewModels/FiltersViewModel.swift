@@ -69,7 +69,6 @@ extension FiltersViewModel {
         
         viewModel.buttonTappedSubject
             .eraseToAnyPublisher()
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.selectDeselectAllValues(at: index)
                 self?.buttonHeaderTapped.send(index)

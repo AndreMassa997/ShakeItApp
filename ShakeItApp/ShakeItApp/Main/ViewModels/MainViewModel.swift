@@ -182,7 +182,7 @@ extension MainViewModel {
         let filtersViewModel = FiltersViewModel(filters: self.selectedFilters)
         filtersViewModel.filtersSubject
             .eraseToAnyPublisher()
-            .receive(on: DispatchQueue.main)
+            .receive(on: DispatchQueue.global())
             .sink { [weak self] newFilters in
                 guard let self else { return }
                 self.setupNewFiltersAndAskNewDataIfNeeded(newFilters)
@@ -196,14 +196,16 @@ extension MainViewModel {
         let drinkCellViewModel = DrinkCellViewModel(drink: drink, imageProvider: imageProvider)
         drinkCellViewModel.cellTapSubject
             .eraseToAnyPublisher()
-            .receive(on: DispatchQueue.main)
+            .receive(on: DispatchQueue.global())
             .sink { [weak self] drinkTapped in
                 //Go to details
                 self?.tapOnDrink.send(drinkTapped)
             }
             .store(in: &anyCancellables)
         
+
         drinkCellViewModel.$drinkImageData
+            .receive(on: DispatchQueue.global())
             .sink { [weak self] imageData in
                 self?.storeImageToDrink(with: drink.id, data: imageData)
             }
