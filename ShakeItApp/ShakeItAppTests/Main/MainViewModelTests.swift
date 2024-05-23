@@ -15,23 +15,31 @@ final class MainViewModelTests: XCTestCase {
         let networkProvider = makeNetworkProvider(with: drinks, alcoholicFiter: filter)
         let sut = makeSUT(networkProvider: networkProvider)
         
-        let expectation = XCTestExpectation(description: "Expect to have both filters and drinks section after first load succeeded")
+        let expectation = XCTestExpectation(description: "Expect to have both drinks and filter sections after first load succeeded")
         
         sut.firstLoad()
         
         var sections: [MainViewSection] = []
+        var numberOfUpdates: Int = 0
         sut.$tableViewSections
             .sink { sect in
                 sections = sect
-                expectation.fulfill()
+                if numberOfUpdates == 0 {
+                    //Expect to have only the loader if first loading (first default initializer of view model)
+                    XCTAssertEqual(sections, [.loader])
+                } else {
+                    expectation.fulfill()
+                }
+                numberOfUpdates += 1
             }
             .store(in: &sut.anyCancellables)
         
-        wait(for: [expectation], timeout: 1.0)
-                
-        XCTAssert(sections.contains(.drinks))
-        XCTAssert(sections.contains(.filters))
+        wait(for: [expectation], timeout: 2.0)
+        
+        XCTAssertTrue(sections.contains(.filters))
+        XCTAssertTrue(sections.contains(.drinks))
     }
+
 
     func test_firstLoad_shouldPopulateOnlyDrinksSectionsOnFiltersError() {
         let drinks = makeFakeDrinks()
@@ -39,19 +47,28 @@ final class MainViewModelTests: XCTestCase {
         let sut = makeSUT(networkProvider: networkProvider)
         
         let expectation = XCTestExpectation(description: "Expect to have only drinks sections after first load filters fails")
+        
         sut.firstLoad()
         
         var sections: [MainViewSection] = []
+        var numberOfUpdates: Int = 0
         sut.$tableViewSections
             .sink { sect in
                 sections = sect
-                expectation.fulfill()
+                if numberOfUpdates == 0 {
+                    //Expect to have only the loader if first loading (first default initializer of view model)
+                    XCTAssertEqual(sections, [.loader])
+                } else {
+                    expectation.fulfill()
+                }
+                numberOfUpdates += 1
             }
             .store(in: &sut.anyCancellables)
+    
         
         wait(for: [expectation], timeout: 1.0)
                 
-        XCTAssert(sections.contains(.drinks))
+        XCTAssertTrue(sections.contains(.drinks))
         XCTAssertFalse(sections.contains(.filters))
     }
     
