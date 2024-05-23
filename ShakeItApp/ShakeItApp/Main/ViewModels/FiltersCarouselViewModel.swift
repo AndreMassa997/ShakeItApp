@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class FiltersCarouselViewModel {
+final class FiltersCarouselViewModel: BaseViewModel {
     let filters: [Filter]
     
     init(filters: [Filter]) {
