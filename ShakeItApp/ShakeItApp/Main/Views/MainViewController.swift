@@ -132,12 +132,20 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         viewModel.askForNewDrinksIfNeeded(at: indexPath.row)
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let index = viewModel.tableViewSections.firstIndex(where: { $0 == .drinks }), let header = tableView.headerView(forSection: index) as? LabelButtonHeader else { return }
+        
+        header.showHideButtonAnimated(isHidden: scrollView.contentOffset.y <= 0)
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerViewModel = viewModel.getHeaderViewModel(at: section) else {
             return nil
         }
         let header = tableView.dequeueReusableHeader(headerType: LabelButtonHeader.self)
         header.configure(with: headerViewModel)
+        let hideButton = viewModel.tableViewSections[section] == .drinks && tableView.contentOffset.y <= 0
+        header.showHideButtonAnimated(isHidden: hideButton)
         return header
     }
 }
