@@ -121,9 +121,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             cell.configure(with: drinkViewModel)
             return cell
         case .loader:
-            let cell = tableView.dequeueReusableCell(for: indexPath, cellType: MainViewLoaderCell.self)
-            cell.startAnimating()
-            return cell
+            return tableView.dequeueReusableCell(for: indexPath, cellType: MainViewLoaderCell.self)
         case .noItems:
             return tableView.dequeueReusableCell(for: indexPath, cellType: NoItemsCell.self)
         }

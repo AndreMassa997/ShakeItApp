@@ -8,7 +8,7 @@
 import UIKit
 import Lottie
 
-final class MainViewLoaderCell: UITableViewCell, CellReusable {
+final class MainViewLoaderCell: BaseTableViewCell<BaseViewModel> {
     private let animatedView: LottieAnimationView = {
         let av = LottieAnimationView(name: "loader")
         av.contentMode = .scaleAspectFit
@@ -17,18 +17,16 @@ final class MainViewLoaderCell: UITableViewCell, CellReusable {
         return av
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .clear
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        animatedView.play()
+    }
+    
+    override func addSubviews() {
         self.contentView.addSubview(animatedView)
-        setupLayout()
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupLayout() {
+    override func setupLayout() {
         NSLayoutConstraint.activate([
             animatedView.widthAnchor.constraint(equalToConstant: 100),
             animatedView.heightAnchor.constraint(equalToConstant: 100),
@@ -36,9 +34,5 @@ final class MainViewLoaderCell: UITableViewCell, CellReusable {
             animatedView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             animatedView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
-    }
-    
-    func startAnimating() {
-        animatedView.play()
     }
 }
