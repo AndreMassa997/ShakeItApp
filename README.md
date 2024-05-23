@@ -62,16 +62,16 @@ I wrote some unit test to test some part of MainViewModel behavior
 <img src="./screenshots/filters_dark.png?raw=true" width="200">
 </p>
 <p>
-<img src="./screenshots/detail_light.png?raw=true" width="250">
-<img src="./screenshots/detail_dark.png?raw=true" width="250">
+<img src="./screenshots/detail_light.png?raw=true" width="200">
+<img src="./screenshots/detail_dark.png?raw=true" width="200">
 </p>
 <p>
-<img src="./screenshots/no_elements_light.png?raw=true" width="250">
-<img src="./screenshots/no_elements_dark.png?raw=true" width="250">
+<img src="./screenshots/no_elements_light.png?raw=true" width="200">
+<img src="./screenshots/no_elements_dark.png?raw=true" width="200">
 </p>
 <p>
-<img src="./screenshots/loading_light.png?raw=true" width="250">
-<img src="./screenshots/loading_dark.png?raw=true" width="250">
+<img src="./screenshots/loading_light.png?raw=true" width="200">
+<img src="./screenshots/loading_dark.png?raw=true" width="200">
 </p>
 
 
