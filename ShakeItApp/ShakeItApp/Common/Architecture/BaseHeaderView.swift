@@ -31,7 +31,7 @@ class BaseHeaderView<ViewModel: BaseViewModel>: UITableViewHeaderFooterView, Cel
     }
     
     func setupUI() {
-        backgroundColor = .clear
+        contentView.backgroundColor = .palette.mainBackgroundColor
     }
     
     func addSubviews() {}

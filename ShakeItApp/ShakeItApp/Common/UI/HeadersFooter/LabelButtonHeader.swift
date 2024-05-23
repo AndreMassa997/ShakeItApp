@@ -50,7 +50,7 @@ final class LabelButtonHeader: BaseHeaderView<LabelButtonHeaderViewModel> {
     }
     
     override func setupUI() {
-        contentView.backgroundColor = .palette.mainBackgroundColor
+        super.setupUI()
         title.textColor = .palette.secondaryLabelColor
         rightButton.setTitleColor(.palette.secondaryLabelColor, for: .normal)
         rightButton.tintColor = .palette.secondaryLabelColor
