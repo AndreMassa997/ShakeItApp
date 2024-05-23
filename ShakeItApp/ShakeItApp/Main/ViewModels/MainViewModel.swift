@@ -36,12 +36,6 @@ final class MainViewModel: FullViewModel {
     }
     
     private var currentPage: Int = 0
-//        didSet {
-//            if hasFinishedLoading {
-//                self.setupTableViewSections()
-//            }
-//        }
-    
     
     private var hasFinishedLoading: Bool {
         currentPage == alphabetizedPaging.count
