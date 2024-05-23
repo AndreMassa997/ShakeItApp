@@ -8,7 +8,7 @@
 import UIKit
 
 class BaseTableViewCell<ViewModel: BaseViewModel>: UITableViewCell, CellReusable {
-    var viewModel: ViewModel!
+    private (set) var viewModel: ViewModel!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

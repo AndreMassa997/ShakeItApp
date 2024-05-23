@@ -8,7 +8,7 @@
 import UIKit
 
 class BaseCollectionViewCell<ViewModel: BaseViewModel>: UICollectionViewCell, CellReusable {
-    var viewModel: ViewModel!
+    private(set) var viewModel: ViewModel!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
