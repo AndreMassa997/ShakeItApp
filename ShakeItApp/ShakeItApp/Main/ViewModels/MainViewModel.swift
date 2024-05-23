@@ -11,6 +11,14 @@ import Combine
 final class MainViewModel: FullViewModel {
     //store all available filters that succeeded from API Calls, hide the others
     private var selectedFilters: [Filter] = []
+    private var currentPage: Int = 0
+    private var hasFinishedLoading: Bool {
+        currentPage == alphabetizedPaging.count
+    }
+    private var alphabetizedPaging: [String] {
+        let alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"
+        return alphabet.map { String($0) }
+    }
     
     //Data from server for drinks
     private var allDrinks = [Drink]() {
@@ -29,17 +37,6 @@ final class MainViewModel: FullViewModel {
     let tapOnDrink = PassthroughSubject<Drink, Never>()
     let buttonHeaderSubject = PassthroughSubject<Int, Never>()
     @Published var tableViewSections: [MainViewSection] = [.loader]
-    
-    private var alphabetizedPaging: [String] {
-        let alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"
-        return alphabet.map { String($0) }
-    }
-    
-    private var currentPage: Int = 0
-    
-    private var hasFinishedLoading: Bool {
-        currentPage == alphabetizedPaging.count
-    }
     
     //Data from server for filters
     private var filtersData: FilterResponses? {
