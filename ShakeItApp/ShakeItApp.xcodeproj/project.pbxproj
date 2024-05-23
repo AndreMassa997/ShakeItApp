@@ -129,7 +129,6 @@
 		3E85E49A2BFA70B500C3AD98 /* error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error.json; sourceTree = "<group>"; };
 		3E85E49D2BFA714000C3AD98 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		3E85E4A32BFB2A6600C3AD98 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		3E85E4A72BFB2A8D00C3AD98 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		3E85E4A92BFB2AB200C3AD98 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3E85E4AA2BFB306400C3AD98 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		3E85E4AD2BFB3BD200C3AD98 /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
@@ -686,7 +685,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				3E85E40B2BF7B30C00C3AD98 /* Base */,
-				3E85E4A72BFB2A8D00C3AD98 /* it */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
