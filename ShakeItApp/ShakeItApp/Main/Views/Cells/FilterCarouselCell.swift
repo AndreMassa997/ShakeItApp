@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class FilterCarouselCell: UICollectionViewCell, CellReusable {
+final class FilterCarouselCell: BaseCollectionViewCell<FilterCarouselCellViewModel> {
     private let filterNameLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = UIFont.systemFont(ofSize: 14, weight: .light)
@@ -38,36 +38,24 @@ final class FilterCarouselCell: UICollectionViewCell, CellReusable {
         return sv
     }()
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        backgroundColor = .clear
-        addSubviews()
-        setupLayout()
-        setupUI()
-    }
-    
-    func configure(with viewModel: FilterCarouselCellViewModel) {
+    override func configure(with viewModel: FilterCarouselCellViewModel) {
+        super.configure(with: viewModel)
         self.filterImageView.image = UIImage(named: viewModel.imageName)
         self.filterNameLabel.text = viewModel.filterName
                 
         self.filterValuesLabel.text = "MAIN.SECTION.FILTER_SELECTION".localized(with: String(viewModel.selectedValuesCount), String(viewModel.allValuesCount))
     }
-}
-
-//MARK: - Layout and UI
-extension FilterCarouselCell {
-    private func addSubviews() {
+    
+    //MARK: - Layout and UI
+    
+    override func addSubviews() {
         viewContainer.addArrangedSubview(filterNameLabel)
         viewContainer.addArrangedSubview(filterValuesLabel)
         contentView.addSubview(filterImageView)
         contentView.addSubview(viewContainer)
     }
     
-    private func setupLayout() {
+    override func setupLayout() {
         NSLayoutConstraint.activate([
             filterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             filterImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
@@ -81,7 +69,7 @@ extension FilterCarouselCell {
         ])
     }
     
-    private func setupUI() {
+    override func setupUI() {
         backgroundColor = .palette.mainColor
         filterValuesLabel.textColor = .palette.mainLabelColor
 
