@@ -24,6 +24,7 @@ final class MainViewModel: FullViewModel {
     private(set) var filteredDrinks = [Drink]()
     
     //Published values for reloading
+    let filtersErrorSubject = PassthroughSubject<String, Never>()
     let loadingErrorSubject = PassthroughSubject<String, Never>()
     let tapOnDrink = PassthroughSubject<Drink, Never>()
     let buttonHeaderSubject = PassthroughSubject<Int, Never>()
@@ -55,6 +56,11 @@ final class MainViewModel: FullViewModel {
                 Filter(.ingredients, values: filtersData?.ingredientsValues),
                 Filter(.glass, values: filtersData?.glassValues)
             ].compactMap { $0 }
+            
+            if selectedFilters.count < 4 {
+                filtersErrorSubject.send("MAIN.FILTERS.ERROR".localized)
+                filtersErrorSubject.send(completion: .finished)
+            }
         }
     }
     
@@ -296,6 +302,7 @@ fileprivate extension Filter {
     }
     
     private func filterBy(values: [String]) -> Bool {
-        self.selectedValues.contains(where: values.contains)
+        //Lowercased filter to avoid unexpected behavior from Filters API and Drinks API
+        self.selectedValues.map({ $0.lowercased() }).contains(where: values.map({ $0.lowercased() }).contains)
     }
 }

@@ -24,11 +24,19 @@ final class MainViewController: TableViewController<MainViewModel> {
             }
             .store(in: &viewModel.anyCancellables)
         
-        viewModel.loadingErrorSubject
-            .eraseToAnyPublisher()
+        viewModel.filtersErrorSubject
             .receive(on: DispatchQueue.main)
             .sink { [weak self] error in
-                self?.showErrorPopup(error: error)
+                self?.showErrorPopup(error: error, buttonText: "MAIN.SETTINGS.CANCEL".localized)
+            }
+            .store(in: &viewModel.anyCancellables)
+        
+        viewModel.loadingErrorSubject
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                self?.showErrorPopup(error: error, buttonText: "MAIN.ERROR.RETRY".localized) { [weak self] in
+                   self?.viewModel.reloadDrinkFromError()
+               }
             }
             .store(in: &viewModel.anyCancellables)
         
@@ -41,7 +49,6 @@ final class MainViewController: TableViewController<MainViewModel> {
             .store(in: &viewModel.anyCancellables)
         
         viewModel.buttonHeaderSubject
-            .eraseToAnyPublisher()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] index in
                 guard let self else { return }
@@ -65,17 +72,17 @@ final class MainViewController: TableViewController<MainViewModel> {
     }
     
 //MARK: Error popup
-    private func showErrorPopup(error: String?) {
+    private func showErrorPopup(error: String?, buttonText: String, action: (() -> Void)? = nil) {
         guard let error else { return }
-        let errorViewModel = ErrorPopupViewModel(title: error, buttonText: "MAIN.ERROR.RETRY".localized)
+        let errorViewModel = ErrorPopupViewModel(title: error, buttonText: buttonText)
         let popupView = ErrorPopupView(viewModel: errorViewModel, frame: self.view.frame, nibLoadable: true)
         
         popupView.show(in: self.view)
         
         errorViewModel.buttonTapped
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.viewModel.reloadDrinkFromError()
+            .sink {
+                action?()
                 popupView.hide()
             }
             .store(in: &viewModel.anyCancellables)
