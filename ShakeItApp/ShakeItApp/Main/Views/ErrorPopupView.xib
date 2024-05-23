@@ -26,7 +26,7 @@
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8bd-I8-Spe" userLabel="ViewContainer">
-                    <rect key="frame" x="30" y="276" width="333" height="300"/>
+                    <rect key="frame" x="30" y="286.33333333333326" width="333" height="279.66666666666674"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r9c-Df-6GR" customClass="LottieAnimationView" customModule="Lottie">
                             <rect key="frame" x="91.666666666666686" y="20" width="150" height="150"/>
@@ -43,7 +43,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kiC-hI-iIf">
-                            <rect key="frame" x="15" y="225.33333333333331" width="303" height="54.666666666666686"/>
+                            <rect key="frame" x="15" y="225.33333333333337" width="303" height="34.333333333333314"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" title="Retry"/>
                             <connections>
@@ -59,7 +59,6 @@
                         <constraint firstItem="GbL-bC-nto" firstAttribute="leading" secondItem="8bd-I8-Spe" secondAttribute="leading" constant="15" id="Egc-lA-Xf1"/>
                         <constraint firstAttribute="bottom" secondItem="kiC-hI-iIf" secondAttribute="bottom" constant="20" id="Lgf-tY-49D"/>
                         <constraint firstAttribute="trailing" secondItem="GbL-bC-nto" secondAttribute="trailing" constant="15" id="QT9-4y-3wT"/>
-                        <constraint firstAttribute="height" constant="300" id="Zyc-oq-vxf"/>
                         <constraint firstItem="GbL-bC-nto" firstAttribute="top" secondItem="r9c-Df-6GR" secondAttribute="bottom" constant="15" id="aUw-HC-23h"/>
                         <constraint firstItem="kiC-hI-iIf" firstAttribute="top" secondItem="GbL-bC-nto" secondAttribute="bottom" constant="15" id="oWW-xw-xId"/>
                         <constraint firstItem="r9c-Df-6GR" firstAttribute="centerX" secondItem="8bd-I8-Spe" secondAttribute="centerX" id="u5c-Hu-GuM"/>
@@ -67,8 +66,10 @@
                 </view>
             </subviews>
             <constraints>
+                <constraint firstItem="8bd-I8-Spe" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="top" id="82Y-di-69l"/>
                 <constraint firstAttribute="trailing" secondItem="8bd-I8-Spe" secondAttribute="trailing" constant="30" id="GxG-id-XKV"/>
                 <constraint firstItem="Rq0-8J-7AA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Jhy-4J-V3R"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="8bd-I8-Spe" secondAttribute="bottom" id="Ros-eb-HAm"/>
                 <constraint firstAttribute="bottom" secondItem="Rq0-8J-7AA" secondAttribute="bottom" id="gbX-8E-LIp"/>
                 <constraint firstItem="8bd-I8-Spe" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="gqL-a6-vI9"/>
                 <constraint firstItem="8bd-I8-Spe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="30" id="ves-tP-ZZR"/>
