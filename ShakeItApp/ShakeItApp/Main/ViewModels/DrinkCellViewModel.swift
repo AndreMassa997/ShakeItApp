@@ -8,10 +8,9 @@
 import Foundation
 import Combine
 
-final class DrinkCellViewModel: ObservableObject {
+final class DrinkCellViewModel: BaseViewModel {
     let drink: Drink
     let imageProvider: ImageProvider
-    var anyCancellables: Set<AnyCancellable> = Set()
     let cellTapSubject = PassthroughSubject<Drink, Never>()
     
     @Published var drinkImageData: Data?
