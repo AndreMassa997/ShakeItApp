@@ -117,6 +117,7 @@ final class DrinkCell: BaseTableViewCell<DrinkCellViewModel> {
     }
     
     override func setupUI() {
+        super.setupUI()
         viewContainer.backgroundColor = .palette.mainColor
         viewContainer.layer.cornerRadius = 20
         viewContainer.layer.masksToBounds = false
