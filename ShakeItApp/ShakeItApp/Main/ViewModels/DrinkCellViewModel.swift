@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 final class DrinkCellViewModel: ImageViewModel {
-    let drink: Drink
+    private (set) var drink: Drink
     let cellTapSubject = PassthroughSubject<Drink, Never>()
     
     @Published var drinkImageData: Data?
@@ -37,6 +37,7 @@ final class DrinkCellViewModel: ImageViewModel {
             switch response {
             case let .success(data):
                 self.drinkImageData = data
+                self.drink.imageData = data
             case .failure:
                 break
             }
