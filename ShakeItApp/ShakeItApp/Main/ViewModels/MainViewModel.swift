@@ -34,13 +34,13 @@ final class MainViewModel: FullViewModel {
         return alphabet.map { String($0) }
     }
     
-    private var currentPage: Int = 0 {
-        didSet {
-            if hasFinishedLoading {
-                self.setupTableViewSections()
-            }
-        }
-    }
+    private var currentPage: Int = 0
+//        didSet {
+//            if hasFinishedLoading {
+//                self.setupTableViewSections()
+//            }
+//        }
+    
     
     private var hasFinishedLoading: Bool {
         currentPage == alphabetizedPaging.count
@@ -63,13 +63,6 @@ final class MainViewModel: FullViewModel {
         Task {
             let (filters, drinkResponse) = await firstLoadingFromServer()
             self.filtersData = filters
-            validateDrinkResponse(response: drinkResponse)
-        }
-    }
-    
-    func loadMoreDrinks() {
-        Task {
-            let drinkResponse = await loadDataSourceFromServer()
             validateDrinkResponse(response: drinkResponse)
         }
     }
@@ -212,7 +205,7 @@ extension MainViewModel {
         
 
         drinkCellViewModel.$drinkImageData
-            .receive(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] imageData in
                 self?.storeImageToDrink(with: drink.id, data: imageData)
             }
