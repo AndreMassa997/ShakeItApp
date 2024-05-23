@@ -35,13 +35,13 @@ final class MainViewModel: FullViewModel {
         return alphabet.map { String($0) }
     }
     
-    private var currentPage: Int = 0 {
-        didSet {
-            if hasFinishedLoading {
-                self.setupTableViewSections()
-            }
-        }
-    }
+    private var currentPage: Int = 0
+//        didSet {
+//            if hasFinishedLoading {
+//                self.setupTableViewSections()
+//            }
+//        }
+    
     
     private var hasFinishedLoading: Bool {
         currentPage == alphabetizedPaging.count
@@ -73,16 +73,16 @@ final class MainViewModel: FullViewModel {
         }
     }
     
-    func loadMoreDrinks() {
-        Task {
-            let drinkResponse = await loadDataSourceFromServer()
-            validateDrinkResponse(response: drinkResponse)
-        }
-    }
-    
     func askForNewDrinksIfNeeded(at index: Int) {
         if !hasFinishedLoading && index >= filteredDrinks.count - 1 {
             loadMoreDrinks()
+        }
+    }
+    
+    private func loadMoreDrinks() {
+        Task {
+            let drinkResponse = await loadDataSourceFromServer()
+            validateDrinkResponse(response: drinkResponse)
         }
     }
     
