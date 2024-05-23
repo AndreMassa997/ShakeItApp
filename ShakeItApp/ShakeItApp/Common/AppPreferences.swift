@@ -31,12 +31,34 @@ final class AppPreferences {
         return oldPalette.paletteName != palette.paletteName
     }
     
+    var currentTheme: String {
+        switch storedPalette {
+            case "light":
+                return "MAIN.SETTINGS.THEME.LIGHT".localized
+            case "dark":
+                return "MAIN.SETTINGS.THEME.DARK".localized
+            default:
+                return "MAIN.SETTINGS.AUTO".localized
+        }
+    }
+    
     //MARK: - Language
     @UserDefault("language") private(set) var storedLanguage: String?
     func setupLanguage(languageCode: String?) -> Bool {
         let currentLanguage = storedLanguage ?? Locale.currentLanguage
         storedLanguage = languageCode
         return currentLanguage != storedLanguage
+    }
+    
+    var currentLanguage: String {
+        switch storedLanguage {
+            case "en":
+                return "MAIN.SETTINGS.LANGUAGE.ENG".localized
+            case "it":
+                return "MAIN.SETTINGS.LANGUAGE.ITA".localized
+            default:
+                return "MAIN.SETTINGS.AUTO".localized
+        }
     }
 }
 

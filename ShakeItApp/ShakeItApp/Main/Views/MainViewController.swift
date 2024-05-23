@@ -178,7 +178,7 @@ extension MainViewController {
     private func showThemeBottomSheetSettings() -> () -> Void {
         return { [weak self] in
             guard let self else { return }
-            self.showBottomSheet(with: "MAIN.SETTINGS.THEME".localized, and: [
+            self.showBottomSheet(with: getCurrentString(title: "MAIN.SETTINGS.THEME".localized, value: AppPreferences.shared.currentTheme), and: [
                 ("MAIN.SETTINGS.THEME.DARK".localized, self.setupTheme(DarkPalette())),
                 ("MAIN.SETTINGS.THEME.LIGHT".localized, self.setupTheme(LightPalette())),
                 ("MAIN.SETTINGS.AUTO".localized, self.setupTheme(nil))
@@ -189,7 +189,8 @@ extension MainViewController {
     private func showLanguageBottomSheetSettings() -> () -> Void {
         return { [weak self] in
             guard let self else { return }
-            self.showBottomSheet(with: "MAIN.SETTINGS.LANGUAGE".localized, and: [
+            
+            self.showBottomSheet(with: getCurrentString(title: "MAIN.SETTINGS.LANGUAGE".localized, value: AppPreferences.shared.currentLanguage), and: [
                 ("MAIN.SETTINGS.LANGUAGE.ITA".localized, self.setupLanguage("it")),
                 ("MAIN.SETTINGS.LANGUAGE.ENG".localized, self.setupLanguage("en")),
                 ("MAIN.SETTINGS.AUTO".localized, self.setupLanguage(nil))
@@ -234,6 +235,10 @@ extension MainViewController {
             setupUI()
             self.tableView.reloadData()
         }
+    }
+    
+    private func getCurrentString(title: String, value: String) -> String {
+        title + " - " + "MAIN.SETTINGS.CURRENT".localized + ": " + value
     }
 }
 
