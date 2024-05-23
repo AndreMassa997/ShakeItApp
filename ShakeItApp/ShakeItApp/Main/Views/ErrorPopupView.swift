@@ -8,7 +8,9 @@
 import UIKit
 import Lottie
 
-final class ErrorPopupView: UIView {
+final class ErrorPopupView: BaseView<ErrorPopupViewModel> {
+    @IBOutlet weak private var textLabel: UILabel!
+    @IBOutlet weak private var retryButton: UIButton!
     @IBOutlet weak private var animationView: LottieAnimationView! {
         didSet {
             guard let path = Bundle.main.path(forResource: "error", ofType: "json") else {
@@ -25,21 +27,14 @@ final class ErrorPopupView: UIView {
             viewContainer.layer.cornerRadius = 20
         }
     }
-    
-    @IBOutlet weak private var textLabel: UILabel!
-    @IBOutlet weak private var retryButton: UIButton!
-    
-    private var onButtonTapped: (() -> Void)?
-    
-    func configure(with title: String, buttonText: String = "MAIN.ERROR.RETRY".localized, onButtonTapped: @escaping () -> Void) {
-        self.loadFromNib()
-        self.onButtonTapped = onButtonTapped
-        self.retryButton.setTitle(buttonText, for: .normal)
-        self.textLabel.text = title
+        
+    override func setupUI() {
+        retryButton.setTitle(viewModel.buttonText, for: .normal)
+        textLabel.text = viewModel.title
     }
 
     @IBAction func retryButtonTapped(_ sender: Any) {
-        onButtonTapped?()
+        viewModel.buttonTapped.send()
     }
     
     func show(in view: UIView) {

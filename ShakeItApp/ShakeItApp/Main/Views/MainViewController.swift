@@ -67,12 +67,19 @@ final class MainViewController: TableViewController<MainViewModel> {
 //MARK: Error popup
     private func showErrorPopup(error: String?) {
         guard let error else { return }
-        let popupView = ErrorPopupView(frame: self.view.frame)
-        popupView.configure(with: error) { [weak self] in
-            self?.viewModel.reloadDrinkFromError()
-            popupView.hide()
-        }
+        let errorViewModel = ErrorPopupViewModel(title: error, buttonText: "MAIN.ERROR.RETRY".localized)
+        let popupView = ErrorPopupView(viewModel: errorViewModel, frame: self.view.frame, nibLoadable: true)
+        
         popupView.show(in: self.view)
+        
+        errorViewModel.buttonTapped
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.viewModel.reloadDrinkFromError()
+                popupView.hide()
+            }
+            .store(in: &viewModel.anyCancellables)
+        
     }
 }
 
