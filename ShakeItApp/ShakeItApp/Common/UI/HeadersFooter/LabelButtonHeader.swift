@@ -62,18 +62,24 @@ final class LabelButtonHeader: BaseHeaderView<LabelButtonHeaderViewModel> {
         self.rightButton.addTarget(self, action: #selector(self.rightButtonTapped), for: .touchUpInside)
     }
     
-    private func setupButtonImageToRight() {
-        rightButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        rightButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        rightButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        rightButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
-    }
-    
     func setupButtonTextAnimated(text: String, buttonImageNamed: String) {
         UIView.transition(with: self.rightButton, duration: 0.3, options: .transitionCrossDissolve, animations: { [weak self] in
             self?.rightButton.setTitle(text, for: .normal)
             self?.rightButton.setImage(UIImage(systemName: buttonImageNamed), for: .normal)
         })
+    }
+    
+    func showHideButtonAnimated(isHidden: Bool) {
+        UIView.transition(with: self.rightButton, duration: 0.3, options: .transitionCrossDissolve, animations: { [weak self] in
+            self?.rightButton.isHidden = isHidden
+        })
+    }
+    
+    private func setupButtonImageToRight() {
+        rightButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        rightButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        rightButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        rightButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
     }
     
     @objc private func rightButtonTapped() {
