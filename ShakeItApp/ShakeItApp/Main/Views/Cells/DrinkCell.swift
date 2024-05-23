@@ -8,8 +8,7 @@
 import UIKit
 import Combine
 
-final class DrinkCell: UITableViewCell, CellReusable {
-    private var viewModel: DrinkCellViewModel?
+final class DrinkCell: BaseTableViewCell<DrinkCellViewModel> {
     private var isSelectable: Bool = false
     
     private let viewContainer: UIView = {
@@ -53,31 +52,17 @@ final class DrinkCell: UITableViewCell, CellReusable {
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        selectionStyle = .none
-        backgroundColor = .clear
-        addSubviews()
-        setupLayout()
-        setupUI()
-        viewContainer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGesture)))
-    }
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
         disableSelection()
     }
     
-    func configure(with viewModel: DrinkCellViewModel) {
-        self.viewModel = viewModel
-        viewContainer.backgroundColor = .palette.mainColor
+    override func configure(with viewModel: DrinkCellViewModel) {
+        super.configure(with: viewModel)
         titleLabel.text = viewModel.drink.name.capitalized
         ingredientsLabel.text = viewModel.ingredientsString
+        viewContainer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGesture)))
         
         guard let imageData = viewModel.getImageDataAndAskIfNeeded() else {
             //Add property listener to intercept data from API if no data are present
@@ -87,8 +72,7 @@ final class DrinkCell: UITableViewCell, CellReusable {
         enableSelection(with: imageData)
     }
     
-    private func bindProperties() {
-        guard let viewModel else { return }
+    override func bindProperties() {
         viewModel.$drinkImageData
             .receive(on: DispatchQueue.main)
             .sink{ [weak self] data in
@@ -96,6 +80,50 @@ final class DrinkCell: UITableViewCell, CellReusable {
                 self?.enableSelection(with: data)
             }
             .store(in: &viewModel.anyCancellables)
+    }
+    
+    override func addSubviews() {
+        labelsViewContainer.addArrangedSubview(titleLabel)
+        labelsViewContainer.addArrangedSubview(ingredientsLabel)
+        viewContainer.addSubview(alcoholicTypeImageView)
+        viewContainer.addSubview(labelsViewContainer)
+        viewContainer.addSubview(arrowImage)
+        contentView.addSubview(viewContainer)
+    }
+    
+    override func setupLayout() {
+        NSLayoutConstraint.activate([
+            viewContainer.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
+            viewContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            viewContainer.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15),
+            viewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            viewContainer.bottomAnchor.constraint(equalTo: alcoholicTypeImageView.bottomAnchor, constant: 10),
+            
+            alcoholicTypeImageView.topAnchor.constraint(equalTo: viewContainer.topAnchor, constant: 10),
+            alcoholicTypeImageView.widthAnchor.constraint(equalToConstant: 50),
+            alcoholicTypeImageView.heightAnchor.constraint(equalTo: alcoholicTypeImageView.widthAnchor),
+            alcoholicTypeImageView.leftAnchor.constraint(equalTo: viewContainer.leftAnchor, constant: 15),
+            
+            labelsViewContainer.topAnchor.constraint(equalTo: viewContainer.topAnchor, constant: 15),
+            labelsViewContainer.leftAnchor.constraint(equalTo: alcoholicTypeImageView.rightAnchor, constant: 10),
+            labelsViewContainer.bottomAnchor.constraint(equalTo: viewContainer.bottomAnchor, constant: -15),
+            
+            arrowImage.centerYAnchor.constraint(equalTo: viewContainer.centerYAnchor),
+            arrowImage.heightAnchor.constraint(equalToConstant: 20),
+            arrowImage.widthAnchor.constraint(equalTo: arrowImage.heightAnchor),
+            arrowImage.leftAnchor.constraint(equalTo: labelsViewContainer.rightAnchor, constant: 10),
+            arrowImage.rightAnchor.constraint(equalTo: viewContainer.rightAnchor, constant: -15),
+        ])
+    }
+    
+    override func setupUI() {
+        viewContainer.backgroundColor = .palette.mainColor
+        viewContainer.layer.cornerRadius = 20
+        viewContainer.layer.masksToBounds = false
+        viewContainer.layer.shadowColor = UIColor.black.cgColor
+        viewContainer.layer.shadowOffset = CGSize(width: 0, height: 0)
+        viewContainer.layer.shadowRadius = 3
+        viewContainer.layer.shadowOpacity = 0.01
     }
     
     private func enableSelection(with data: Data) {
@@ -122,51 +150,5 @@ final class DrinkCell: UITableViewCell, CellReusable {
     @objc private func tapGesture() {
         guard isSelectable, let viewModel else { return }
         viewModel.cellTapSubject.send(viewModel.drink)
-    }
-}
-
-//MARK: - Layout and UI
-extension DrinkCell {
-    private func addSubviews() {
-        labelsViewContainer.addArrangedSubview(titleLabel)
-        labelsViewContainer.addArrangedSubview(ingredientsLabel)
-        viewContainer.addSubview(alcoholicTypeImageView)
-        viewContainer.addSubview(labelsViewContainer)
-        viewContainer.addSubview(arrowImage)
-        contentView.addSubview(viewContainer)
-    }
-    
-    private func setupLayout() {
-        NSLayoutConstraint.activate([
-            viewContainer.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
-            viewContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            viewContainer.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15),
-            viewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            viewContainer.bottomAnchor.constraint(equalTo: alcoholicTypeImageView.bottomAnchor, constant: 10),
-            
-            alcoholicTypeImageView.topAnchor.constraint(equalTo: viewContainer.topAnchor, constant: 10),
-            alcoholicTypeImageView.widthAnchor.constraint(equalToConstant: 50),
-            alcoholicTypeImageView.heightAnchor.constraint(equalTo: alcoholicTypeImageView.widthAnchor),
-            alcoholicTypeImageView.leftAnchor.constraint(equalTo: viewContainer.leftAnchor, constant: 15),
-            
-            labelsViewContainer.topAnchor.constraint(equalTo: viewContainer.topAnchor, constant: 15),
-            labelsViewContainer.leftAnchor.constraint(equalTo: alcoholicTypeImageView.rightAnchor, constant: 10),
-            labelsViewContainer.bottomAnchor.constraint(equalTo: viewContainer.bottomAnchor, constant: -15),
-            
-            arrowImage.centerYAnchor.constraint(equalTo: viewContainer.centerYAnchor),
-            arrowImage.heightAnchor.constraint(equalToConstant: 20),
-            arrowImage.widthAnchor.constraint(equalTo: arrowImage.heightAnchor),
-            arrowImage.leftAnchor.constraint(equalTo: labelsViewContainer.rightAnchor, constant: 10),
-            arrowImage.rightAnchor.constraint(equalTo: viewContainer.rightAnchor, constant: -15),
-        ])
-    }
-    
-    private func setupUI() {
-        viewContainer.layer.cornerRadius = 20
-        viewContainer.layer.masksToBounds = false
-        viewContainer.layer.shadowColor = UIColor.black.cgColor
-        viewContainer.layer.shadowOffset = CGSize(width: 0, height: 0)
-        viewContainer.layer.shadowRadius = 3
-        viewContainer.layer.shadowOpacity = 0.01
     }
 }
