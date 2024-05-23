@@ -9,32 +9,101 @@ import XCTest
 @testable import ShakeItApp
 
 final class MainViewModelTests: XCTestCase {
-
     func test_firstLoad_shouldPopulateSectionsOnValidData() {
         let drinks = makeFakeDrinks()
-        let sut = makeSUT(networkProvider: NetworkProviderSpy(drinks: drinks))
+        let filter = makeFakeAlcoholicFilters()
+        let networkProvider = makeNetworkProvider(with: drinks, alcoholicFiter: filter)
+        let sut = makeSUT(networkProvider: networkProvider)
         
-        let expectation = XCTestExpectation(description: "Expect to have valid properties after first load")
+        let expectation = XCTestExpectation(description: "Expect to have both filters and drinks section after first load succeeded")
+        
         sut.firstLoad()
         
+        var sections: [MainViewSection] = []
         sut.$tableViewSections
-            .sink { sections in
+            .sink { sect in
+                sections = sect
                 expectation.fulfill()
             }
             .store(in: &sut.anyCancellables)
         
         wait(for: [expectation], timeout: 1.0)
                 
-        XCTAssertEqual(sut.filteredDrinks.map(\.id), drinks.map(\.id))
+        XCTAssert(sections.contains(.drinks))
+        XCTAssert(sections.contains(.filters))
+    }
+
+    func test_firstLoad_shouldPopulateOnlyDrinksSectionsOnFiltersError() {
+        let drinks = makeFakeDrinks()
+        let networkProvider = makeNetworkProvider(with: drinks)
+        let sut = makeSUT(networkProvider: networkProvider)
+        
+        let expectation = XCTestExpectation(description: "Expect to have only drinks sections after first load filters fails")
+        sut.firstLoad()
+        
+        var sections: [MainViewSection] = []
+        sut.$tableViewSections
+            .sink { sect in
+                sections = sect
+                expectation.fulfill()
+            }
+            .store(in: &sut.anyCancellables)
+        
+        wait(for: [expectation], timeout: 1.0)
+                
+        XCTAssert(sections.contains(.drinks))
+        XCTAssertFalse(sections.contains(.filters))
+    }
+    
+    func test_firstLoad_shouldShowErrorOnInvalidResponse() {
+        let errorNetworkProvider = makeNetworkProvider()
+        let sut = makeSUT(networkProvider: errorNetworkProvider)
+        
+        let expectation1 = XCTestExpectation(description: "Expect to hide both filters and drinks section after first load fails for all requests")
+        let expectation2 = XCTestExpectation(description: "Expect to trigger error subject")
+        sut.firstLoad()
+        
+        var sections: [MainViewSection] = []
+        sut.$tableViewSections
+            .sink { sect in
+                sections = sect
+                expectation1.fulfill()
+            }
+            .store(in: &sut.anyCancellables)
+        
+        var error: String?
+        sut.loadingErrorSubject
+            .sink { err in
+                error = err
+                expectation2.fulfill()
+            }
+            .store(in: &sut.anyCancellables)
+        
+        wait(for: [expectation1, expectation2], timeout: 1.0)
+
+        XCTAssertFalse(sections.contains(.drinks))
+        XCTAssertFalse(sections.contains(.filters))
+        XCTAssertNotNil(error)
     }
     
     func makeSUT(networkProvider: NetworkProvider) -> MainViewModel {
         let sut = MainViewModel(networkProvider: networkProvider, imageProvider: ImageProviderSpy())
+        sut.anyCancellables.forEach { $0.cancel() }
         return sut
     }
     
-    func makeFakeFilters() -> [Filter] {
-        [Filter(.alcoholic, values: [])].compactMap{ $0 }
+    func makeNetworkProvider(with drinks: [Drink]? = nil, alcoholicFiter: [Alcoholic]? = nil, categoryFiter: [ShakeItApp.Category]? = nil, ingredientsFiter: [Ingredient]? = nil, glassFiter: [Glass]? = nil) -> NetworkProvider{
+        let networkProvider = NetworkProviderSpy()
+        networkProvider.drinks = drinks
+        networkProvider.alcoholicFiter = alcoholicFiter
+        networkProvider.categoryFiter = categoryFiter
+        networkProvider.ingredientsFiter = ingredientsFiter
+        networkProvider.glassFiter = glassFiter
+        return networkProvider
+    }
+    
+    func makeFakeAlcoholicFilters() -> [Alcoholic] {
+        [Alcoholic(strAlcoholic: "Alcoholic")]
     }
     
     func makeFakeDrinks() -> [Drink] {
@@ -45,11 +114,11 @@ final class MainViewModelTests: XCTestCase {
 }
 
 class NetworkProviderSpy: NetworkProvider {
-    let drinks: [Drink]?
-    
-    init(drinks: [Drink]) {
-        self.drinks = drinks
-    }
+    var drinks: [Drink]?
+    var alcoholicFiter: [Alcoholic]?
+    var categoryFiter: [ShakeItApp.Category]?
+    var ingredientsFiter: [Ingredient]?
+    var glassFiter: [Glass]?
     
     func fetchData<T>(with apiElement: T) async -> Result<T.Output, ShakeItApp.ErrorData> where T : ShakeItApp.APIElement {
         if T.self == AlphabeticalDrinkAPI.self {
@@ -58,7 +127,32 @@ class NetworkProviderSpy: NetworkProvider {
             } else {
                 return .failure(.invalidData)
             }
+        } else if T.self == AlcoholicListAPI.self {
+            if let alcoholicFiter {
+                return .success(AlcoholicListAPI.Output(drinks: alcoholicFiter) as! T.Output)
+            } else {
+                return .failure(.invalidData)
+            }
+        } else if T.self == CategoryListAPI.self {
+            if let categoryFiter {
+                return .success(CategoryListAPI.Output(drinks: categoryFiter) as! T.Output)
+            } else {
+                return .failure(.invalidData)
+            }
+        } else if T.self == IngredientsListAPI.self {
+            if let ingredientsFiter {
+                return .success(IngredientsListAPI.Output(drinks: ingredientsFiter) as! T.Output)
+            } else {
+                return .failure(.invalidData)
+            }
+        } else if T.self == GlassListAPI.self {
+            if let glassFiter {
+                return .success(GlassListAPI.Output(drinks: glassFiter) as! T.Output)
+            } else {
+                return .failure(.invalidData)
+            }
         }
+        
         return .failure(.decodingError)
     }
 }
