@@ -364,7 +364,7 @@ class NetworkProviderSpy: NetworkProvider {
     func fetchData<T>(with apiElement: T) async -> Result<T.Output, ShakeItApp.ErrorData> where T : ShakeItApp.APIElement {
         if T.self == AlphabeticalDrinkAPI.self {
             if let drinks {
-                return .success(                AlphabeticalDrinkAPI.Output(drinks: drinks) as! T.Output)
+                return .success(AlphabeticalDrinkAPI.Output(drinks: drinks) as! T.Output)
             } else {
                 return .failure(.invalidData)
             }
