@@ -122,9 +122,7 @@ final class MainViewModelTests: XCTestCase {
         let drinks = makeFakeDrinks()
         let networkProvider = makeNetworkProvider(with: drinks)
         let sut = makeSUT(networkProvider: networkProvider)
-        
-        let expectation = XCTestExpectation(description: "Expect to have drinks")
-        
+                
         //Make the maximum amount of requests for new drinks alphabetically (36), should stop aand return only drinks without more loader
         let updatesExpected = 36 + 1
         
@@ -166,6 +164,104 @@ final class MainViewModelTests: XCTestCase {
             }
         }
     }
+    
+    //MARK: Filters
+    func test_setupNewFiltersFromFilterViewModel_shouldReturnExpectedFilters() throws {
+        let drinks = makeFakeDrinks()
+        let filter = makeFakeAlcoholicFilters()
+        let networkProvider = makeNetworkProvider(with: drinks, alcoholicFiter: filter)
+        let sut = makeSUT(networkProvider: networkProvider)
+        
+        //Providing filters data on network manager should populate filter section
+        
+        sut.firstLoad()
+
+        try awaitPublisher(sut.$tableViewSections, numberOfUpdatesExpected: 2) { update, value in
+            switch update {
+            case 1:
+                //1. Expect to have only loader at lauch time
+                XCTAssertEqual(value, [.loader])
+            case 2:
+                //2. Expect to have both drinks and filter sections after first load succeeded
+                XCTAssertEqual(value, [.filters, .drinks, .loader])
+                self.filterTest(sut: sut)
+            default:
+                XCTFail("Expected only two returns")
+            }
+        }
+    }
+    
+    private func filterTest(sut: MainViewModel) {
+        let expectation = expectation(description: "Expect to get only alcoholic filter after apply tapped and refresh items")
+        
+        let filtersViewModel = sut.filtersViewModel
+        var newFilters: [Filter]?
+        filtersViewModel.filtersSubject
+            .sink { newFiltersRetreived in
+                newFilters = newFiltersRetreived
+                expectation.fulfill()
+            }
+            .store(in: &cancellables)
+        
+        filtersViewModel.selectedFilter(at: IndexPath(row: 1, section: 0))
+        filtersViewModel.applyTapped()
+        
+        wait(for: [expectation], timeout: 2.0)
+        XCTAssertEqual(newFilters?.first { $0.type == .alcoholic }?.selectedValues, ["Alcoholic"])
+    }
+    
+    
+    //MARK: Image
+    func test_setupImageToDrink_shouldRetrieveImage() throws {
+        let drinks = makeFakeDrinks()
+        let filter = makeFakeAlcoholicFilters()
+        let networkProvider = makeNetworkProvider(with: drinks, alcoholicFiter: filter)
+        let sut = makeSUT(networkProvider: networkProvider, imageProvider: ImageProviderSpy(data: "test".data(using: .utf8)))
+        
+        //Providing filters data on network manager should populate filter section
+        
+        sut.firstLoad()
+
+        try awaitPublisher(sut.$tableViewSections, numberOfUpdatesExpected: 2) { update, value in
+            switch update {
+            case 1:
+                //1. Expect to have only loader at lauch time
+                XCTAssertEqual(value, [.loader])
+            case 2:
+                //2. Expect to have both drinks and filter sections after first load succeeded
+                XCTAssertEqual(value, [.filters, .drinks, .loader])
+                try! self.imageTest(sut: sut)
+            default:
+                XCTFail("Expected only two returns")
+            }
+        }
+    }
+    
+    private func imageTest(sut: MainViewModel) throws {
+        let expectation = expectation(description: "Expect to get image data from provider ")
+        
+        let drinkCellViewModel = sut.getDrinkViewModel(for: 0)
+        
+        var data: [Data?] = []
+        let expectedCount = 2
+        var counter = 1
+        drinkCellViewModel.$drinkImageData
+            .sink { imageData in
+                data.append(imageData)
+                if expectedCount == counter {
+                    expectation.fulfill()
+                }
+                counter += 1
+            }
+            .store(in: &cancellables)
+
+        let _ = drinkCellViewModel.getImageDataAndAskIfNeeded()
+
+        wait(for: [expectation], timeout: 2.0)
+        XCTAssertNil(data[0])
+        XCTAssertNotNil(data[1])
+    }
+    
 }
 
 extension XCTestCase {
@@ -229,8 +325,8 @@ extension XCTestCase {
 
 //MARK: Providers
 extension MainViewModelTests {
-    private func makeSUT(networkProvider: NetworkProvider) -> MainViewModel {
-        let sut = MainViewModel(networkProvider: networkProvider, imageProvider: ImageProviderSpy())
+    private func makeSUT(networkProvider: NetworkProvider, imageProvider: ImageProvider? = nil) -> MainViewModel {
+        let sut = MainViewModel(networkProvider: networkProvider, imageProvider: imageProvider ?? ImageProviderSpy(data: nil))
         sut.anyCancellables.forEach { $0.cancel() }
         return sut
     }
@@ -246,7 +342,7 @@ extension MainViewModelTests {
     }
     
     private func makeFakeAlcoholicFilters() -> [Alcoholic] {
-        [Alcoholic(strAlcoholic: "Alcoholic")]
+        [Alcoholic(strAlcoholic: "Alcoholic"), Alcoholic(strAlcoholic: "Non Alcoholic")]
     }
     
     private func makeFakeCategoryFilters() -> [ShakeItApp.Category] {
@@ -313,8 +409,15 @@ class NetworkProviderSpy: NetworkProvider {
 }
 
 class ImageProviderSpy: ImageProvider {
+    let data: Data?
+    
+    init(data: Data?) {
+        self.data = data
+    }
+    
     func fetchImage(from url: URL) async -> Result<Data, ShakeItApp.ErrorData> {
-        return .failure(.decodingError)
+        guard let data else { return .failure(.invalidURL) }
+        return .success(data)
     }
 }
 
