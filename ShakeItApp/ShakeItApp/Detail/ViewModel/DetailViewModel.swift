@@ -7,15 +7,12 @@
 
 import Foundation
 
-final class DetailViewModel {
+final class DetailViewModel: BaseViewModel {
     let drink: Drink
     
     init(drink: Drink) {
         self.drink = drink
-    }
-    
-    var instructionText: String? {
-        drink.instructions["APP.LANGUAGE".localized]
+        super.init()
     }
 }
 
@@ -27,6 +24,15 @@ extension DetailViewModel {
     
     var ingredientsViewModel: IngredientsViewModel {
         IngredientsViewModel(ingredients: drink.ingredients, measures: drink.measures)
+    }
+    
+    var labelCellViewModel: LabelCellViewModel {
+        let instructionText = drink.instructions["APP.LANGUAGE".localized] ?? "-"
+        return LabelCellViewModel(text: instructionText)
+    }
+    
+    func getLabelHeaderViewModel(at index: Int) -> LabelHeaderViewModel {
+        LabelHeaderViewModel(text: DetailViewSection.allCases[index].headerName)
     }
 }
 

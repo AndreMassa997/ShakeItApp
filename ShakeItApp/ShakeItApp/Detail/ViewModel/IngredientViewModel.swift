@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class IngredientViewModel {
+final class IngredientViewModel: BaseViewModel {
     let ingredient: String
     let measure: String
      

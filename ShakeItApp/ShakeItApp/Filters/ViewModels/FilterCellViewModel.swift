@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class FilterCellViewModel {
+final class FilterCellViewModel: BaseViewModel {
     let filterName: String
     let isSelected: Bool
     

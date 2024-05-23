@@ -7,52 +7,52 @@
 
 import UIKit
 
-final class FiltersViewController: UIViewController {
-    private let viewModel: FiltersViewModel
-    
-    private let tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .plain)
-        tv.backgroundColor = .white
-        tv.separatorStyle = .none
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.backgroundColor = .clear
-        if #available(iOS 15.0, *) {
-            tv.sectionHeaderTopPadding = 0
-        }
-        return tv
-    }()
-    
+final class FiltersViewController: TableViewController<FiltersViewModel> {
     private let applyButton: RoundedButton = {
         let btn = RoundedButton(text: "FILTER.APPLY".localized)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
     
-    init(viewModel: FiltersViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("Cannot load coder, no xib exists")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
-        addSubviews()
-        setupLayout()
+        title = "MAIN.SECTION.FILTER_BY".localized
         setupTableView()
-        bindProperties()
         applyButton.addTarget(self, action: #selector(applyTapped), for: .touchUpInside)
     }
     
-    func bindProperties() {
+    override func addSubviews() {
+        super.addSubviews()
+        view.addSubview(applyButton)
+    }
+    
+    override func setupLayout() {
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            tableView.bottomAnchor.constraint(equalTo: applyButton.topAnchor, constant: -5),
+            applyButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            applyButton.widthAnchor.constraint(equalToConstant: 150),
+            applyButton.heightAnchor.constraint(equalToConstant: 50),
+            applyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+    
+    override func bindProperties() {
         viewModel.filteringEnabled
             .eraseToAnyPublisher()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isEnabled in
                 self?.applyButton.isEnabled = isEnabled
+            }
+            .store(in: &viewModel.anyCancellables)
+        
+        viewModel.buttonHeaderTapped
+            .eraseToAnyPublisher()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] index in
+                self?.tableView.reloadSections(IndexSet(integer: index), with: .none)
             }
             .store(in: &viewModel.anyCancellables)
     }
@@ -81,11 +81,7 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeader(headerType: LabelButtonHeader.self)
-        let buttonConfigurations = viewModel.getFilterHeaderValue(for: section)
-        header.configure(text: viewModel.filters[section].type.name, buttonText: buttonConfigurations.text, buttonImageNamed: buttonConfigurations.imageName) { [weak self] in
-            self?.viewModel.selectDeselectAllValues(at: section)
-            self?.tableView.reloadSections(IndexSet(integer: section), with: .none)
-        }
+        header.configure(with: viewModel.getFilterHeaderViewModel(for: section))
         return header
     }
     
@@ -94,37 +90,13 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.reloadRows(at: [indexPath], with: .automatic)
         
         guard let header = tableView.headerView(forSection: indexPath.section) as? LabelButtonHeader else { return }
-        
-        let buttonConfigurations = viewModel.getFilterHeaderValue(for: indexPath.section)
-        header.setupButtonTextAnimated(text: buttonConfigurations.text, buttonImageNamed: buttonConfigurations.imageName)
+        let headerViewModel = viewModel.getHeaderButtonData(at: indexPath.section)
+        header.setupButtonTextAnimated(text: headerViewModel.buttonText, buttonImageNamed: headerViewModel.imageName)
     }
 }
 
 //MARK: - Layout and UI + Table view registrations
 extension FiltersViewController {
-    private func setupUI() {
-        title = "MAIN.SECTION.FILTER_BY".localized
-        view.backgroundColor = .palette.mainBackgroundColor
-    }
-    
-    private func addSubviews() {
-        view.addSubview(tableView)
-        view.addSubview(applyButton)
-    }
-    
-    private func setupLayout() {
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: applyButton.topAnchor, constant: -5),
-            applyButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            applyButton.widthAnchor.constraint(equalToConstant: 150),
-            applyButton.heightAnchor.constraint(equalToConstant: 50),
-            applyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-    }
-    
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self

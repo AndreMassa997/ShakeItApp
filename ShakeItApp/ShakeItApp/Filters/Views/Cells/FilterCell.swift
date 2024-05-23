@@ -7,9 +7,7 @@
 
 import UIKit
 
-final class FilterCell: UITableViewCell, CellReusable {
-    private var viewModel: FilterCellViewModel!
-    
+final class FilterCell: BaseTableViewCell<FilterCellViewModel>{
     private let viewContainer: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -31,45 +29,21 @@ final class FilterCell: UITableViewCell, CellReusable {
         return lbl
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupUI()
-        addSubviews()
-        setupLayout()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    func configure(with viewModel: FilterCellViewModel) {
-        self.viewModel = viewModel
+    override func configure(with viewModel: FilterCellViewModel) {
+        super.configure(with: viewModel)
         self.filterTitleLabel.text = viewModel.filterName
         setupButton(viewModel.isSelected)
     }
     
-    private func setupButton(_ isSelected: Bool) {
-        let image = isSelected ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "circle")
-        UIView.transition(with: checkBoxView, duration: 0.3, options: .transitionFlipFromRight, animations: { [weak self] in
-            self?.checkBoxView.image = image
-        })
-    }
-}
-
-//MARK: - Layout and UI
-extension FilterCell {
-    private func setupUI() {
-        selectionStyle = .none
-        backgroundColor = .clear
-    }
+    //MARK: - Layout and UI
     
-    private func addSubviews() {
+    override func addSubviews() {
         self.viewContainer.addSubview(checkBoxView)
         self.viewContainer.addSubview(filterTitleLabel)
         self.contentView.addSubview(viewContainer)
     }
     
-    private func setupLayout() {
+    override func setupLayout() {
         NSLayoutConstraint.activate([
             viewContainer.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
             viewContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
@@ -87,6 +61,13 @@ extension FilterCell {
             filterTitleLabel.topAnchor.constraint(equalTo: viewContainer.topAnchor),
             filterTitleLabel.bottomAnchor.constraint(equalTo: viewContainer.bottomAnchor)
         ])
+    }
+    
+    private func setupButton(_ isSelected: Bool) {
+        let image = isSelected ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "circle")
+        UIView.transition(with: checkBoxView, duration: 0.3, options: .transitionFlipFromRight, animations: { [weak self] in
+            self?.checkBoxView.image = image
+        })
     }
 }
 

@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class LabelCell: UITableViewCell, CellReusable {
+final class LabelCell: BaseTableViewCell<LabelCellViewModel> {
     private let title: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
@@ -16,22 +16,14 @@ final class LabelCell: UITableViewCell, CellReusable {
         return lbl
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addSubviews()
-        setupLayout()
-        setupUI()
+    override func configure(with viewModel: LabelCellViewModel) {
+        super.configure(with: viewModel)
+        self.title.text = viewModel.text
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
-    func configure(with text: String?) {
-        self.title.text = text
-    }
-    
-    private func setupLayout(){
+    //MARK: Layout + UI
+    override func setupLayout(){
         NSLayoutConstraint.activate([
             title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             title.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
@@ -40,12 +32,12 @@ final class LabelCell: UITableViewCell, CellReusable {
         ])
     }
     
-    private func addSubviews() {
+    override func addSubviews() {
         self.contentView.addSubview(title)
     }
     
-    private func setupUI() {
-        backgroundColor = .clear
+    override func setupUI() {
+        super.setupUI()
         title.textColor = .palette.secondaryLabelColor
     }
 }

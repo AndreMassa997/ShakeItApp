@@ -8,15 +8,7 @@
 import Foundation
 import Combine
 
-final class MainViewModel: ObservableObject {
-    private let networkProvider: NetworkProvider
-    private let imageProvider: ImageProvider
-    var anyCancellables: Set<AnyCancellable> = Set()
-
-    init(networkProvider: NetworkProvider, imageProvider: ImageProvider) {
-        self.networkProvider = networkProvider
-        self.imageProvider = imageProvider
-    }
+final class MainViewModel: FullViewModel {
     //store all available filters that succeeded from API Calls, hide the others
     private var selectedFilters: [Filter] = []
     
@@ -34,6 +26,7 @@ final class MainViewModel: ObservableObject {
     //Published values for reloading
     let loadingErrorSubject = PassthroughSubject<String, Never>()
     let tapOnDrink = PassthroughSubject<Drink, Never>()
+    let buttonHeaderSubject = PassthroughSubject<Int, Never>()
     @Published var tableViewSections: [MainViewSection] = [.loader]
     
     private var alphabetizedPaging: [String] {
@@ -189,7 +182,7 @@ extension MainViewModel {
         let filtersViewModel = FiltersViewModel(filters: self.selectedFilters)
         filtersViewModel.filtersSubject
             .eraseToAnyPublisher()
-            .receive(on: DispatchQueue.main)
+            .receive(on: DispatchQueue.global())
             .sink { [weak self] newFilters in
                 guard let self else { return }
                 self.setupNewFiltersAndAskNewDataIfNeeded(newFilters)
@@ -198,20 +191,21 @@ extension MainViewModel {
         return filtersViewModel
     }
 
-    
     func getDrinkViewModel(for index: Int) -> DrinkCellViewModel {
         let drink = filteredDrinks[index]
         let drinkCellViewModel = DrinkCellViewModel(drink: drink, imageProvider: imageProvider)
         drinkCellViewModel.cellTapSubject
             .eraseToAnyPublisher()
-            .receive(on: DispatchQueue.main)
+            .receive(on: DispatchQueue.global())
             .sink { [weak self] drinkTapped in
                 //Go to details
                 self?.tapOnDrink.send(drinkTapped)
             }
             .store(in: &anyCancellables)
         
+
         drinkCellViewModel.$drinkImageData
+            .receive(on: DispatchQueue.global())
             .sink { [weak self] imageData in
                 self?.storeImageToDrink(with: drink.id, data: imageData)
             }
@@ -222,6 +216,27 @@ extension MainViewModel {
     
     func getDetailViewModel(for drink: Drink) -> DetailViewModel {
         DetailViewModel(drink: drink)
+    }
+    
+    func getHeaderViewModel(at index: Int) -> LabelButtonHeaderViewModel? {
+        let viewModel: LabelButtonHeaderViewModel?
+        switch tableViewSections[index] {
+        case .drinks:
+            viewModel = LabelButtonHeaderViewModel(titleText: "MAIN.SECTION.DRINKS".localized, buttonText: "MAIN.SECTION.GO_TOP".localized, imageName: "chevron.up.circle")
+        case .filters:
+            viewModel = LabelButtonHeaderViewModel(titleText: "MAIN.SECTION.FILTERS".localized, buttonText: "MAIN.SECTION.FILTER_BY".localized, imageName: "line.3.horizontal.decrease.circle")
+        default:
+            viewModel = nil
+        }
+        
+        viewModel?.buttonTappedSubject
+            .eraseToAnyPublisher()
+            .sink { [weak self] in
+                self?.buttonHeaderSubject.send(index)
+            }
+            .store(in: &anyCancellables)
+        
+        return viewModel
     }
 }
 
@@ -265,17 +280,6 @@ enum MainViewSection: Equatable {
     case drinks
     case loader
     case noItems
-    
-    var headerData: (title: String, buttonTitle: String, buttonImageName: String)? {
-        switch self {
-        case .filters:
-            return ("MAIN.SECTION.FILTERS".localized, "MAIN.SECTION.FILTER_BY".localized, "line.3.horizontal.decrease.circle")
-        case .drinks:
-            return ("MAIN.SECTION.DRINKS".localized, "MAIN.SECTION.GO_TOP".localized, "chevron.up.circle")
-        default:
-            return nil
-        }
-    }
 }
 
 fileprivate extension Filter {

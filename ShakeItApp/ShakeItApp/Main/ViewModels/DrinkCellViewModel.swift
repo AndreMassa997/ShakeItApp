@@ -8,17 +8,15 @@
 import Foundation
 import Combine
 
-final class DrinkCellViewModel: ObservableObject {
-    let drink: Drink
-    let imageProvider: ImageProvider
-    var anyCancellables: Set<AnyCancellable> = Set()
+final class DrinkCellViewModel: ImageViewModel {
+    private (set) var drink: Drink
     let cellTapSubject = PassthroughSubject<Drink, Never>()
     
     @Published var drinkImageData: Data?
     
     init(drink: Drink, imageProvider: ImageProvider) {
         self.drink = drink
-        self.imageProvider = imageProvider
+        super.init(imageProvider: imageProvider)
     }
     
     var ingredientsString: String {
@@ -39,6 +37,7 @@ final class DrinkCellViewModel: ObservableObject {
             switch response {
             case let .success(data):
                 self.drinkImageData = data
+                self.drink.imageData = data
             case .failure:
                 break
             }

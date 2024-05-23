@@ -8,43 +8,15 @@
 import UIKit
 import Combine
 
-final class MainViewController: UIViewController {
-    private let viewModel: MainViewModel
-    
-    private let tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .plain)
-        tv.backgroundColor = .white
-        tv.separatorStyle = .none
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.showsVerticalScrollIndicator = false
-        tv.backgroundColor = .clear
-        if #available(iOS 15.0, *) {
-            tv.sectionHeaderTopPadding = 0
-        }
-        return tv
-    }()
-    
-    init(viewModel: MainViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("Cannot load coder, no xib exists")
-    }
-
+final class MainViewController: TableViewController<MainViewModel> {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Shake it up"
-        addSubviews()
-        setupUI()
-        bindProperties()
         setupTableView()
-        setupLayout()
         viewModel.firstLoad()
     }
     
-    private func bindProperties() {
+    override func bindProperties() {
         viewModel.$tableViewSections
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
@@ -67,21 +39,62 @@ final class MainViewController: UIViewController {
                 self?.goToDetailPage(drink: drinkTapped)
             }
             .store(in: &viewModel.anyCancellables)
+        
+        viewModel.buttonHeaderSubject
+            .eraseToAnyPublisher()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] index in
+                guard let self else { return }
+                if self.viewModel.tableViewSections[index] == .drinks {
+                    self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                } else if self.viewModel.tableViewSections[index] == .filters {
+                    self.goToFiltersPage()
+                }
+            }
+            .store(in: &viewModel.anyCancellables)
     }
     
+    override func setupNavigationBar() {
+        super.setupNavigationBar()
+        let btn = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
+        btn.tintColor = .palette.secondaryLabelColor
+        btn.setImage(UIImage(systemName: "gear"), for: .normal)
+        btn.addTarget(self, action: #selector(self.showBottomSheetSettings), for: .touchUpInside)
+        let rightBarButton = UIBarButtonItem(customView: btn)
+        navigationItem.rightBarButtonItems = [rightBarButton]
+    }
+    
+//MARK: Error popup
     private func showErrorPopup(error: String?) {
         guard let error else { return }
-        let popupView = ErrorPopupView(frame: self.view.frame)
-        popupView.configure(with: error) { [weak self] in
-            self?.viewModel.reloadDrinkFromError()
-            popupView.hide()
-        }
+        let errorViewModel = ErrorPopupViewModel(title: error, buttonText: "MAIN.ERROR.RETRY".localized)
+        let popupView = ErrorPopupView(viewModel: errorViewModel, frame: self.view.frame, nibLoadable: true)
+        
         popupView.show(in: self.view)
+        
+        errorViewModel.buttonTapped
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.viewModel.reloadDrinkFromError()
+                popupView.hide()
+            }
+            .store(in: &viewModel.anyCancellables)
+        
     }
 }
 
 //MARK: - TableView delegates and datasource
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(cellType: FiltersCarouselView.self)
+        tableView.register(headerType: LabelButtonHeader.self)
+        tableView.register(cellType: DrinkCell.self)
+        tableView.register(cellType: MainViewLoaderCell.self)
+        tableView.register(cellType: NoItemsCell.self)
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         viewModel.tableViewSections.count
     }
@@ -108,9 +121,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             cell.configure(with: drinkViewModel)
             return cell
         case .loader:
-            let cell = tableView.dequeueReusableCell(for: indexPath, cellType: MainViewLoaderCell.self)
-            cell.startAnimating()
-            return cell
+            return tableView.dequeueReusableCell(for: indexPath, cellType: MainViewLoaderCell.self)
         case .noItems:
             return tableView.dequeueReusableCell(for: indexPath, cellType: NoItemsCell.self)
         }
@@ -122,18 +133,11 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let tableViewSection = viewModel.tableViewSections[section]
-        guard let headerData = tableViewSection.headerData else {
+        guard let headerViewModel = viewModel.getHeaderViewModel(at: section) else {
             return nil
         }
         let header = tableView.dequeueReusableHeader(headerType: LabelButtonHeader.self)
-        header.configure(text: headerData.title, buttonText: headerData.buttonTitle, buttonImageNamed: headerData.buttonImageName) { [weak self] in
-            if tableViewSection == .drinks {
-                self?.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-            } else if tableViewSection == .filters {
-                self?.goToFiltersPage()
-            }
-        }
+        header.configure(with: headerViewModel)
         return header
     }
 }
@@ -222,55 +226,6 @@ extension MainViewController {
             setupUI()
             self.tableView.reloadData()
         }
-    }
-}
-
-//MARK: - Layout and UI + Table view registrations
-extension MainViewController {
-    private func addSubviews() {
-        self.view.addSubview(tableView)
-    }
-    
-    private func setupUI() {
-        self.view.backgroundColor = .palette.mainBackgroundColor
-        setupNavigationBar()
-    }
-    
-    private func setupNavigationBar() {
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.tintColor = .palette.secondaryLabelColor
-        self.navigationController?.navigationBar.barTintColor = .palette.mainBackgroundColor
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.palette.secondaryLabelColor]
-        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.palette.secondaryLabelColor]
-        
-        let backButtonItem = UIBarButtonItem(title: "BACK".localized, style: .plain, target: nil, action: nil)
-        navigationController?.navigationBar.topItem?.backBarButtonItem = backButtonItem
-
-        let btn = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
-        btn.tintColor = .palette.secondaryLabelColor
-        btn.setImage(UIImage(systemName: "gear"), for: .normal)
-        btn.addTarget(self, action: #selector(self.showBottomSheetSettings), for: .touchUpInside)
-        let rightBarButton = UIBarButtonItem(customView: btn)
-        navigationItem.rightBarButtonItems = [rightBarButton]
-    }
-    
-    private func setupLayout() {
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-    }
-    
-    private func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(cellType: FiltersCarouselView.self)
-        tableView.register(headerType: LabelButtonHeader.self)
-        tableView.register(cellType: DrinkCell.self)
-        tableView.register(cellType: MainViewLoaderCell.self)
-        tableView.register(cellType: NoItemsCell.self)
     }
 }
 

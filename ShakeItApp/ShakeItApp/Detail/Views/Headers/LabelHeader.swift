@@ -7,30 +7,24 @@
 
 import UIKit
 
-final class LabelHeader: UITableViewHeaderFooterView, CellReusable {
+final class LabelHeader: BaseHeaderView<LabelHeaderViewModel>{
     private let title: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = UIFont.systemFont(ofSize: 22, weight: .heavy)
         return lbl
     }()
-    
-    override init(reuseIdentifier: String?) {
-        super.init(reuseIdentifier: reuseIdentifier)
-        self.contentView.addSubview(title)
-        setupLayout()
-        setupUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 
-    func configure(with text: String) {
-        self.title.text = text
+    override func configure(with viewModel: LabelHeaderViewModel) {
+        super.configure(with: viewModel)
+        self.title.text = viewModel.text
     }
     
-    private func setupLayout(){
+    override func addSubviews() {
+        self.contentView.addSubview(title)
+    }
+    
+    override func setupLayout(){
         NSLayoutConstraint.activate([
             title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             title.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
@@ -39,8 +33,8 @@ final class LabelHeader: UITableViewHeaderFooterView, CellReusable {
         ])
     }
     
-    private func setupUI() {
+    override func setupUI() {
+        super.setupUI()
         title.textColor = .palette.secondaryLabelColor
     }
-    
 }

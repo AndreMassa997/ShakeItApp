@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class DetailHeaderViewModel {
+final class DetailHeaderViewModel: BaseViewModel {
     let alcoholic: String
     let category: String
     let glass: String

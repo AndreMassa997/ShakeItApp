@@ -7,7 +7,7 @@
 
 import UIKit
 
-class IngredientCell: UICollectionViewCell, CellReusable {
+final class IngredientCell: BaseCollectionViewCell<IngredientViewModel> {
     static let ingredientFont = UIFont.systemFont(ofSize: 14, weight: .light)
     static let measureFont = UIFont.systemFont(ofSize: 10, weight: .thin)
     static let marginRight: CGFloat = 10
@@ -42,30 +42,25 @@ class IngredientCell: UICollectionViewCell, CellReusable {
         return lbl
     }()
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.addSubviews()
-        self.setupLayout()
-    }
-    
-    func configure(with viewModel: IngredientViewModel) {
-        self.viewContainer.backgroundColor = .palette.mainColor
+    override func configure(with viewModel: IngredientViewModel) {
+        super.configure(with: viewModel)
         self.ingredientLabel.text = viewModel.ingredient
         self.measureLabel.text = viewModel.measure
     }
     
-    private func addSubviews() {
+    override func setupUI() {
+        super.setupUI()
+        self.viewContainer.backgroundColor = .palette.mainColor
+    }
+    
+    override func addSubviews() {
         labelsStackView.addArrangedSubview(ingredientLabel)
         labelsStackView.addArrangedSubview(measureLabel)
         self.contentView.addSubview(viewContainer)
         self.contentView.addSubview(labelsStackView)
     }
     
-    private func setupLayout() {
+    override func setupLayout() {
         NSLayoutConstraint.activate([
             viewContainer.topAnchor.constraint(equalTo: contentView.topAnchor),
             viewContainer.leftAnchor.constraint(equalTo: contentView.leftAnchor),
