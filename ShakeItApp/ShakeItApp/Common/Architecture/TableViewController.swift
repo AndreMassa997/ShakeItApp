@@ -10,7 +10,6 @@ import UIKit
 class TableViewController<ViewModel: BaseViewModel>: BaseViewController<ViewModel> {
     let tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
-        tv.backgroundColor = .white
         tv.separatorStyle = .none
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.showsVerticalScrollIndicator = false
