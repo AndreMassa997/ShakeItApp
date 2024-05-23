@@ -34,7 +34,7 @@ final class LabelHeader: BaseHeaderView<LabelHeaderViewModel>{
     }
     
     override func setupUI() {
-        super.setupUI()
+        contentView.backgroundColor = .clear
         title.textColor = .palette.secondaryLabelColor
     }
 }
