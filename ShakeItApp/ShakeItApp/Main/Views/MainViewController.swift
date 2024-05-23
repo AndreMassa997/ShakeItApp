@@ -39,6 +39,19 @@ final class MainViewController: TableViewController<MainViewModel> {
                 self?.goToDetailPage(drink: drinkTapped)
             }
             .store(in: &viewModel.anyCancellables)
+        
+        viewModel.buttonHeaderSubject
+            .eraseToAnyPublisher()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] index in
+                guard let self else { return }
+                if self.viewModel.tableViewSections[index] == .drinks {
+                    self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                } else if self.viewModel.tableViewSections[index] == .filters {
+                    self.goToFiltersPage()
+                }
+            }
+            .store(in: &viewModel.anyCancellables)
     }
     
     override func setupNavigationBar() {
@@ -115,18 +128,11 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let tableViewSection = viewModel.tableViewSections[section]
-        guard let headerData = tableViewSection.headerData else {
+        guard let headerViewModel = viewModel.getHeaderViewModel(at: section) else {
             return nil
         }
         let header = tableView.dequeueReusableHeader(headerType: LabelButtonHeader.self)
-        header.configure(text: headerData.title, buttonText: headerData.buttonTitle, buttonImageNamed: headerData.buttonImageName) { [weak self] in
-            if tableViewSection == .drinks {
-                self?.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-            } else if tableViewSection == .filters {
-                self?.goToFiltersPage()
-            }
-        }
+        header.configure(with: headerViewModel)
         return header
     }
 }

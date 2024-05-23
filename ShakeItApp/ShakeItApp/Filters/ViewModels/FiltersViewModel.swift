@@ -17,19 +17,10 @@ final class FiltersViewModel: BaseViewModel {
     
     let filtersSubject = PassthroughSubject<[Filter], Never>()
     let filteringEnabled = PassthroughSubject<Bool, Never>()
+    let buttonHeaderTapped = PassthroughSubject<Int, Never>()
     
     init(filters: [Filter]) {
         self.filters = filters
-    }
-    
-    func getFilterHeaderValue(for index: Int) -> (text: String, imageName: String) {
-        let filter = filters[index]
-        let counter = "FILTERS.COUNTER".localized(with: String(filter.selectedValues.count), String(filter.allValues.count))
-        if filter.selectedValues.count == filter.allValues.count {
-            return (counter + " - " + "FILTERS.DESELECT_ALL".localized, "checkmark.circle.fill")
-        } else {
-            return (counter + " - " + "FILTERS.SELECT_ALL".localized, "circle")
-        }
     }
     
     func selectedFilter(at indexPath: IndexPath) {
@@ -50,7 +41,7 @@ final class FiltersViewModel: BaseViewModel {
         filteringEnabled.send(!isFilterNotComplete)
     }
     
-    func selectDeselectAllValues(at index: Int) {
+    private func selectDeselectAllValues(at index: Int) {
         var filter = filters[index]
         filter.selectOrDeselectAll()
         filters[index] = filter
@@ -69,6 +60,38 @@ extension FiltersViewModel {
         let isSelected = filter.selectedValues.contains(where: { $0 == value })
         let viewModel = FilterCellViewModel(filterName: value, isSelected: isSelected)
         return viewModel
+    }
+    
+    func getFilterHeaderViewModel(for index: Int) -> LabelButtonHeaderViewModel {
+        let data = getHeaderButtonData(at: index)
+        let title = filters[index].type.name
+        let viewModel = LabelButtonHeaderViewModel(titleText: title, buttonText: data.buttonText, imageName: data.imageName)
+        
+        viewModel.buttonTappedSubject
+            .eraseToAnyPublisher()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.selectDeselectAllValues(at: index)
+                self?.buttonHeaderTapped.send(index)
+            }
+            .store(in: &anyCancellables)
+        
+        return viewModel
+    }
+    
+    func getHeaderButtonData(at index: Int) -> (buttonText: String, imageName: String) {
+        let filter = filters[index]
+        let counter = "FILTERS.COUNTER".localized(with: String(filter.selectedValues.count), String(filter.allValues.count))
+        let buttonText: String
+        let imageName: String
+        if filter.selectedValues.count == filter.allValues.count {
+            buttonText = counter + " - " + "FILTERS.DESELECT_ALL".localized
+            imageName = "checkmark.circle.fill"
+        } else {
+            buttonText = counter + " - " + "FILTERS.SELECT_ALL".localized
+            imageName = "circle"
+        }
+        return (buttonText, imageName)
     }
 }
 

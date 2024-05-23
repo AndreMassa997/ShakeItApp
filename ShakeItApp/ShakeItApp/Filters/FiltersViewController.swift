@@ -47,6 +47,14 @@ final class FiltersViewController: TableViewController<FiltersViewModel> {
                 self?.applyButton.isEnabled = isEnabled
             }
             .store(in: &viewModel.anyCancellables)
+        
+        viewModel.buttonHeaderTapped
+            .eraseToAnyPublisher()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] index in
+                self?.tableView.reloadSections(IndexSet(integer: index), with: .none)
+            }
+            .store(in: &viewModel.anyCancellables)
     }
     
     @objc private func applyTapped() {
@@ -73,11 +81,7 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeader(headerType: LabelButtonHeader.self)
-        let buttonConfigurations = viewModel.getFilterHeaderValue(for: section)
-        header.configure(text: viewModel.filters[section].type.name, buttonText: buttonConfigurations.text, buttonImageNamed: buttonConfigurations.imageName) { [weak self] in
-            self?.viewModel.selectDeselectAllValues(at: section)
-            self?.tableView.reloadSections(IndexSet(integer: section), with: .none)
-        }
+        header.configure(with: viewModel.getFilterHeaderViewModel(for: section))
         return header
     }
     
@@ -86,9 +90,8 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.reloadRows(at: [indexPath], with: .automatic)
         
         guard let header = tableView.headerView(forSection: indexPath.section) as? LabelButtonHeader else { return }
-        
-        let buttonConfigurations = viewModel.getFilterHeaderValue(for: indexPath.section)
-        header.setupButtonTextAnimated(text: buttonConfigurations.text, buttonImageNamed: buttonConfigurations.imageName)
+        let headerViewModel = viewModel.getHeaderButtonData(at: indexPath.section)
+        header.setupButtonTextAnimated(text: headerViewModel.buttonText, buttonImageNamed: headerViewModel.imageName)
     }
 }
 

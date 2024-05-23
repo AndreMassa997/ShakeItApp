@@ -26,6 +26,7 @@ final class MainViewModel: FullViewModel {
     //Published values for reloading
     let loadingErrorSubject = PassthroughSubject<String, Never>()
     let tapOnDrink = PassthroughSubject<Drink, Never>()
+    let buttonHeaderSubject = PassthroughSubject<Int, Never>()
     @Published var tableViewSections: [MainViewSection] = [.loader]
     
     private var alphabetizedPaging: [String] {
@@ -190,7 +191,6 @@ extension MainViewModel {
         return filtersViewModel
     }
 
-    
     func getDrinkViewModel(for index: Int) -> DrinkCellViewModel {
         let drink = filteredDrinks[index]
         let drinkCellViewModel = DrinkCellViewModel(drink: drink, imageProvider: imageProvider)
@@ -214,6 +214,27 @@ extension MainViewModel {
     
     func getDetailViewModel(for drink: Drink) -> DetailViewModel {
         DetailViewModel(drink: drink)
+    }
+    
+    func getHeaderViewModel(at index: Int) -> LabelButtonHeaderViewModel? {
+        let viewModel: LabelButtonHeaderViewModel?
+        switch tableViewSections[index] {
+        case .drinks:
+            viewModel = LabelButtonHeaderViewModel(titleText: "MAIN.SECTION.DRINKS".localized, buttonText: "MAIN.SECTION.GO_TOP".localized, imageName: "chevron.up.circle")
+        case .filters:
+            viewModel = LabelButtonHeaderViewModel(titleText: "MAIN.SECTION.FILTERS".localized, buttonText: "MAIN.SECTION.FILTER_BY".localized, imageName: "line.3.horizontal.decrease.circle")
+        default:
+            viewModel = nil
+        }
+        
+        viewModel?.buttonTappedSubject
+            .eraseToAnyPublisher()
+            .sink { [weak self] in
+                self?.buttonHeaderSubject.send(index)
+            }
+            .store(in: &anyCancellables)
+        
+        return viewModel
     }
 }
 
@@ -257,17 +278,6 @@ enum MainViewSection: Equatable {
     case drinks
     case loader
     case noItems
-    
-    var headerData: (title: String, buttonTitle: String, buttonImageName: String)? {
-        switch self {
-        case .filters:
-            return ("MAIN.SECTION.FILTERS".localized, "MAIN.SECTION.FILTER_BY".localized, "line.3.horizontal.decrease.circle")
-        case .drinks:
-            return ("MAIN.SECTION.DRINKS".localized, "MAIN.SECTION.GO_TOP".localized, "chevron.up.circle")
-        default:
-            return nil
-        }
-    }
 }
 
 fileprivate extension Filter {
