@@ -149,7 +149,7 @@ final class MainViewModelTests: XCTestCase {
         
         //Expected to have no items section when no drinks are conform to filters
         //The logic should call all the response until it can, then the no items should be triggered
-        let updatesExpected = 37
+        let updatesExpected = 36 + 1
         
         sut.askForNewDrinksIfNeeded(at: 0)
         
