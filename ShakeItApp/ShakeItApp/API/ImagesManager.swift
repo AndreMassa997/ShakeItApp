@@ -10,21 +10,25 @@ import Foundation
 final class ImagesManager: ImageProvider {
     private let cache: NSCache = NSCache<AnyObject, AnyObject>()
     
-    func fetchImage(from url: URL) async -> Result<Data, ErrorData> {
+    func fetchImage(from url: URL, completion: @escaping (Result<Data, ErrorData>) -> Void) {
         if let imageFromCache = cache.object(forKey: url as AnyObject) as? Data {
             print("🟠 Image Data cached from: \(url.absoluteString)")
-            return .success(imageFromCache)
+            return completion(.success(imageFromCache))
         }
         
         print("🔵 URL request for image: \(url.absoluteString) at timestamp: \(Int(Date().timeIntervalSince1970 * 1000))")
 
-        guard let dataResponse = try? await URLSession.shared.data(from: url) else {
-            print("🔴 Invalid Data Response")
-            return .failure(.invalidData)
+        let urlRequest = URLRequest(url: url)
+        URLSession.shared.dataTask(with: urlRequest) { [weak self] data, response, error in
+            guard let data else {
+                print("🔴 Decoding error")
+                return completion(.failure(.decodingError))
+            }
+            print("🟢 Image Data Retrieved from: \(url.absoluteString) at timestamp: \(Int(Date().timeIntervalSince1970 * 1000))")
+            
+            self?.cache.setObject(data as AnyObject, forKey: url as AnyObject)
+            completion(.success(data))
         }
-        
-        print("🟢 Image Data Retrieved from: \(url.absoluteString) at timestamp: \(Int(Date().timeIntervalSince1970 * 1000))")
-        cache.setObject(dataResponse.0 as AnyObject, forKey: url as AnyObject)
-        return .success(dataResponse.0)
+        .resume()
     }
 }

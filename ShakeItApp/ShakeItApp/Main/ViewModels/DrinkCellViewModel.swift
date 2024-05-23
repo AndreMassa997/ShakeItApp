@@ -32,16 +32,15 @@ final class DrinkCellViewModel: ImageViewModel {
     }
     
     private func fetchImageData() {
-        Task(priority: .background, operation: {
-            let response = await imageProvider.fetchImage(from: drink.imageURL)
+        imageProvider.fetchImage(from: drink.imageURL) { [weak self] response in
             switch response {
             case let .success(data):
-                self.drinkImageData = data
-                self.drink.imageData = data
+                self?.drinkImageData = data
+                self?.drink.imageData = data
             case .failure:
                 break
             }
-        })
+        }
     }
     
     deinit {

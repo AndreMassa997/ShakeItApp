@@ -8,5 +8,5 @@
 import Foundation
 
 protocol ImageProvider {
-    func fetchImage(from url: URL) async -> Result<Data, ErrorData>
+    func fetchImage(from url: URL, completion: @escaping (Result<Data, ErrorData>) -> Void)
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 struct NetworkManager: NetworkProvider {
-    func fetchData<T>(with apiElement: T) async -> Result<T.Output, ErrorData> where T : APIElement {
+    func fetchData<T: APIElement>(with apiElement: T, completion: @escaping (Result<T.Output, ErrorData>) -> Void) where T : APIElement {
         var urlComponents = URLComponents()
         urlComponents.scheme = apiElement.scheme
         urlComponents.host = apiElement.host
@@ -20,22 +20,20 @@ struct NetworkManager: NetworkProvider {
         
         guard let url = urlComponents.url else {
             print("🔴 Invalid URL")
-            return .failure(.invalidURL)
+            return completion(.failure(.invalidURL))
         }
         
         print("🔵 URL request: \(url.absoluteString) at timestamp: \(Int(Date().timeIntervalSince1970 * 1000))")
         
-        guard let dataResponse = try? await URLSession.shared.data(from: url) else {
-            print("🔴 Invalid Data Response")
-            return .failure(.invalidData)
+        let urlRequest = URLRequest(url: url)
+        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            guard let data, let decodedData = try? JSONDecoder().decode(T.Output.self, from: data) else {
+                print("🔴 Decoding error")
+                return completion(.failure(.decodingError))
+            }
+            print("🟢 Data Retrieved from: \(url.absoluteString) with response:\n\(String(data: data, encoding: .utf8)!)")
+            completion(.success(decodedData))
         }
-        
-        let data = dataResponse.0
-        guard let decodedData = try? JSONDecoder().decode(T.Output.self, from: data) else {
-            print("🔴 Decoding error")
-            return .failure(.decodingError)
-        }
-        print("🟢 Data Retrieved from: \(url.absoluteString) with response:\n\(String(data: data, encoding: .utf8)!)")
-        return .success(decodedData)
+        .resume()
     }
 }

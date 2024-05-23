@@ -8,5 +8,5 @@
 import Foundation
 
 protocol NetworkProvider {
-    func fetchData<T: APIElement>(with apiElement: T) async -> Result<T.Output, ErrorData>
+    func fetchData<T: APIElement>(with apiElement: T, completion: @escaping (Result<T.Output, ErrorData>) -> Void)
 }

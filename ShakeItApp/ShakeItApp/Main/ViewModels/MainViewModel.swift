@@ -58,9 +58,10 @@ final class MainViewModel: FullViewModel {
     //MARK: - First Loading
     func firstLoad() {
         Task {
-            let (filters, drinkResponse) = await firstLoadingFromServer()
-            self.filtersData = filters
-            validateDrinkResponse(response: drinkResponse)
+            firstLoadingFromServer { [weak self] filters, drinkResponse in
+                self?.filtersData = filters
+                self?.validateDrinkResponse(response: drinkResponse)
+            }
         }
     }
     
@@ -72,8 +73,10 @@ final class MainViewModel: FullViewModel {
     
     private func loadMoreDrinks() {
         Task {
-            let drinkResponse = await loadDataSourceFromServer()
-            validateDrinkResponse(response: drinkResponse)
+            loadDataSourceFromServer { [weak self] drinkResponse in
+                self?.validateDrinkResponse(response: drinkResponse)
+            }
+            
         }
     }
     
@@ -142,30 +145,76 @@ extension MainViewModel {
 
 //MARK: - API Implementations
 extension MainViewModel {
-    ///First Loading - filters + first data source in parallel using async let - await
-    private func firstLoadingFromServer() async -> (FilterResponses, Result<[Drink], ErrorData>){
-        async let filters = loadFiltersValuesFromServer()
-        async let alphabeticalRequest = loadDataSourceFromServer()
+    ///First Loading - filters + first data source in parallel using dispatch groups
+    private func firstLoadingFromServer(completion: @escaping (FilterResponses, Result<[Drink], ErrorData>) -> Void) {
+        let group = DispatchGroup()
         
-        return await (filters, alphabeticalRequest)
+        var filters: FilterResponses!
+        group.enter()
+        loadFiltersValuesFromServer() { filterResponses in
+            filters = filterResponses
+            group.leave()
+        }
+        
+        var drinkResult: Result<[Drink], ErrorData>!
+        group.enter()
+        loadDataSourceFromServer() { drinkResponse in
+            drinkResult = drinkResponse
+            group.leave()
+        }
+        
+        group.notify(queue: .main) {
+            completion(filters, drinkResult)
+        }
     }
     
-    ///Load filters in parallel using async let - await
-    private func loadFiltersValuesFromServer() async -> FilterResponses{
-        async let categoryList = networkProvider.fetchData(with: CategoryListAPI())
-        async let alcoholicList = networkProvider.fetchData(with: AlcoholicListAPI())
-        async let ingredientsList = networkProvider.fetchData(with: IngredientsListAPI())
-        async let glassList = networkProvider.fetchData(with: GlassListAPI())
+    ///Load filters in parallel using dispatch groups
+    private func loadFiltersValuesFromServer(completion: @escaping (FilterResponses) -> Void){
+        let group = DispatchGroup()
         
-        return await FilterResponses(categoryList: categoryList, alcoholicList: alcoholicList, ingrendientsList: ingredientsList, glassList: glassList)
+        var categoryList: Result<CategoryListAPI.Output, ErrorData>!
+        group.enter()
+        networkProvider.fetchData(with: CategoryListAPI()){ response in
+            categoryList = response
+            group.leave()
+        }
+        
+        var alcoholicList: Result<AlcoholicListAPI.Output, ErrorData>!
+        group.enter()
+        networkProvider.fetchData(with: AlcoholicListAPI()){ response in
+            alcoholicList = response
+            group.leave()
+        }
+        
+        var ingredientsList: Result<IngredientsListAPI.Output, ErrorData>!
+        group.enter()
+        networkProvider.fetchData(with: IngredientsListAPI()){ response in
+            ingredientsList = response
+            group.leave()
+        }
+        
+        var glassList: Result<GlassListAPI.Output, ErrorData>!
+        group.enter()
+        networkProvider.fetchData(with: GlassListAPI()){ response in
+            glassList = response
+            group.leave()
+        }
+        
+        group.notify(queue: .global()) {
+            let response = FilterResponses(categoryList: categoryList, alcoholicList: alcoholicList, ingrendientsList: ingredientsList, glassList: glassList)
+            completion(response)
+        }
     }
     
-    private func loadDataSourceFromServer() async -> Result<[Drink], ErrorData> {
+    private func loadDataSourceFromServer(completion: @escaping (Result<[Drink], ErrorData>) -> Void) {
         let request = AlphabeticalDrinkAPI()
         let letterToRequest = alphabetizedPaging[currentPage]
         request.queryParameters = [ (.firstLetter, letterToRequest)]
-        let response = await networkProvider.fetchData(with: request).map { $0.drinks ?? [] }
-        return response
+        networkProvider.fetchData(with: request) { result in
+            let result = result.map { $0.drinks ?? [] }
+            completion(result)
+        }
+       
     }
 }
 
