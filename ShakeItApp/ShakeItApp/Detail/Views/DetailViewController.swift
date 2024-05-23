@@ -17,7 +17,7 @@ final class DetailViewController: TableViewController<DetailViewModel> {
     //Need to recalculate table view header when refreshing UI (orientation changed)
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let headerView = DetailHeaderView(viewModel: viewModel.headerViewModel, frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 230)))
+        let headerView = DetailHeaderView(viewModel: viewModel.headerViewModel, frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 230)), nibLoadable: true)
         tableView.tableHeaderView = headerView
     }
     

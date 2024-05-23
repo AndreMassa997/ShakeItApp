@@ -7,9 +7,7 @@
 
 import UIKit
 
-final class DetailHeaderView: UIView {
-    private let viewModel: DetailHeaderViewModel
-    
+final class DetailHeaderView: BaseView<DetailHeaderViewModel> {    
     @IBOutlet private weak var viewContainer: UIView! {
         didSet {
             viewContainer.backgroundColor = .palette.mainColor
@@ -24,19 +22,7 @@ final class DetailHeaderView: UIView {
     @IBOutlet private weak var glassLabel: UILabel!
     @IBOutlet weak var drinkImageView: CircleImageView!
     
-    init(viewModel: DetailHeaderViewModel, frame: CGRect) {
-        self.viewModel = viewModel
-        super.init(frame: frame)
-        self.loadFromNib()
-        self.setupData()
-        self.setupUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupData() {
+    override func setupData() {
         self.alcoholicTitle.text = "DETAIL.ALCOHOLIC".localized
         self.alcoholicLabel.text = viewModel.alcoholic.capitalized
 
@@ -53,7 +39,7 @@ final class DetailHeaderView: UIView {
         }
     }
     
-    private func setupUI() {
+    override func setupUI() {
         self.alcoholicTitle.textColor = .palette.blackLabelColor
         self.alcoholicLabel.textColor = .palette.blackLabelColor
         self.categoryTitle.textColor = .palette.blackLabelColor
