@@ -59,8 +59,8 @@ Both settings will be stored in the UserDefaults if not set to the system settin
     - A popup will be shown if some errors occurred while loading data from API.
 
 ## Architecture
-The app is written with the MVVM Architecture using async-await and combine to observe value changes with Dependency Injection initalizers.
-There are some base classes (BaseView, BaseViewController, BaseViewModel, ecc..) to inherit from to simplify the syntax.
+The app is written with the MVVM Architecture using async-await and Combine to observe value changes. Dependency Injection initalizers is used to create ViewModels.
+There are some base classes (BaseView, BaseViewController, BaseViewModel, ecc..) to inherit from to simplify the syntax and to have a common behavior.
 
 - There are two basic providers ("NetworkProvider" and "ImageProvider") to retrieve data and image from API. 
   This providers are injected in the NetworkViewModel's classes (those ViewModels that needs to call APIs).
