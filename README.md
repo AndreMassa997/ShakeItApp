@@ -68,7 +68,7 @@ There are some base classes (BaseView, BaseViewController, BaseViewModel, ecc..)
 - The "APIElement" protocol provides a standard set of property for each API endpoint (scheme, host, path and query parameters).
     - Each API should at least specify the Output data set, the path and the query parameters, if any.
     - The "BaseResponse" class contains the "drinks" payload, which is the common JSON structure that comes from all the API of the TheCocktailDB server.
-    - The "NetworkProvider" contains the "fetchData" method in which is declared a generic paramenter of "APIElement" and it can return a Result of APIElement.Output or an "ErrorData" (an enum that defines errors).
+    - The "NetworkProvider" contains the "fetchData" method in which is declared a generic parameter of "APIElement" and it can return a "Result" of "APIElement.Output" or an "ErrorData" (an enum that defines errors).
     - The real "NetworkManager" is conformed to the "NetworkProvider" protocol and take the APIElement property to make the real API call.
     
 - The app contains a shared instance (singleton) of the AppPreferences in which data (like language and current theme) are specified.
@@ -80,14 +80,14 @@ There are some base classes (BaseView, BaseViewController, BaseViewModel, ecc..)
 - The BaseViewController class wraps a generic ViewModel and initialize it from the inititializer method.
     - Since all of the ViewControllers contains a Table View, I created a TableViewController that inherit from the BaseViewController class and contains a TableView property.
       By using this TableViewController, the layout setup and the creation of the tableView is assigned to the TableViewController.
-      If a ViewController doesn't like the layout setup of the standard TableViewController and want to add elements or something more different, it's free to override the methods (like the FiltersViewController does to add the bottom button).
+      If a ViewController doesn't like the layout setup of the standard TableViewController and want to add elements or something more different, it's free to override the methods (like the FiltersViewController does for adding the bottom button).
       
 - Each Views and Cells (table and collection view cells) can inherit from the BaseView, BaseTableViewCell, BaseHeaderView and BaseCollectionViewCell classes and are designed to have a ViewModel instance for providing data. It is useful to have a standard configuration for initializing views in a centralized place.
     
     - The "CellReusable" is a simple protocol that generates a "reuseIdentifier" (simply the name of the class) used for TableViewCells, CollectionViewCells and reusable Header Views.
     - There are some utils method for both UITableView and UICollectionView to register a CellReusable cell and dequeuing it.
 
-I created also a branch, called "feature/dispatch_queue", in which I removed all async-await and replacing them with closures and Dispatchers (DispatchGroups), to prove the Combine flexibility, without touching any of View implementations.
+I created also a branch, called "feature/dispatch_queue", in which I removed all async-await and replacing them with closures and Dispatchers (DispatchGroups for concurrency requests), to prove the Combine flexibility, without touching any of View implementations.
 
 ## External Libs
 I added Lottie using Swift Package Manager to show how is its usage.
