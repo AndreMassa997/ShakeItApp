@@ -12,31 +12,31 @@ Only the Error popup and the detail header are written using XIBs, to prove flex
 The app support iPhones and iPads with all screen orientations.
 
 ## The app
-Since the APIs doesn't guarantee to have all elements by using their endpoint filters (for example: [FilterByCategoryAPI](https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Ordinary_Drink)), return only few items for each filter and it hasn't the possibility to pass multiples query parameters in the URL request, I decided to move as followed:
+- Since the APIs doesn't guarantee to have all elements by using their endpoint filters (for example: [FilterByCategoryAPI](https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Ordinary_Drink)), return only few items for each filter and it hasn't the possibility to pass multiples query parameters in the URL request, I decided to move as followed:
 
-During the first load, the app loads, stores and shows the first cocktails that begins with the letter "a" ([FilterByFirstLetter](https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a)).
+- During the first load, the app loads, stores and shows the first cocktails that begins with the letter "a" ([FilterByFirstLetter](https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a)).
 
-In parallel it requests the filters available to the API by the 4 API available for listing the filters (all in concurrency).
+- In parallel it requests the filters available to the API by the 4 API available for listing the filters (all in concurrency):
     [ListAllCategoryAPI](https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list)
     [ListAllGlassesAPI](https://www.thecocktaildb.com/api/json/v1/1/list.php?g=list)
     [ListAllIngredientsAPI](https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list)
     [ListAllAlcoholic_NonAlcoholicAPI](https://www.thecocktaildb.com/api/json/v1/1/list.php?a=list)
     
-    This requests are not mandatory for the app for using. If no or some filters come from server, the app will continue to work with the remaining filters, in this case a popup will inform you.
-    This fields are some of the fields available in the base drink model.
+    - This requests are not mandatory for the app for using. If no or some filters come from server, the app will continue to work with the remaining filters, in this case a popup will inform you.
+    - This fields are some of the fields available in the base drink model.
     
-The app filters locally with the selected filters and shows the filtered drinks to the main page. (By default all elements from the filters from the API are selected)
-By scrolling down, the app will load other drinks by the followed letter with a visible loader thanks to pagination.
+- The app filters locally with the selected filters and shows the filtered drinks to the main page. (By default all elements from the filters from the API are selected)
+- By scrolling down, the app will load other drinks by the followed letter with a visible loader thanks to pagination.
 
-If the app is not able to load cocktail items because of an API error, a popup will be shown, in this case you can retry the request.
+- If the app is not able to load cocktail items because of an API error, a popup will be shown, in this case you can retry the request.
 
-By filtering, if the drinks stored so far are no conforms to filters, other elements will be loaded from API.
+- By filtering, if the drinks stored so far are no conforms to filters, other elements will be loaded from API.
 
-If all alphabetical data are retrieved (basically if all letters and numbers was requested), the app hides the bottom loader when scrolling and stops trying to load other elements.
+- If all alphabetical data are retrieved (basically if all letters and numbers was requested), the app hides the bottom loader when scrolling and stops trying to load other elements.
 
-If no drinks are conformed to filters and all data are loaded from API, a "no items" view is showed into the page.
+- If no drinks are conformed to filters and all data are loaded from API, a "no items" view is showed into the page.
 
-When the user taps on an element from the list, a detail page is showed.
+- When the user taps on an element from the list, a detail page is showed.
 
 <b>The detail page is ready to view only when the image of the cocktail is retrieved from the TheCocktailDB server</b> (by using the image url in the model), for avoiding the image download time. In this case the image and the right arrow will be show to the user.
 
