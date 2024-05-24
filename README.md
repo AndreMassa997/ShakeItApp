@@ -52,7 +52,7 @@ It's mandatory to select at least one filter for each type, to continue the filt
     
     - The app supports english and italian language. You can choose the automatic mode (the system language) or your favourite language from the "gear" icon on top-right in the home page.
       For this purpose, there are two "Localizable.strings" file, with all the string in both languages needed by the app.
-      I created a simple extension of "String" with the localized and localized with attributes utilities. This extensions allow to pick the string with the favourite language (or the system one).
+      I created a simple extension of "String" with the "localized" and "localized with attributes" utilities. This extensions allow to pick the string with the favourite language (or the system one).
     
 Both settings will be stored in the UserDefaults if not set to the system settings (A "UserDefault" "propertyWrapper is created to easy store and get data from User Defaults)
 
