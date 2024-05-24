@@ -38,7 +38,7 @@ The app support iPhones and iPads with all screen orientations.
 
 - When the user taps on an element from the list, a detail page is showed.
 
-<b>The detail page is ready to view only when the image of the cocktail is retrieved from the TheCocktailDB server</b> (by using the image url in the model), for avoiding the image download time. In this case the image and the right arrow will be show to the user.
+<b>The detail page is ready to view only when the image of the cocktail is retrieved from the TheCocktailDB server</b> (by using the image url in the model), for avoiding the image download time waiting. In this case the image and the right arrow will be show to the user.
 
 In the detail page the user can see the instructions, the ingredients and the measures of the cocktails.
 
